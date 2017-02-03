@@ -23,7 +23,7 @@
 
         <service
             android:name=".services.ComicTvHttpService"
-            android:exported="false"></service>
+            android:exported="false"/>
     </application>
 
 </manifest>
