@@ -3,14 +3,18 @@ package comic.shannortrotty.gruntt.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -23,14 +27,15 @@ public class ComicTvHttpService extends IntentService {
 
     private static final String ACTION_FETCH_AZ_JSON = "comic.az.list";
     private static final String ACTION_FETCH_POPULAR_JSON = "comic.popular.list";
-    private static final String REQUEST_URL = "https://gruntt-156003.appspot.com";
+    private static final String BASE_REQUEST_URL = "https://gruntt-156003.appspot.com";
 
     // TODO: Rename parameters
-    private static final String CHAPTER_NUMBER = "comic.shannortrotty.gruntt.services.extra.PARAM1";
-    private static final String PAGE_NUMBER = "comic.shannortrotty.gruntt.services.extra.PARAM2";
-    private static final String COMIC_NAME = "";
+    private static final String CHAPTER_NUMBER = "comic.chapter.number";
+    private static final String PAGE_NUMBER = "popular.comic.page.number";
+    private static final String COMIC_NAME = "comic.name";
 
-    private RequestQueue queue;
+    //Used to send information back to Activity
+    private LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
 
     public ComicTvHttpService() {
         super("ComicTvHttpService");
@@ -48,7 +53,7 @@ public class ComicTvHttpService extends IntentService {
     }
 
     /**
-     * Starts this service to perform action Baz with the given parameters. If
+     * Starts this service to perform action GET Popular List with the given parameters. If
      * the service is already performing a task this action will be queued.
      *
      * @see IntentService
@@ -65,11 +70,12 @@ public class ComicTvHttpService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
             final String action = intent.getAction();
+
             if (ACTION_FETCH_AZ_JSON.equals(action)) {
                 handleActionAZList();
             } else if (ACTION_FETCH_POPULAR_JSON.equals(action)) {
-                final String param1 = intent.getStringExtra(PAGE_NUMBER);
-                handleActionPopular(param1);
+                final String pageNumber = intent.getStringExtra(PAGE_NUMBER);
+                handleActionPopular(pageNumber);
             }
         }
     }
@@ -78,30 +84,27 @@ public class ComicTvHttpService extends IntentService {
      *
      */
     private void handleActionAZList() {
-        queue = Volley.newRequestQueue(this);
-    // Request a string response from the provided URL.
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, REQUEST_URL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            // Display the first 500 characters of the response string.
-                            Log.d("Response","Response is: "+ response);
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("Error on Response","That didn't work!");
-                }
-            });
-    // Add the request to the RequestQueue.
-            queue.add(stringRequest);
+
     }
 
     /**
+     * Handler method create the JSON Array Request and call it.
      *
      */
     private void handleActionPopular(String pageNumber) {
-        // TODO: Handle action Baz
-        throw new UnsupportedOperationException("Not yet implemented");
+        String request = BASE_REQUEST_URL + "/popular-comics/" + pageNumber;
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, request, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                //Get information from Array in a list and broadcast it
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
     }
 }
