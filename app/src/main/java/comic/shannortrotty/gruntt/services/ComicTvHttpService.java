@@ -7,14 +7,17 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import comic.shannortrotty.gruntt.models.Comic;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -35,11 +38,19 @@ public class ComicTvHttpService extends IntentService {
     private static final String COMIC_NAME = "comic.name";
 
     //Used to send information back to Activity
-    private LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
+    private LocalBroadcastManager broadcastManager;
 
     public ComicTvHttpService() {
         super("ComicTvHttpService");
+//        broadcastManager = LocalBroadcastManager.getInstance(this);
     }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        broadcastManager = LocalBroadcastManager.getInstance(this);
+    }
+
     /**
      * Starts this service to perform action Foo with the given parameters. If
      * the service is already performing a task this action will be queued.
@@ -98,13 +109,30 @@ public class ComicTvHttpService extends IntentService {
             @Override
             public void onResponse(JSONArray response) {
                 //Get information from Array in a list and broadcast it
+                List<Comic> comics = new ArrayList<>();
+
+                for(int i = 0; i < response.length(); i++){
+                    try {
+                        JSONObject jsonComic = response.getJSONObject(i);
+                        Comic comic = new Comic();
+                        comic.setTitle(jsonComic.getString("title"));
+                        comic.setLink(jsonComic.getString("link"));
+                        comic.setThumbnailUrl(jsonComic.getString("img"));
+
+                        comics.add(comic);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Log.d("Comic Object List",comics.toString());
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                    error.printStackTrace();
             }
         });
-
+    VolleyWrapper.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayRequest);
     }
 }
