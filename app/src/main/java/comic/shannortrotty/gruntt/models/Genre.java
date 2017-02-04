@@ -9,23 +9,22 @@ import android.os.Parcelable;
 
 public class Genre implements Parcelable{
 
-    private String name;
+    private String genre;
     private String genreLink;
 
     public Genre(){
         //Default Constructor
     }
 
-    @Override
-    public String toString() {
-        return "Genre{" +
-                "name='" + name + '\'' +
-                '}';
+    public Genre(String name, String genreLink){
+        this.genre = name;
+        this.genreLink = genreLink;
     }
+
 
     //Code to handle Parcelable
     protected Genre(Parcel in) {
-        name = in.readString();
+        genre = in.readString();
         genreLink = in.readString();
     }
 
@@ -36,7 +35,7 @@ public class Genre implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
+        dest.writeString(genre);
         dest.writeString(genreLink);
     }
 
@@ -53,4 +52,28 @@ public class Genre implements Parcelable{
         }
     };
 
+
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String name) {
+        this.genre = name;
+    }
+
+    public String getGenreLink() {
+        return genreLink;
+    }
+
+    public void setGenreLink(String genreLink) {
+        this.genreLink = genreLink;
+    }
+
+    @Override
+    public String toString() {
+        return "Genre{" +
+                "name='" + genre + '\'' +
+                '}';
+    }
 }

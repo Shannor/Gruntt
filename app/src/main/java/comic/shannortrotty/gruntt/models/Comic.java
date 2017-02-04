@@ -110,6 +110,10 @@ public class Comic implements Parcelable{
         this.genres = genres;
     }
 
+    public boolean addGenre(Genre genre){
+        return this.genres.add(genre);
+    }
+
     @Override
     public String toString() {
         return "Comic{" +

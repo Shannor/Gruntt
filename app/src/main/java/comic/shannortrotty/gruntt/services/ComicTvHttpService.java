@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.models.Comic;
+import comic.shannortrotty.gruntt.models.Genre;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -31,11 +32,12 @@ public class ComicTvHttpService extends IntentService {
     private static final String ACTION_FETCH_AZ_JSON = "comic.az.list";
     private static final String ACTION_FETCH_POPULAR_JSON = "comic.popular.list";
     private static final String BASE_REQUEST_URL = "https://gruntt-156003.appspot.com";
+    private static final String ACTION_SEND_COMIC_LIST_BROADCAST = "comic.list.activity";
 
-    // TODO: Rename parameters
     private static final String CHAPTER_NUMBER = "comic.chapter.number";
     private static final String PAGE_NUMBER = "popular.comic.page.number";
     private static final String COMIC_NAME = "comic.name";
+    private static final String BROADCAST_COMIC_LIST_TAG = "comic.list";
 
     //Used to send information back to Activity
     private LocalBroadcastManager broadcastManager;
@@ -91,6 +93,12 @@ public class ComicTvHttpService extends IntentService {
         }
     }
 
+    public void sendComics(ArrayList<Comic> comics){
+        Intent intent = new Intent(ACTION_SEND_COMIC_LIST_BROADCAST);
+        intent.putParcelableArrayListExtra(BROADCAST_COMIC_LIST_TAG, comics);
+        broadcastManager.sendBroadcast(intent);
+    }
+
     /**
      *
      */
@@ -100,7 +108,7 @@ public class ComicTvHttpService extends IntentService {
 
     /**
      * Handler method create the JSON Array Request and call it.
-     *
+     * Sends a broadcast of a list of all Comics on this page.
      */
     private void handleActionPopular(String pageNumber) {
         String request = BASE_REQUEST_URL + "/popular-comics/" + pageNumber;
@@ -110,14 +118,23 @@ public class ComicTvHttpService extends IntentService {
             public void onResponse(JSONArray response) {
                 //Get information from Array in a list and broadcast it
                 List<Comic> comics = new ArrayList<>();
-
+                //Loop through responses
                 for(int i = 0; i < response.length(); i++){
                     try {
                         JSONObject jsonComic = response.getJSONObject(i);
                         Comic comic = new Comic();
+                        //Sets basic comic info
                         comic.setTitle(jsonComic.getString("title"));
                         comic.setLink(jsonComic.getString("link"));
                         comic.setThumbnailUrl(jsonComic.getString("img"));
+
+                        JSONArray jsonGenreArray = jsonComic.getJSONArray("genre");
+                        //Get the Genre of the comic if there is one
+                        for(int j = 0; j < jsonGenreArray.length(); j++){
+                            JSONObject jsonGenre = jsonGenreArray.getJSONObject(j);
+                            Genre genre = new Genre(jsonGenre.getString("name"), jsonGenre.getString("genreLink"));
+                            comic.addGenre(genre);
+                        }
 
                         comics.add(comic);
 
@@ -125,6 +142,8 @@ public class ComicTvHttpService extends IntentService {
                         e.printStackTrace();
                     }
                 }
+
+                //TODO:Need to broadcast information
                 Log.d("Comic Object List",comics.toString());
             }
         }, new Response.ErrorListener() {
