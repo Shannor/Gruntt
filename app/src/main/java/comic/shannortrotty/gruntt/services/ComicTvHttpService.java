@@ -40,8 +40,6 @@ public class ComicTvHttpService extends IntentService {
     private static final String BROADCAST_COMIC_LIST_TAG = "comic.list";
 
     //Used to send information back to Activity
-    private LocalBroadcastManager broadcastManager;
-
     public ComicTvHttpService() {
         super("ComicTvHttpService");
 //        broadcastManager = LocalBroadcastManager.getInstance(this);
@@ -50,7 +48,7 @@ public class ComicTvHttpService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        broadcastManager = LocalBroadcastManager.getInstance(this);
+        OttoBus.getInstance().register(this);
     }
 
     /**
@@ -93,12 +91,6 @@ public class ComicTvHttpService extends IntentService {
         }
     }
 
-    public void sendComics(ArrayList<Comic> comics){
-        Intent intent = new Intent(ACTION_SEND_COMIC_LIST_BROADCAST);
-        intent.putParcelableArrayListExtra(BROADCAST_COMIC_LIST_TAG, comics);
-        broadcastManager.sendBroadcast(intent);
-    }
-
     /**
      *
      */
@@ -117,7 +109,7 @@ public class ComicTvHttpService extends IntentService {
             @Override
             public void onResponse(JSONArray response) {
                 //Get information from Array in a list and broadcast it
-                List<Comic> comics = new ArrayList<>();
+                ArrayList<Comic> comics = new ArrayList<>();
                 //Loop through responses
                 for(int i = 0; i < response.length(); i++){
                     try {
@@ -144,7 +136,8 @@ public class ComicTvHttpService extends IntentService {
                 }
 
                 //TODO:Need to broadcast information
-                Log.d("Comic Object List",comics.toString());
+//                Log.d("Comic Object List",comics.toString());
+                OttoBus.getInstance().post(comics);
             }
         }, new Response.ErrorListener() {
             @Override

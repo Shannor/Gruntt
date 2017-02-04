@@ -30,8 +30,12 @@ public class Comic implements Parcelable{
         this.thumbnailUrl = thumbnailUrl;
         this.genres = genres;
     }
-
-
+    public Comic(String title, String link, String thumbnailUrl){
+        this.title = title;
+        this.link = link;
+        this.thumbnailUrl = thumbnailUrl;
+        this.genres = new ArrayList<>();
+    }
     //Code to implement Parcelable
     protected Comic(Parcel in) {
         title = in.readString();

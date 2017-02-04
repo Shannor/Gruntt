@@ -3,32 +3,31 @@ package comic.shannortrotty.gruntt.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
-import comic.shannortrotty.gruntt.fragments.dummy.DummyContent;
-import comic.shannortrotty.gruntt.fragments.dummy.DummyContent.DummyItem;
-
-import java.util.List;
+import comic.shannortrotty.gruntt.adapters.MyComicRecyclerViewAdapter;
+import comic.shannortrotty.gruntt.models.Comic;
+import comic.shannortrotty.gruntt.services.OttoBus;
 
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
 public class PopularComicFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
+    private OnListPopularComicListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -37,40 +36,38 @@ public class PopularComicFragment extends Fragment {
     public PopularComicFragment() {
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static PopularComicFragment newInstance(int columnCount) {
-        PopularComicFragment fragment = new PopularComicFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
+    public static PopularComicFragment newInstance() {
+        return new PopularComicFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        OttoBus.getInstance().register(this);
+    }
 
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
+    @Override
+    public void onStop() {
+        super.onStop();
+        OttoBus.getInstance().unregister(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_popular_comic_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_popular_comic, container, false);
 
-        // Set the adapter
+        // Only works if entire screen is Recycler View, If not must change this block
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyComicRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            //Get list of items here
+            ArrayList<Comic> testComic = new ArrayList<>();
+            Comic test = new Comic("Shannor","Link", "Url");
+            testComic.add(test);
+            recyclerView.setAdapter(new MyComicRecyclerViewAdapter(testComic, mListener));
         }
         return view;
     }
@@ -79,11 +76,11 @@ public class PopularComicFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
+        if (context instanceof OnListPopularComicListener) {
+            mListener = (OnListPopularComicListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+                    + " must implement OnListPopularComicListener");
         }
     }
 
@@ -93,6 +90,10 @@ public class PopularComicFragment extends Fragment {
         mListener = null;
     }
 
+    @Subscribe
+    public void getComicsList(ArrayList<Comic> comics){
+        Toast.makeText(getActivity(), "Got Event", Toast.LENGTH_SHORT).show();
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -103,8 +104,8 @@ public class PopularComicFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener {
+    public interface OnListPopularComicListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListComicSelection(Comic comic);
     }
 }
