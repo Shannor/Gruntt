@@ -7,12 +7,15 @@ import com.android.volley.toolbox.Volley;
 
 /**
  * Created by shannortrotty on 2/3/17.
+ * Classed to setup basic Volley
+ * Can be extended for more specific implementations and settings.
  */
 
 public class VolleyWrapper {
     private static VolleyWrapper mInstance;
     private RequestQueue mRequestQueue;
     private static Context mContext;
+    private static final String TAG = "VolleyWrapper";
 //Use JSON Object for {}, list-comics use this
 //Use JSON Array for [], popular comics use this
     private VolleyWrapper(Context context){

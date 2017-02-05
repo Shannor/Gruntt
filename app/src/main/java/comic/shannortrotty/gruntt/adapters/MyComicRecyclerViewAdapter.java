@@ -20,6 +20,7 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
 
     private final List<Comic> mComics;
     private final PopularComicFragment.OnListPopularComicListener mListener;
+    private static final String TAG = "MyComicRecyclerViewAdap";
 
     public MyComicRecyclerViewAdapter(List<Comic> items, PopularComicFragment.OnListPopularComicListener listener) {
         mComics = items;

@@ -10,12 +10,12 @@ import java.util.List;
  * Created by shannortrotty on 2/3/17.
  */
 
-public class Comic implements Parcelable{
+public class Comic{
 
     private String title;
     private String link;
     private String thumbnailUrl;
-    List<Genre> genres;
+    private List<Genre> genres;
 
     public Comic(){
         this.title = null;
@@ -36,50 +36,6 @@ public class Comic implements Parcelable{
         this.thumbnailUrl = thumbnailUrl;
         this.genres = new ArrayList<>();
     }
-    //Code to implement Parcelable
-    protected Comic(Parcel in) {
-        title = in.readString();
-        link = in.readString();
-        thumbnailUrl = in.readString();
-        if (in.readByte() == 0x01) {
-            genres = new ArrayList<Genre>();
-            in.readList(genres, Genre.class.getClassLoader());
-        } else {
-            genres = null;
-        }
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeString(link);
-        dest.writeString(thumbnailUrl);
-        if (genres == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(genres);
-        }
-    }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Comic> CREATOR = new Parcelable.Creator<Comic>() {
-        @Override
-        public Comic createFromParcel(Parcel in) {
-            return new Comic(in);
-        }
-
-        @Override
-        public Comic[] newArray(int size) {
-            return new Comic[size];
-        }
-    };
-
 
     //Getters and Setters
     public String getTitle() {
