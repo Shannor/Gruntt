@@ -3,7 +3,6 @@ package comic.shannortrotty.gruntt.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -18,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.models.Comic;
+import comic.shannortrotty.gruntt.models.ComicEventBus;
 import comic.shannortrotty.gruntt.models.Genre;
 
 /**
@@ -38,6 +38,7 @@ public class ComicTvHttpService extends IntentService {
     private static final String PAGE_NUMBER = "popular.comic.page.number";
     private static final String COMIC_NAME = "comic.name";
     private static final String BROADCAST_COMIC_LIST_TAG = "comic.list";
+    private static final String TAG = "ComicTvHttpService";
 
     //Used to send information back to Activity
     public ComicTvHttpService() {
@@ -48,7 +49,6 @@ public class ComicTvHttpService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        OttoBus.getInstance().register(this);
     }
 
     /**
@@ -109,7 +109,7 @@ public class ComicTvHttpService extends IntentService {
             @Override
             public void onResponse(JSONArray response) {
                 //Get information from Array in a list and broadcast it
-                ArrayList<Comic> comics = new ArrayList<>();
+                List<Comic> comics = new ArrayList<>();
                 //Loop through responses
                 for(int i = 0; i < response.length(); i++){
                     try {
@@ -135,14 +135,14 @@ public class ComicTvHttpService extends IntentService {
                     }
                 }
 
-                //TODO:Need to broadcast information
-//                Log.d("Comic Object List",comics.toString());
-                OttoBus.getInstance().post(comics);
+                //Class to send Information back to Fragment
+                ComicEventBus bus = ComicEventBus.getInstance();
+                bus.passComics(comics);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
+                error.printStackTrace();
             }
         });
     VolleyWrapper.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayRequest);

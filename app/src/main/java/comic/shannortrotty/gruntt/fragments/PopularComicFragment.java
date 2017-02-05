@@ -5,12 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +16,9 @@ import java.util.List;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.MyComicRecyclerViewAdapter;
 import comic.shannortrotty.gruntt.models.Comic;
-import comic.shannortrotty.gruntt.services.OttoBus;
+import comic.shannortrotty.gruntt.models.ComicEventBus;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * A fragment representing a list of Items.
@@ -28,6 +28,8 @@ import comic.shannortrotty.gruntt.services.OttoBus;
 public class PopularComicFragment extends Fragment {
 
     private OnListPopularComicListener mListener;
+    private static final String TAG = "PopularComicFragment";
+    private MyComicRecyclerViewAdapter adapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -44,13 +46,6 @@ public class PopularComicFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        OttoBus.getInstance().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        OttoBus.getInstance().unregister(this);
     }
 
     @Override
@@ -63,12 +58,34 @@ public class PopularComicFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            //Get list of items here
-            ArrayList<Comic> testComic = new ArrayList<>();
-            Comic test = new Comic("Shannor","Link", "Url");
-            testComic.add(test);
-            recyclerView.setAdapter(new MyComicRecyclerViewAdapter(testComic, mListener));
+            adapter = new MyComicRecyclerViewAdapter(mListener);
+            recyclerView.setAdapter(adapter);
         }
+        //Listener for Comics response
+        ComicEventBus bus = ComicEventBus.getInstance();
+        bus.getStringObservable().subscribe(new Observer<List<Comic>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(List<Comic> value) {
+                //Add items to list adapter
+                adapter.addItems(value);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e(TAG, e.toString());
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
         return view;
     }
 
@@ -89,12 +106,7 @@ public class PopularComicFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
-    @Subscribe
-    public void getComicsList(ArrayList<Comic> comics){
-        Toast.makeText(getActivity(), "Got Event", Toast.LENGTH_SHORT).show();
-    }
-    /**
+        /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
