@@ -1,10 +1,8 @@
 package comic.shannortrotty.gruntt.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by shannortrotty on 2/3/17.
@@ -72,6 +70,36 @@ public class Comic{
 
     public boolean addGenre(Genre genre){
         return this.genres.add(genre);
+    }
+
+    public String getFormatedGenres(){
+        List<Genre> genres = getGenres();
+        String formatted = "";
+        for(Genre genre : genres){
+            formatted += genre.getGenre() + ",";
+        }
+        return formatted;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // self check
+        if (this == obj)
+            return true;
+        // null check
+        if (obj == null)
+            return false;
+        // type check and cast
+        if (getClass() != obj.getClass())
+            return false;
+        Comic comic = (Comic) obj;
+        // field comparison
+        return Objects.equals(this.title, comic.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
     @Override

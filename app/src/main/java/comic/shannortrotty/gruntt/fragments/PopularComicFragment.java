@@ -58,7 +58,7 @@ public class PopularComicFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            adapter = new MyComicRecyclerViewAdapter(mListener);
+            adapter = new MyComicRecyclerViewAdapter(getContext().getApplicationContext() ,mListener);
             recyclerView.setAdapter(adapter);
         }
         //Listener for Comics response

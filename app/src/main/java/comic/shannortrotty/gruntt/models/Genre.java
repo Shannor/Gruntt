@@ -3,6 +3,8 @@ package comic.shannortrotty.gruntt.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 /**
  * Created by shannortrotty on 2/3/17.
  */
@@ -35,6 +37,22 @@ public class Genre{
 
     public void setGenreLink(String genreLink) {
         this.genreLink = genreLink;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // self check
+        if (this == obj)
+            return true;
+        // null check
+        if (obj == null)
+            return false;
+        // type check and cast
+        if (getClass() != obj.getClass())
+            return false;
+        Genre genre = (Genre) obj;
+        // field comparison
+        return Objects.equals(this.genre, genre.getGenre());
     }
 
     @Override

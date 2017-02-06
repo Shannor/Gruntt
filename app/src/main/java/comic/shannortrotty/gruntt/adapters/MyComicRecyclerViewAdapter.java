@@ -1,14 +1,19 @@
 package comic.shannortrotty.gruntt.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
 import comic.shannortrotty.gruntt.models.Comic;
+import comic.shannortrotty.gruntt.services.VolleyWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +26,19 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
     private final List<Comic> mComics;
     private final PopularComicFragment.OnListPopularComicListener mListener;
     private static final String TAG = "MyComicRecyclerViewAdap";
+    private final Context mContext;
 
-    public MyComicRecyclerViewAdapter(List<Comic> items, PopularComicFragment.OnListPopularComicListener listener) {
+    public MyComicRecyclerViewAdapter(Context context, List<Comic> items,
+                                      PopularComicFragment.OnListPopularComicListener listener) {
         mComics = items;
         mListener = listener;
+        mContext = context;
     }
 
-    public MyComicRecyclerViewAdapter(PopularComicFragment.OnListPopularComicListener listener){
+    public MyComicRecyclerViewAdapter(Context context,  PopularComicFragment.OnListPopularComicListener listener){
         mComics = new ArrayList<>();
         mListener = listener;
+        this.mContext = context;
     }
 
     @Override
@@ -52,10 +61,12 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
     }
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mComics.get(position);
-        holder.mComicTitle.setText(mComics.get(position).getTitle());
-        holder.mComicLink.setText(mComics.get(position).getLink());
-
+        Comic mComic = mComics.get(position);
+        holder.getmComicTitle().setText(mComic.getTitle());
+        holder.getmComicGenre().setText(mComic.getFormatedGenres());
+        ImageLoader imageLoader =  VolleyWrapper.getInstance(mContext).getmImageLoader();
+        holder.getmComicImg().setImageUrl(mComic.getThumbnailUrl(), imageLoader);
+        //TODO: Setup NetworkImageView
 //        holder.mView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -75,20 +86,33 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
 
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mComicTitle;
-        public final TextView mComicLink;
-        public Comic mItem;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView mComicTitle;
+        private final TextView mComicGenre;
+        private final NetworkImageView mComicImg;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
-            mComicTitle= (TextView) view.findViewById(R.id.textView_popular_comic_title);
-            mComicLink = (TextView) view.findViewById(R.id.textView_popular_comic_link);
+            mComicTitle= (TextView) view.findViewById(R.id.textView_popular_frag_comic_title);
+            mComicGenre = (TextView) view.findViewById(R.id.textView_popular_frag_comic_genre);
+            mComicImg = (NetworkImageView) view.findViewById(R.id.networkImgView_popular_frag_comic_img);
         }
 
         @Override
         public String toString() {
             return super.toString() + " '" + mComicTitle.getText().toString() + "'";
+        }
+
+        public TextView getmComicTitle() {
+            return mComicTitle;
+        }
+
+        public TextView getmComicGenre() {
+            return mComicGenre;
+        }
+
+        public NetworkImageView getmComicImg() {
+            return mComicImg;
         }
     }
 }
