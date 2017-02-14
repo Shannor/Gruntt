@@ -2,6 +2,7 @@ package comic.shannortrotty.gruntt.models;
 
 /**
  * Created by shannortrotty on 2/13/17.
+ * Class created to hold Issue information.
  */
 
 public class Issue {

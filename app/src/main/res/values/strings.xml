@@ -8,4 +8,7 @@
 
     <string name="comic_title">Title</string>
     <string name="comic_genre">Genre</string>
+    <string name="title_activity_info_and_issue">InfoAndIssueActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_read_comic">ReadComicActivity</string>
 </resources>
