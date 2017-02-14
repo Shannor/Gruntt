@@ -45,6 +45,7 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_popular_view, parent, false);
+        //Where margins, size, padding can be set for the view
         return new ViewHolder(view);
     }
 
@@ -59,13 +60,19 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
         mComics.add(comic);
         notifyItemChanged(mComics.size() - 1);
     }
+
+    /**
+     * Method where data should be set, replace contents
+     * @param holder viewHolder
+     * @param position location in the data set
+     */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Comic mComic = mComics.get(position);
-        holder.getmComicTitle().setText(mComic.getTitle());
-        holder.getmComicGenre().setText(mComic.getFormatedGenres());
-        ImageLoader imageLoader =  VolleyWrapper.getInstance(mContext).getmImageLoader();
-        holder.getmComicImg().setImageUrl(mComic.getThumbnailUrl(), imageLoader);
+        holder.getComicTitle().setText(mComic.getTitle());
+        holder.getComicGenre().setText(mComic.getFormatedGenres());
+        ImageLoader imageLoader =  VolleyWrapper.getInstance(mContext).getImageLoader();
+        holder.getComicImg().setImageUrl(mComic.getThumbnailUrl(), imageLoader);
         //TODO: Setup NetworkImageView
 //        holder.mView.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -103,15 +110,15 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
             return super.toString() + " '" + mComicTitle.getText().toString() + "'";
         }
 
-        public TextView getmComicTitle() {
+        public TextView getComicTitle() {
             return mComicTitle;
         }
 
-        public TextView getmComicGenre() {
+        public TextView getComicGenre() {
             return mComicGenre;
         }
 
-        public NetworkImageView getmComicImg() {
+        public NetworkImageView getComicImg() {
             return mComicImg;
         }
     }

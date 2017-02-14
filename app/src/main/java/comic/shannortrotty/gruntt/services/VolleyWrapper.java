@@ -7,10 +7,7 @@ import android.support.v4.util.LruCache;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
-
-import comic.shannortrotty.gruntt.MainActivity;
 
 /**
  * Created by shannortrotty on 2/3/17.
@@ -24,6 +21,7 @@ public class VolleyWrapper {
     private static Context mContext;
     private ImageLoader mImageLoader;
     private static final String TAG = "VolleyWrapper";
+    private static final int CACHE_SIZE = 4 * 1024; //Max = 4 * 1024 * 1024
 //Use JSON Object for {}, list-comics use this
 //Use JSON Array for [], popular comics use this
     private VolleyWrapper(Context context){
@@ -31,8 +29,7 @@ public class VolleyWrapper {
         mRequestQueue = getRequestQueue();
         //Setup Image loader
         mImageLoader = new ImageLoader(mRequestQueue, new ImageLoader.ImageCache() {
-            private final LruCache<String, Bitmap> mCache = new LruCache<>(10);
-
+            private final LruCache<String, Bitmap> mCache = new LruCache<>(CACHE_SIZE);
             @Override
             public Bitmap getBitmap(String url) {
                 return mCache.get(url);
@@ -65,7 +62,7 @@ public class VolleyWrapper {
         return mRequestQueue;
     }
 
-    public ImageLoader getmImageLoader(){
+    public ImageLoader getImageLoader(){
         return this.mImageLoader;
     }
 

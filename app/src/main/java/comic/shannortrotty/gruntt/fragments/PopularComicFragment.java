@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
@@ -63,7 +62,7 @@ public class PopularComicFragment extends Fragment {
         }
         //Listener for Comics response
         ComicEventBus bus = ComicEventBus.getInstance();
-        bus.getStringObservable().subscribe(new Observer<List<Comic>>() {
+        bus.getComicObservable().subscribe(new Observer<List<Comic>>() {
             @Override
             public void onSubscribe(Disposable d) {
 
@@ -77,7 +76,7 @@ public class PopularComicFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                Log.e(TAG, e.toString());
+                Log.e(TAG,"Error: On Comic Observable Subscribe",e);
             }
 
             @Override

@@ -3,6 +3,7 @@ package comic.shannortrotty.gruntt.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
+import android.text.LoginFilter;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -19,6 +20,7 @@ import java.util.List;
 import comic.shannortrotty.gruntt.models.Comic;
 import comic.shannortrotty.gruntt.models.ComicEventBus;
 import comic.shannortrotty.gruntt.models.Genre;
+import comic.shannortrotty.gruntt.models.Issue;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -29,15 +31,14 @@ import comic.shannortrotty.gruntt.models.Genre;
  */
 public class ComicTvHttpService extends IntentService {
 
-    private static final String ACTION_FETCH_AZ_JSON = "comic.az.list";
-    private static final String ACTION_FETCH_POPULAR_JSON = "comic.popular.list";
+    private static final String ACTION_GET_AZ_COMIC_LIST = "comic.az.list";
+    private static final String ACTION_GET_POPULAR_COMIC_LIST = "comic.popular.list";
     private static final String BASE_REQUEST_URL = "https://gruntt-156003.appspot.com";
-    private static final String ACTION_SEND_COMIC_LIST_BROADCAST = "comic.list.activity";
+    private static final String ACTION_GET_SPECIFIC_COMIC_LIST = "comic.list.specific";
 
     private static final String CHAPTER_NUMBER = "comic.chapter.number";
     private static final String PAGE_NUMBER = "popular.comic.page.number";
     private static final String COMIC_NAME = "comic.name";
-    private static final String BROADCAST_COMIC_LIST_TAG = "comic.list";
     private static final String TAG = "ComicTvHttpService";
 
     //Used to send information back to Activity
@@ -59,7 +60,7 @@ public class ComicTvHttpService extends IntentService {
      */
     public static void startActionAZList(Context context) {
         Intent intent = new Intent(context, ComicTvHttpService.class);
-        intent.setAction(ACTION_FETCH_AZ_JSON);
+        intent.setAction(ACTION_GET_AZ_COMIC_LIST);
         context.startService(intent);
     }
 
@@ -69,28 +70,65 @@ public class ComicTvHttpService extends IntentService {
      *
      * @see IntentService
      */
-    // TODO: Customize helper method
     public static void startActionPoplarList(Context context, String pageNumber) {
         Intent intent = new Intent(context, ComicTvHttpService.class);
-        intent.setAction(ACTION_FETCH_POPULAR_JSON);
+        intent.setAction(ACTION_GET_POPULAR_COMIC_LIST);
         intent.putExtra(PAGE_NUMBER, pageNumber);
         context.startService(intent);
     }
 
+    public static void startActionGetChapterList(Context context, String comicName){
+        Intent intent = new Intent(context, ComicTvHttpService.class);
+        intent.setAction(ACTION_GET_SPECIFIC_COMIC_LIST);
+        intent.putExtra(COMIC_NAME, comicName);
+        context.startService(intent);
+    }
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
             final String action = intent.getAction();
 
-            if (ACTION_FETCH_AZ_JSON.equals(action)) {
+            if (ACTION_GET_AZ_COMIC_LIST.equals(action)) {
                 handleActionAZList();
-            } else if (ACTION_FETCH_POPULAR_JSON.equals(action)) {
+            } else if (ACTION_GET_POPULAR_COMIC_LIST.equals(action)) {
                 final String pageNumber = intent.getStringExtra(PAGE_NUMBER);
                 handleActionPopular(pageNumber);
+            }else if (ACTION_GET_SPECIFIC_COMIC_LIST.equals(action)){
+                final String comicName = intent.getStringExtra(COMIC_NAME);
+
             }
         }
     }
 
+    private void handleActionGetComicList(String comicName){
+        final String request = BASE_REQUEST_URL + "/list-issues/" + comicName;
+        JsonArrayRequest mainJSONArray = new JsonArrayRequest(Request.Method.GET, request, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                List<Issue> issues = new ArrayList<>();
+                for(int i=0; i< response.length(); ++i){
+                    try{
+                        JSONObject issueInfo = response.getJSONObject(i);
+                        Issue issue = new Issue(issueInfo.getString("chapterName"),
+                                issueInfo.getString("link"),
+                                issueInfo.getString("releaseDate"));
+                        issues.add(issue);
+
+                    }catch (JSONException e){
+                        Log.e(TAG,"Error:Reading Data from request",e);
+                    }
+                }
+                ComicEventBus comicEventBus = ComicEventBus.getInstance();
+                comicEventBus.passIssues(issues);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG,"Response error in GetComicList", error);
+            }
+        });
+    VolleyWrapper.getInstance(getApplicationContext()).addToRequestQueue(mainJSONArray);
+    }
     /**
      *
      */
@@ -103,7 +141,7 @@ public class ComicTvHttpService extends IntentService {
      * Sends a broadcast of a list of all Comics on this page.
      */
     private void handleActionPopular(String pageNumber) {
-        String request = BASE_REQUEST_URL + "/popular-comics/" + pageNumber;
+        final String request = BASE_REQUEST_URL + "/popular-comics/" + pageNumber;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, request, null, new Response.Listener<JSONArray>() {
             @Override
@@ -127,14 +165,11 @@ public class ComicTvHttpService extends IntentService {
                             Genre genre = new Genre(jsonGenre.getString("name"), jsonGenre.getString("genreLink"));
                             comic.addGenre(genre);
                         }
-
                         comics.add(comic);
-
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        Log.e(TAG,"JSON Exception: When trying to get Popular Comics.",e);
                     }
                 }
-
                 //Class to send Information back to Fragment
                 ComicEventBus bus = ComicEventBus.getInstance();
                 bus.passComics(comics);
@@ -142,9 +177,12 @@ public class ComicTvHttpService extends IntentService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+                Log.e(TAG, "Error: Response error on PopularComics: ", error);
             }
         });
     VolleyWrapper.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayRequest);
     }
+
+
+
 }
