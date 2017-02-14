@@ -18,12 +18,14 @@ import android.widget.Toast;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
 import comic.shannortrotty.gruntt.models.Comic;
 import comic.shannortrotty.gruntt.services.ComicTvHttpService;
+import comic.shannortrotty.gruntt.services.ServiceMediator;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         PopularComicFragment.OnListPopularComicListener {
 
     private FragmentManager fragmentManager;
+    private ServiceMediator serviceMediator = ServiceMediator.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +33,14 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //TODO: Will be replaced with something that passes a tag based on user selection
+        serviceMediator.setServiceTag(ComicTvHttpService.TAG);
         //Code for fab button
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ComicTvHttpService.startActionPoplarList(getApplicationContext(),"1");
+                serviceMediator.getPopularList(getApplicationContext(), "1");
             }
         });
         //Set Default Fragment
@@ -121,6 +125,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListComicSelection(Comic comic) {
         //TODO:Will change to do Fragment work most likely.
-        Toast.makeText(this, "Item Selected From Fragment:" + comic.toString() , Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Item Selected From Fragment:" + comic.toString(), Toast.LENGTH_SHORT).show();
     }
 }

@@ -39,7 +39,7 @@ public class ComicTvHttpService extends IntentService {
     private static final String CHAPTER_NUMBER = "comic.chapter.number";
     private static final String PAGE_NUMBER = "popular.comic.page.number";
     private static final String COMIC_NAME = "comic.name";
-    private static final String TAG = "ComicTvHttpService";
+    public static final String TAG = "ComicTvHttpService";
 
     //Used to send information back to Activity
     public ComicTvHttpService() {
