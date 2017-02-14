@@ -13,6 +13,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
 import comic.shannortrotty.gruntt.models.Comic;
+import comic.shannortrotty.gruntt.models.OnComicListener;
 import comic.shannortrotty.gruntt.services.VolleyWrapper;
 
 import java.util.ArrayList;
@@ -24,18 +25,17 @@ import java.util.List;
 public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecyclerViewAdapter.ViewHolder> {
 
     private final List<Comic> mComics;
-    private final PopularComicFragment.OnListPopularComicListener mListener;
+    private final OnComicListener mListener;
     private static final String TAG = "MyComicRecyclerViewAdap";
     private final Context mContext;
 
-    public MyComicRecyclerViewAdapter(Context context, List<Comic> items,
-                                      PopularComicFragment.OnListPopularComicListener listener) {
+    public MyComicRecyclerViewAdapter(Context context, List<Comic> items, OnComicListener listener) {
         mComics = items;
         mListener = listener;
         mContext = context;
     }
 
-    public MyComicRecyclerViewAdapter(Context context,  PopularComicFragment.OnListPopularComicListener listener){
+    public MyComicRecyclerViewAdapter(Context context,  OnComicListener listener){
         mComics = new ArrayList<>();
         mListener = listener;
         this.mContext = context;

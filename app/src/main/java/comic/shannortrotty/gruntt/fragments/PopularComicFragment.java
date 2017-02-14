@@ -16,6 +16,9 @@ import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.MyComicRecyclerViewAdapter;
 import comic.shannortrotty.gruntt.models.Comic;
 import comic.shannortrotty.gruntt.models.ComicEventBus;
+import comic.shannortrotty.gruntt.models.OnComicListener;
+import comic.shannortrotty.gruntt.services.ComicTvHttpService;
+import comic.shannortrotty.gruntt.services.ServiceMediator;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -24,11 +27,12 @@ import io.reactivex.disposables.Disposable;
  * <p/>
  * interface.
  */
-public class PopularComicFragment extends Fragment {
+public class PopularComicFragment extends Fragment{
 
-    private OnListPopularComicListener mListener;
+    private OnComicListener mListener;
     private static final String TAG = "PopularComicFragment";
     private MyComicRecyclerViewAdapter adapter;
+    private ServiceMediator serviceMediator = ServiceMediator.getInstance();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -51,6 +55,8 @@ public class PopularComicFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_popular_comic, container, false);
+        serviceMediator.setServiceTag(ComicTvHttpService.TAG);
+        serviceMediator.getPopularList(getContext().getApplicationContext(), "1");
 
         // Only works if entire screen is Recycler View, If not must change this block
         if (view instanceof RecyclerView) {
@@ -92,11 +98,11 @@ public class PopularComicFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListPopularComicListener) {
-            mListener = (OnListPopularComicListener) context;
+        if (context instanceof OnComicListener) {
+            mListener = (OnComicListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnListPopularComicListener");
+                    + " must implement OnComicListener");
         }
     }
 
@@ -115,8 +121,5 @@ public class PopularComicFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListPopularComicListener {
-        // TODO: Update argument type and name
-        void onListComicSelection(Comic comic);
-    }
+
 }

@@ -3,6 +3,7 @@ package comic.shannortrotty.gruntt;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -17,12 +18,13 @@ import android.widget.Toast;
 
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
 import comic.shannortrotty.gruntt.models.Comic;
+import comic.shannortrotty.gruntt.models.OnComicListener;
 import comic.shannortrotty.gruntt.services.ComicTvHttpService;
 import comic.shannortrotty.gruntt.services.ServiceMediator;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        PopularComicFragment.OnListPopularComicListener {
+        OnComicListener{
 
     private FragmentManager fragmentManager;
     private ServiceMediator serviceMediator = ServiceMediator.getInstance();
@@ -102,13 +104,13 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        Fragment mFragment = null;
         if (id == R.id.nav_all_comics) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_stared_comics) {
 
         } else if (id == R.id.nav_popular_comics) {
-
+            mFragment = PopularComicFragment.newInstance();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -116,6 +118,14 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
+
+        if( mFragment != null){
+            fragmentManager.beginTransaction().replace(
+                    R.id.frame_container, mFragment).commit();
+        }else{
+//            Return an error
+        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
