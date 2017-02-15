@@ -2,21 +2,21 @@ package comic.shannortrotty.gruntt.models;
 
 /**
  * Created by shannortrotty on 2/13/17.
- * Class created to hold Issue information.
+ * Class created to hold Chapter information.
  */
 
-public class Issue {
+public class Chapter {
     private String chapterName;
     private String link;
     private String releaseDate;
 
-    public Issue(){
+    public Chapter(){
         this.chapterName = null;
         this.link = null;
         this.releaseDate = null;
     }
 
-    public Issue(String chapterName, String link, String releaseDate){
+    public Chapter(String chapterName, String link, String releaseDate){
         this.chapterName = chapterName;
         this.link = link;
         this.releaseDate =releaseDate;

@@ -37,7 +37,7 @@ public class ServiceMediator {
         }
     }
 
-    public void getIssueList(Context context, String comicName){
+    public void getChapterList(Context context, String comicName){
         if(serviceTag.equals(ComicTvHttpService.TAG)){
             ComicTvHttpService.startActionGetChapterList(context, comicName);
         }else{

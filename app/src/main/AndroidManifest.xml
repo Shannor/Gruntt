@@ -27,7 +27,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".InfoAndIssueActivity"
+            android:name=".InfoAndChapterActivity"
             android:label="@string/title_activity_info_and_issue"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -38,11 +38,11 @@
         <activity
             android:name=".ReadComicActivity"
             android:label="@string/title_activity_read_comic"
-            android:parentActivityName=".InfoAndIssueActivity"
+            android:parentActivityName=".InfoAndChapterActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="comic.shannortrotty.gruntt.InfoAndIssueActivity" />
+                android:value="comic.shannortrotty.gruntt.InfoAndChapterActivity" />
         </activity>
     </application>
 

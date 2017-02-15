@@ -10,18 +10,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.TextView;
 
 import comic.shannortrotty.gruntt.fragments.InfoFragment;
-import comic.shannortrotty.gruntt.fragments.IssueListFragment;
+import comic.shannortrotty.gruntt.fragments.ChapterListFragment;
 
-public class InfoAndIssueActivity extends AppCompatActivity {
+public class InfoAndChapterActivity extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -118,14 +114,13 @@ public class InfoAndIssueActivity extends AppCompatActivity {
                 case 0:
                     return InfoFragment.newInstance(comicTitle, comicLink);
                 case 1:
-                    return IssueListFragment.newInstance(comicTitle, comicLink);
+                    return ChapterListFragment.newInstance(comicTitle, comicLink);
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 2;
         }
 
@@ -133,9 +128,9 @@ public class InfoAndIssueActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Info";
+                    return "Description";
                 case 1:
-                    return "Issues";
+                    return "Chapters";
             }
             return null;
         }

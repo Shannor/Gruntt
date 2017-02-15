@@ -3,10 +3,8 @@ package comic.shannortrotty.gruntt;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
@@ -131,7 +128,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListComicSelection(Comic comic, String originOfClick) {
-        Intent intent = new Intent(this,InfoAndIssueActivity.class);
+        Intent intent = new Intent(this,InfoAndChapterActivity.class);
         intent.putExtra(PICKED_COMIC_LINK,comic.getLink());
         intent.putExtra(PICKED_COMIC_ORIGIN_LOCATION, originOfClick);
         intent.putExtra(PICKED_COMIC_TITLE, comic.getTitle());

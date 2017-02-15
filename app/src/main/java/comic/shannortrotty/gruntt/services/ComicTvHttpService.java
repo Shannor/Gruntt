@@ -3,7 +3,6 @@ package comic.shannortrotty.gruntt.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
-import android.text.LoginFilter;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -20,7 +19,7 @@ import java.util.List;
 import comic.shannortrotty.gruntt.models.Comic;
 import comic.shannortrotty.gruntt.models.ComicEventBus;
 import comic.shannortrotty.gruntt.models.Genre;
-import comic.shannortrotty.gruntt.models.Issue;
+import comic.shannortrotty.gruntt.models.Chapter;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -95,7 +94,7 @@ public class ComicTvHttpService extends IntentService {
                 handleActionPopular(pageNumber);
             }else if (ACTION_GET_SPECIFIC_COMIC_LIST.equals(action)){
                 final String comicName = intent.getStringExtra(COMIC_NAME);
-
+                handleActionGetComicList(comicName);
             }
         }
     }
@@ -105,21 +104,21 @@ public class ComicTvHttpService extends IntentService {
         JsonArrayRequest mainJSONArray = new JsonArrayRequest(Request.Method.GET, request, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                List<Issue> issues = new ArrayList<>();
+                List<Chapter> chapters = new ArrayList<>();
                 for(int i=0; i< response.length(); ++i){
                     try{
                         JSONObject issueInfo = response.getJSONObject(i);
-                        Issue issue = new Issue(issueInfo.getString("chapterName"),
+                        Chapter chapter = new Chapter(issueInfo.getString("chapterName"),
                                 issueInfo.getString("link"),
                                 issueInfo.getString("releaseDate"));
-                        issues.add(issue);
+                        chapters.add(chapter);
 
                     }catch (JSONException e){
                         Log.e(TAG,"Error:Reading Data from request",e);
                     }
                 }
                 ComicEventBus comicEventBus = ComicEventBus.getInstance();
-                comicEventBus.passIssues(issues);
+                comicEventBus.passChapters(chapters);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -137,7 +136,7 @@ public class ComicTvHttpService extends IntentService {
     }
 
     /**
-     * Handler method create the JSON Array Request and call it.
+     * Handler method to create the JSON Array Request and call it.
      * Sends a broadcast of a list of all Comics on this page.
      */
     private void handleActionPopular(String pageNumber) {
