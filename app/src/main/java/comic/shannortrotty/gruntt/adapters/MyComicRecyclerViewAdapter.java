@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO: Replace the implementation with code for your data type.
  */
 public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecyclerViewAdapter.ViewHolder> {
 
@@ -68,22 +67,17 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
      */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Comic mComic = mComics.get(position);
+        final Comic mComic = mComics.get(position);
         holder.getComicTitle().setText(mComic.getTitle());
         holder.getComicGenre().setText(mComic.getFormatedGenres());
         ImageLoader imageLoader =  VolleyWrapper.getInstance(mContext).getImageLoader();
         holder.getComicImg().setImageUrl(mComic.getThumbnailUrl(), imageLoader);
-        //TODO: Setup NetworkImageView
-//        holder.mView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (null != mListener) {
-//                    // Notify the active callbacks interface (the activity, if the
-//                    // fragment is attached to one) that an item has been selected.
-//                    mListener.onListFragmentInteraction(holder.mItem);
-//                }
-//            }
-//        });
+        holder.getView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onListComicSelection(mComic, PopularComicFragment.TAG);
+            }
+        });
     }
 
     @Override
@@ -97,18 +91,21 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
         private final TextView mComicTitle;
         private final TextView mComicGenre;
         private final NetworkImageView mComicImg;
-
+        private final View mView;
         ViewHolder(View view) {
             super(view);
             mComicTitle= (TextView) view.findViewById(R.id.textView_popular_frag_comic_title);
             mComicGenre = (TextView) view.findViewById(R.id.textView_popular_frag_comic_genre);
             mComicImg = (NetworkImageView) view.findViewById(R.id.networkImgView_popular_frag_comic_img);
+            mView = view;
         }
 
         @Override
         public String toString() {
             return super.toString() + " '" + mComicTitle.getText().toString() + "'";
         }
+
+        public View getView(){return mView;}
 
         public TextView getComicTitle() {
             return mComicTitle;

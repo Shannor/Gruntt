@@ -6,5 +6,5 @@ package comic.shannortrotty.gruntt.models;
  */
 
 public interface OnComicListener {
-    void onListComicSelection(Comic comic);
+    void onListComicSelection(Comic comic, String originOfClick);
 }

@@ -30,9 +30,10 @@ import io.reactivex.disposables.Disposable;
 public class PopularComicFragment extends Fragment{
 
     private OnComicListener mListener;
-    private static final String TAG = "PopularComicFragment";
+    public static final String TAG = "PopularComicFragment";
     private MyComicRecyclerViewAdapter adapter;
     private ServiceMediator serviceMediator = ServiceMediator.getInstance();
+    private int pageCount = 1;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -55,9 +56,12 @@ public class PopularComicFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_popular_comic, container, false);
+        //TODO: Remove this set. Will be done by USER
         serviceMediator.setServiceTag(ComicTvHttpService.TAG);
-        serviceMediator.getPopularList(getContext().getApplicationContext(), "1");
+        //TODO:Page count will be incremented by USER as well
+        serviceMediator.getPopularList(getContext().getApplicationContext(), (String.valueOf(pageCount)));
 
+//        TODO: Probably add more to the view.
         // Only works if entire screen is Recycler View, If not must change this block
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -111,15 +115,5 @@ public class PopularComicFragment extends Fragment{
         super.onDetach();
         mListener = null;
     }
-        /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
 
 }

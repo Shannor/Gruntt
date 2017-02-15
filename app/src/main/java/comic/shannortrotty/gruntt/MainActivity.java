@@ -1,5 +1,6 @@
 package comic.shannortrotty.gruntt;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
 import comic.shannortrotty.gruntt.models.Comic;
 import comic.shannortrotty.gruntt.models.OnComicListener;
@@ -26,6 +28,9 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         OnComicListener{
 
+    public static final String PICKED_COMIC_LINK ="Comic.picked.link";
+    public static final String PICKED_COMIC_TITLE = "Comic.picked.title";
+    public static final String PICKED_COMIC_ORIGIN_LOCATION ="Comic.picked.origin.location";
     private FragmentManager fragmentManager;
     private ServiceMediator serviceMediator = ServiceMediator.getInstance();
 
@@ -37,14 +42,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         //TODO: Will be replaced with something that passes a tag based on user selection
         serviceMediator.setServiceTag(ComicTvHttpService.TAG);
-        //Code for fab button
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                serviceMediator.getPopularList(getApplicationContext(), "1");
-            }
-        });
         //Set Default Fragment
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.frame_container, PopularComicFragment.newInstance()).commit();
@@ -106,9 +103,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         Fragment mFragment = null;
         if (id == R.id.nav_all_comics) {
-
+            mFragment = AllComicsFragment.newInstance();
         } else if (id == R.id.nav_stared_comics) {
-
+            //Favorite Comics
         } else if (id == R.id.nav_popular_comics) {
             mFragment = PopularComicFragment.newInstance();
         } else if (id == R.id.nav_manage) {
@@ -119,7 +116,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        if( mFragment != null){
+        if( mFragment != null && mFragment != fragmentManager.findFragmentById(R.id.frame_container)){
             fragmentManager.beginTransaction().replace(
                     R.id.frame_container, mFragment).commit();
         }else{
@@ -133,8 +130,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListComicSelection(Comic comic) {
-        //TODO:Will change to do Fragment work most likely.
-        Toast.makeText(this, "Item Selected From Fragment:" + comic.toString(), Toast.LENGTH_SHORT).show();
+    public void onListComicSelection(Comic comic, String originOfClick) {
+        Intent intent = new Intent(this,InfoAndIssueActivity.class);
+        intent.putExtra(PICKED_COMIC_LINK,comic.getLink());
+        intent.putExtra(PICKED_COMIC_ORIGIN_LOCATION, originOfClick);
+        intent.putExtra(PICKED_COMIC_TITLE, comic.getTitle());
+        startActivity(intent);
     }
 }
