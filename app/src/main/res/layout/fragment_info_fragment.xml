@@ -1,0 +1,117 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <!--<TextView-->
+        <!--android:text="Release Date"-->
+        <!--android:id="@+id/textView_info_fragment_comic_release_date"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--/>-->
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:src="@drawable/ic_menu_camera"
+        android:id="@+id/networkImgView_info_fragment_large_img"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/textView_info_fragment_comic_name" />
+
+    <TextView
+        android:text="Alt Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_info_fragment_comic_alt_name"
+        android:layout_below="@+id/textView_info_fragment_comic_name"
+        android:layout_toEndOf="@+id/networkImgView_info_fragment_large_img"
+        android:layout_marginTop="13dp" />
+
+
+    <TextView
+        android:text="Genre"
+        android:id="@+id/textView_info_fragment_comic_genres"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_info_fragment_comic_alt_name"
+        android:layout_toEndOf="@+id/networkImgView_info_fragment_large_img"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:text="Comic Name"
+        android:id="@+id/textView_info_fragment_comic_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Author"
+        android:id="@+id/textView_info_fragment_comic_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/textView_info_fragment_comic_genres"
+        android:layout_toEndOf="@+id/networkImgView_info_fragment_large_img" />
+
+    <TextView
+        android:text="Status:"
+        android:id="@+id/textView_info_fragment_comic_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_info_fragment_comic_author"
+        android:layout_toEndOf="@+id/networkImgView_info_fragment_large_img"
+        android:layout_marginTop="12dp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout_btn_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/networkImgView_info_fragment_large_img"
+        android:layout_alignParentStart="true">
+        <Button
+            android:text="Add To Favorites"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:id="@+id/btn_info_fragment_comic_add_to_favorites"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+        />
+        <Button
+            android:text="Resume"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_info_fragment_comic_resume" />
+    </LinearLayout>
+
+    <TextView
+        android:text="Description"
+        android:padding="@dimen/text_margin"
+        android:maxLines="5"
+        android:minLines="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_info_fragment_comic_description"
+        android:layout_below="@+id/linearLayout_btn_holder"
+        android:layout_alignStart="@+id/networkImgView_info_fragment_large_img"
+        />
+
+
+</RelativeLayout>
+
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context="comic.shannortrotty.gruntt.fragments.InfoFragment">-->
+
+    <!--&lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/hello_blank_fragment" />-->
+
+<!--</FrameLayout>-->

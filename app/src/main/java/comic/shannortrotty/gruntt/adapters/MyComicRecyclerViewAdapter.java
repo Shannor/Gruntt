@@ -70,7 +70,7 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Comic mComic = mComics.get(position);
         holder.getComicTitle().setText(mComic.getTitle());
-        holder.getComicGenre().setText(mComic.getFormatedGenres());
+        holder.getComicGenre().setText(mComic.getFormattedGenres());
         ImageLoader imageLoader =  VolleyWrapper.getInstance(mContext).getImageLoader();
         holder.getComicImg().setImageUrl(mComic.getThumbnailUrl(), imageLoader);
         holder.getView().setOnClickListener(new View.OnClickListener() {

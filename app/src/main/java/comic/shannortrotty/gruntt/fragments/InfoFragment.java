@@ -1,11 +1,14 @@
 package comic.shannortrotty.gruntt.fragments;
 
 
+import android.net.Network;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.android.volley.toolbox.NetworkImageView;
 
 import comic.shannortrotty.gruntt.R;
 
@@ -24,6 +27,7 @@ public class InfoFragment extends Fragment {
     private String mLink;
     private String mTitle;
 
+    private NetworkImageView mLargeComicImg;
 
     public InfoFragment() {
         // Required empty public constructor
@@ -60,8 +64,9 @@ public class InfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_info_framgment, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_info_fragment, container, false);
+        mLargeComicImg = ((NetworkImageView) view.findViewById(R.id.networkImgView_info_fragment_large_img));
+        mLargeComicImg.setDefaultImageResId(R.drawable.ic_menu_camera);
         return view;
     }
 

@@ -1,7 +1,5 @@
 package comic.shannortrotty.gruntt;
 
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -12,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import comic.shannortrotty.gruntt.fragments.InfoFragment;
 import comic.shannortrotty.gruntt.fragments.ChapterListFragment;
@@ -41,35 +38,26 @@ public class InfoAndChapterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_info_and_issue);
+        setContentView(R.layout.activity_info_and_chapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
         comicLink =  getIntent().getStringExtra(MainActivity.PICKED_COMIC_LINK);
         comicTitle = getIntent().getStringExtra(MainActivity.PICKED_COMIC_TITLE);
         startingOrigin = getIntent().getStringExtra(MainActivity.PICKED_COMIC_ORIGIN_LOCATION);
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(comicTitle);
+        }
 //        TODO: User starting origin to decide which Fragment to show first
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(R.id.viewPager_activity_info_chapter);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
     }
 

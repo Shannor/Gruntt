@@ -72,11 +72,11 @@ public class Comic{
         return this.genres.add(genre);
     }
 
-    public String getURLFormatedLink(){
+    public String getURLFormattedLink(){
         String[] correctLink = getLink().split("/");
         return correctLink[(correctLink.length - 1)];
     }
-    public String getFormatedGenres(){
+    public String getFormattedGenres(){
         List<Genre> genres = getGenres();
         String formatted = "";
         for(Genre genre : genres){
