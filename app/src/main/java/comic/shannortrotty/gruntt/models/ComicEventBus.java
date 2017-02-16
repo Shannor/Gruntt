@@ -2,9 +2,12 @@ package comic.shannortrotty.gruntt.models;
 
 
 
+import android.util.Log;
+
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 
 /**
@@ -33,7 +36,9 @@ public class ComicEventBus {
         public void passComics(List<Comic> comics){
             comicSubject.onNext(comics);
         }
-        public void passChapters(List<Chapter> chapters){ comicChapters.onNext(chapters);}
+        public void passChapters(List<Chapter> chapters){
+            comicChapters.onNext(chapters);
+        }
         /**
          * Subscribe to this Observable. On event, return the list of comics provided
          */

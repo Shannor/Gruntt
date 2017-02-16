@@ -1,5 +1,7 @@
 package comic.shannortrotty.gruntt.models;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by shannortrotty on 2/13/17.
  * Class created to hold Chapter information.
@@ -11,9 +13,7 @@ public class Chapter {
     private String releaseDate;
 
     public Chapter(){
-        this.chapterName = null;
-        this.link = null;
-        this.releaseDate = null;
+
     }
 
     public Chapter(String chapterName, String link, String releaseDate){
@@ -22,8 +22,13 @@ public class Chapter {
         this.releaseDate =releaseDate;
     }
 
-    public String getChapterName() {
+    @Override
+    public String toString() {
         return chapterName;
+    }
+
+    public String getChapterName() {
+        return this.chapterName;
     }
 
     public void setChapterName(String chapterName) {

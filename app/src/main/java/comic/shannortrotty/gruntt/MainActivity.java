@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListComicSelection(Comic comic, String originOfClick) {
         Intent intent = new Intent(this,InfoAndChapterActivity.class);
-        intent.putExtra(PICKED_COMIC_LINK,comic.getLink());
+        intent.putExtra(PICKED_COMIC_LINK,comic.getURLFormatedLink());
         intent.putExtra(PICKED_COMIC_ORIGIN_LOCATION, originOfClick);
         intent.putExtra(PICKED_COMIC_TITLE, comic.getTitle());
         startActivity(intent);

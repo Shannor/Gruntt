@@ -49,6 +49,7 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
     }
 
     public void addItems(List<Comic> comics){
+        mComics.clear();
         mComics.addAll(comics);
         notifyDataSetChanged();
         //Suppose to be memory efficient

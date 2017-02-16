@@ -9,6 +9,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +18,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import comic.shannortrotty.gruntt.EventBusClasses.SendChaptersEvent;
+import comic.shannortrotty.gruntt.EventBusClasses.SendComicsEvent;
 import comic.shannortrotty.gruntt.models.Comic;
 import comic.shannortrotty.gruntt.models.ComicEventBus;
 import comic.shannortrotty.gruntt.models.Genre;
@@ -117,8 +121,7 @@ public class ComicTvHttpService extends IntentService {
                         Log.e(TAG,"Error:Reading Data from request",e);
                     }
                 }
-                ComicEventBus comicEventBus = ComicEventBus.getInstance();
-                comicEventBus.passChapters(chapters);
+                EventBus.getDefault().post(new SendChaptersEvent(chapters));
             }
         }, new Response.ErrorListener() {
             @Override
@@ -169,9 +172,7 @@ public class ComicTvHttpService extends IntentService {
                         Log.e(TAG,"JSON Exception: When trying to get Popular Comics.",e);
                     }
                 }
-                //Class to send Information back to Fragment
-                ComicEventBus bus = ComicEventBus.getInstance();
-                bus.passComics(comics);
+                EventBus.getDefault().post(new SendComicsEvent(comics));
             }
         }, new Response.ErrorListener() {
             @Override

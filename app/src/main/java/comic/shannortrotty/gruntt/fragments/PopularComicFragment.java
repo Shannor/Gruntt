@@ -10,8 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.List;
 
+import comic.shannortrotty.gruntt.EventBusClasses.SendComicsEvent;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.MyComicRecyclerViewAdapter;
 import comic.shannortrotty.gruntt.models.Comic;
@@ -70,35 +74,13 @@ public class PopularComicFragment extends Fragment{
             adapter = new MyComicRecyclerViewAdapter(getContext().getApplicationContext() ,mListener);
             recyclerView.setAdapter(adapter);
         }
-        //Listener for Comics response
-        ComicEventBus bus = ComicEventBus.getInstance();
-        bus.getComicObservable().subscribe(new Observer<List<Comic>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(List<Comic> value) {
-                //Add items to list adapter
-                adapter.addItems(value);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.e(TAG,"Error: On Comic Observable Subscribe",e);
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
-
         return view;
     }
 
-
+    @Subscribe
+    public void onComicEvent(SendComicsEvent event){
+        adapter.addItems(event.getComics());
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -116,4 +98,15 @@ public class PopularComicFragment extends Fragment{
         mListener = null;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
 }
