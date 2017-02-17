@@ -5,26 +5,20 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.List;
-
 import comic.shannortrotty.gruntt.EventBusClasses.SendComicsEvent;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.MyComicRecyclerViewAdapter;
-import comic.shannortrotty.gruntt.models.Comic;
-import comic.shannortrotty.gruntt.models.ComicEventBus;
 import comic.shannortrotty.gruntt.models.OnComicListener;
 import comic.shannortrotty.gruntt.services.ComicTvHttpService;
 import comic.shannortrotty.gruntt.services.ServiceMediator;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 /**
  * A fragment representing a list of Items.
@@ -35,7 +29,7 @@ public class PopularComicFragment extends Fragment{
 
     private OnComicListener mListener;
     public static final String TAG = "PopularComicFragment";
-    private MyComicRecyclerViewAdapter adapter;
+    private MyComicRecyclerViewAdapter myComicRecyclerViewAdapter;
     private ServiceMediator serviceMediator = ServiceMediator.getInstance();
     private int pageCount = 1;
 
@@ -71,15 +65,15 @@ public class PopularComicFragment extends Fragment{
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            adapter = new MyComicRecyclerViewAdapter(getContext().getApplicationContext() ,mListener);
-            recyclerView.setAdapter(adapter);
+            myComicRecyclerViewAdapter = new MyComicRecyclerViewAdapter(getContext().getApplicationContext() ,mListener);
+            recyclerView.setAdapter(myComicRecyclerViewAdapter);
         }
         return view;
     }
 
     @Subscribe
     public void onComicEvent(SendComicsEvent event){
-        adapter.addItems(event.getComics());
+        myComicRecyclerViewAdapter.addItems(event.getComics());
     }
     @Override
     public void onAttach(Context context) {

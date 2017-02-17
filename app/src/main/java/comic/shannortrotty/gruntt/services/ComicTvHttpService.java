@@ -9,6 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -19,9 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.EventBusClasses.SendChaptersEvent;
+import comic.shannortrotty.gruntt.EventBusClasses.SendComicDescriptionEvent;
 import comic.shannortrotty.gruntt.EventBusClasses.SendComicsEvent;
 import comic.shannortrotty.gruntt.models.Comic;
-import comic.shannortrotty.gruntt.models.ComicEventBus;
+import comic.shannortrotty.gruntt.models.ComicSpecifics;
 import comic.shannortrotty.gruntt.models.Genre;
 import comic.shannortrotty.gruntt.models.Chapter;
 
@@ -36,12 +38,14 @@ public class ComicTvHttpService extends IntentService {
 
     private static final String ACTION_GET_AZ_COMIC_LIST = "comic.az.list";
     private static final String ACTION_GET_POPULAR_COMIC_LIST = "comic.popular.list";
-    private static final String BASE_REQUEST_URL = "https://gruntt-156003.appspot.com";
-    private static final String ACTION_GET_SPECIFIC_COMIC_LIST = "comic.list.specific";
+    private static final String BASE_REQUEST_URL = "https://gruntt-156003.appspot.com/";
+    private static final String ACTION_GET_SPECIFIC_COMIC_CHAPTERS = "comic.list.specific";
+    private static final String ACTION_GET_SPECIFIC_COMIC_DESCRIPTION = "comic.specific.description";
 
     private static final String CHAPTER_NUMBER = "comic.chapter.number";
     private static final String PAGE_NUMBER = "popular.comic.page.number";
     private static final String COMIC_NAME = "comic.name";
+    private static final String FORMATTED_COMIC_LINK = "comic.formatted.link";
     public static final String TAG = "ComicTvHttpService";
 
     //Used to send information back to Activity
@@ -80,12 +84,30 @@ public class ComicTvHttpService extends IntentService {
         context.startService(intent);
     }
 
-    public static void startActionGetChapterList(Context context, String comicName){
+    /**
+     *
+     * @param context
+     * @param formattedComicLink
+     */
+    public static void startActionGetChapterList(Context context, String formattedComicLink){
         Intent intent = new Intent(context, ComicTvHttpService.class);
-        intent.setAction(ACTION_GET_SPECIFIC_COMIC_LIST);
-        intent.putExtra(COMIC_NAME, comicName);
+        intent.setAction(ACTION_GET_SPECIFIC_COMIC_CHAPTERS);
+        intent.putExtra(FORMATTED_COMIC_LINK, formattedComicLink);
         context.startService(intent);
     }
+
+    /**
+     *
+     * @param context
+     * @param formattedComicLink
+     */
+    public static void startActionGetSpecificComicDescription(Context context, String formattedComicLink){
+        Intent intent = new Intent(context, ComicTvHttpService.class);
+        intent.setAction(ACTION_GET_SPECIFIC_COMIC_DESCRIPTION);
+        intent.putExtra(FORMATTED_COMIC_LINK, formattedComicLink);
+        context.startService(intent);
+    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
@@ -96,15 +118,49 @@ public class ComicTvHttpService extends IntentService {
             } else if (ACTION_GET_POPULAR_COMIC_LIST.equals(action)) {
                 final String pageNumber = intent.getStringExtra(PAGE_NUMBER);
                 handleActionPopular(pageNumber);
-            }else if (ACTION_GET_SPECIFIC_COMIC_LIST.equals(action)){
-                final String comicName = intent.getStringExtra(COMIC_NAME);
-                handleActionGetComicList(comicName);
+            }else if (ACTION_GET_SPECIFIC_COMIC_CHAPTERS.equals(action)){
+                final String comicName = intent.getStringExtra(FORMATTED_COMIC_LINK);
+                handleActionGetComicChapters(comicName);
+            }else if (ACTION_GET_SPECIFIC_COMIC_DESCRIPTION.equals(action)){
+                final String comicName = intent.getStringExtra(FORMATTED_COMIC_LINK);
+                handleActionGetSpecificComicDescription(comicName);
             }
         }
     }
 
-    private void handleActionGetComicList(String comicName){
-        final String request = BASE_REQUEST_URL + "/list-issues/" + comicName;
+    private void handleActionGetSpecificComicDescription(final String formattedComicName){
+        final String request = BASE_REQUEST_URL + formattedComicName + "/description";
+        JsonObjectRequest descriptionJSONObject = new JsonObjectRequest(Request.Method.GET, request, null, new Response.Listener<JSONObject>() {
+            ComicSpecifics comicSpecifics = new ComicSpecifics();
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    comicSpecifics.setName(response.getString("name"));
+                    comicSpecifics.setAltName(response.getString("alternate Name"));
+                    comicSpecifics.setAuthor(response.getString("author"));
+                    comicSpecifics.setGenre(response.getString("genre"));
+                    comicSpecifics.setReleaseDate(response.getString("year of Release"));
+                    comicSpecifics.setLargeImgURL(response.getString("largeImg"));
+                    comicSpecifics.setDescription(response.getString("description"));
+                    comicSpecifics.setStatus(response.getString("status"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                EventBus.getDefault().post(new SendComicDescriptionEvent(comicSpecifics));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Error in call for Description.", error);
+            }
+        });
+        VolleyWrapper.getInstance(getApplicationContext()).addToRequestQueue(descriptionJSONObject);
+    }
+
+
+    private void handleActionGetComicChapters(String formattedComicName){
+        final String request = BASE_REQUEST_URL + "list-issues/" + formattedComicName;
         JsonArrayRequest mainJSONArray = new JsonArrayRequest(Request.Method.GET, request, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -129,7 +185,8 @@ public class ComicTvHttpService extends IntentService {
                 Log.e(TAG,"Response error in GetComicList", error);
             }
         });
-    VolleyWrapper.getInstance(getApplicationContext()).addToRequestQueue(mainJSONArray);
+
+        VolleyWrapper.getInstance(getApplicationContext()).addToRequestQueue(mainJSONArray);
     }
     /**
      *
@@ -143,7 +200,7 @@ public class ComicTvHttpService extends IntentService {
      * Sends a broadcast of a list of all Comics on this page.
      */
     private void handleActionPopular(String pageNumber) {
-        final String request = BASE_REQUEST_URL + "/popular-comics/" + pageNumber;
+        final String request = BASE_REQUEST_URL + "popular-comics/" + pageNumber;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, request, null, new Response.Listener<JSONArray>() {
             @Override

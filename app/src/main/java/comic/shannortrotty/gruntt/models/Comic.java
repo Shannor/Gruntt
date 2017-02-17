@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 
 public class Comic{
-
+    //TODO: Add info for Descriptions
     private String title;
     private String link;
     private String thumbnailUrl;

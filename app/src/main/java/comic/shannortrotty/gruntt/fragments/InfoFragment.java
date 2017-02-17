@@ -1,16 +1,27 @@
 package comic.shannortrotty.gruntt.fragments;
 
 
-import android.net.Network;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import comic.shannortrotty.gruntt.EventBusClasses.SendComicDescriptionEvent;
 import comic.shannortrotty.gruntt.R;
+import comic.shannortrotty.gruntt.models.ComicSpecifics;
+import comic.shannortrotty.gruntt.services.ServiceMediator;
+import comic.shannortrotty.gruntt.services.VolleyWrapper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +39,13 @@ public class InfoFragment extends Fragment {
     private String mTitle;
 
     private NetworkImageView mLargeComicImg;
+    private TextView comicTitleView;
+    private TextView comicAltTitleView;
+    private TextView comicReleaseDateView;
+    private TextView comicStatusView;
+    private TextView comicAuthorView;
+    private TextView comicGenreView;
+    private TextView comicDescriptionView;
 
     public InfoFragment() {
         // Required empty public constructor
@@ -65,9 +83,61 @@ public class InfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_info_fragment, container, false);
+        ServiceMediator.getInstance().getComicDescription(getContext(), mLink);
+
         mLargeComicImg = ((NetworkImageView) view.findViewById(R.id.networkImgView_info_fragment_large_img));
         mLargeComicImg.setDefaultImageResId(R.drawable.ic_menu_camera);
+
+        comicTitleView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_name));
+        comicAltTitleView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_alt_name));
+        comicAuthorView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_author));
+        comicGenreView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_genres));
+        comicReleaseDateView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_release_date));
+        comicDescriptionView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_description));
+        comicStatusView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_status));
+        Button addToFavoritesBtn = ((Button) view.findViewById(R.id.btn_info_fragment_comic_add_to_favorites));
+        Button resumeReading = ((Button) view.findViewById(R.id.btn_info_fragment_comic_resume));
+
+        addToFavoritesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Would be saved.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        resumeReading.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Continue Reading.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
     }
 
+    @Subscribe
+    public void onChapterDescription(SendComicDescriptionEvent sendComicDescriptionEvent){
+        ComicSpecifics comicSpecifics = sendComicDescriptionEvent.getComicSpecifics();
+        comicTitleView.setText(comicSpecifics.getFormattedName());
+        comicAltTitleView.setText(comicSpecifics.getFormattedAltName());
+        comicAuthorView.setText(comicSpecifics.getFormattedAuthor());
+        comicGenreView.setText(comicSpecifics.getFormattedGenre());
+        comicReleaseDateView.setText(comicSpecifics.getFormattedReleaseDate());
+        comicDescriptionView.setText(comicSpecifics.getFormattedDescription());
+        comicStatusView.setText(comicSpecifics.getFormattedStatus());
+        ImageLoader imageLoader = VolleyWrapper.getInstance(getContext().getApplicationContext()).getImageLoader();
+        mLargeComicImg.setImageUrl(comicSpecifics.getLargeImgURL(), imageLoader);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
 }

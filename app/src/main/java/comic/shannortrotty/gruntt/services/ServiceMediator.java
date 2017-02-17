@@ -29,6 +29,7 @@ public class ServiceMediator {
     public void setServiceTag(String serviceTag){
         this.serviceTag = serviceTag;
     }
+
     public void getPopularList(Context context, String pageNumber){
         if(serviceTag.equals(ComicTvHttpService.TAG)){
             ComicTvHttpService.startActionPoplarList(context, pageNumber);
@@ -37,11 +38,20 @@ public class ServiceMediator {
         }
     }
 
-    public void getChapterList(Context context, String comicName){
+    public void getChapterList(Context context, String formattedComicLink){
         if(serviceTag.equals(ComicTvHttpService.TAG)){
-            ComicTvHttpService.startActionGetChapterList(context, comicName);
+            ComicTvHttpService.startActionGetChapterList(context, formattedComicLink);
         }else{
             Log.e(TAG, "No Service matches the current Service Tag. Set the Mediator's Service Tag var.");
         }
     }
+
+    public void getComicDescription(Context context, String formattedComicLink){
+        if(serviceTag.equals(ComicTvHttpService.TAG)){
+            ComicTvHttpService.startActionGetSpecificComicDescription(context, formattedComicLink);
+        }else{
+            Log.e(TAG,"No Service matches the current Service Tag. Set the Mediator's Service Tag var." );
+        }
+    }
+
 }

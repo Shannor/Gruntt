@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
@@ -64,6 +65,7 @@ public class ChapterListAdapter extends ArrayAdapter<Chapter> {
 
     public void addChapters(List<Chapter> chapters){
         this.mChapters.clear();
+        Collections.reverse(chapters);
         this.mChapters.addAll(chapters);
         notifyDataSetChanged();
     }

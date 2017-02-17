@@ -3,29 +3,18 @@ package comic.shannortrotty.gruntt.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.reactivestreams.Subscription;
-
-import java.util.List;
 
 import comic.shannortrotty.gruntt.EventBusClasses.SendChaptersEvent;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.ChapterListAdapter;
-import comic.shannortrotty.gruntt.models.Chapter;
-import comic.shannortrotty.gruntt.models.ComicEventBus;
 import comic.shannortrotty.gruntt.services.ServiceMediator;
-import io.reactivex.Observer;
-import io.reactivex.Scheduler;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * A simple {@link Fragment} subclass.
