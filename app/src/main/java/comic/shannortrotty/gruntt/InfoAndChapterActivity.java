@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import comic.shannortrotty.gruntt.fragments.InfoFragment;
 import comic.shannortrotty.gruntt.fragments.ChapterListFragment;
+import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
 
 public class InfoAndChapterActivity extends AppCompatActivity {
 
@@ -58,6 +59,9 @@ public class InfoAndChapterActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.viewPager_activity_info_chapter);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        if(startingOrigin.equals(PopularComicFragment.TAG)){
+            mViewPager.setCurrentItem(0, true);
+        }
 
     }
 
@@ -78,6 +82,9 @@ public class InfoAndChapterActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }else if( id == android.R.id.home){
+            onBackPressed();
             return true;
         }
 

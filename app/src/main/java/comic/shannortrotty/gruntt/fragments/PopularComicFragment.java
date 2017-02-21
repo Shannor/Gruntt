@@ -2,9 +2,12 @@ package comic.shannortrotty.gruntt.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +34,8 @@ public class PopularComicFragment extends Fragment{
     public static final String TAG = "PopularComicFragment";
     private MyComicRecyclerViewAdapter myComicRecyclerViewAdapter;
     private ServiceMediator serviceMediator = ServiceMediator.getInstance();
+    private RecyclerView mComicRecyclerView;
+    private LinearLayoutManager mLayoutManager;
     private int pageCount = 1;
 
     /**
@@ -54,19 +59,17 @@ public class PopularComicFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_popular_comic, container, false);
-        //TODO: Remove this set. Will be done by USER
-        serviceMediator.setServiceTag(ComicTvHttpService.TAG);
         //TODO:Page count will be incremented by USER as well
         serviceMediator.getPopularList(getContext().getApplicationContext(), (String.valueOf(pageCount)));
-
 //        TODO: Probably add more to the view.
         // Only works if entire screen is Recycler View, If not must change this block
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            mComicRecyclerView = (RecyclerView) view;
+            mLayoutManager = new LinearLayoutManager(context);
+            mComicRecyclerView.setLayoutManager(mLayoutManager);
             myComicRecyclerViewAdapter = new MyComicRecyclerViewAdapter(getContext().getApplicationContext() ,mListener);
-            recyclerView.setAdapter(myComicRecyclerViewAdapter);
+            mComicRecyclerView.setAdapter(myComicRecyclerViewAdapter);
         }
         return view;
     }

@@ -2,6 +2,7 @@ package comic.shannortrotty.gruntt;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,8 +12,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
@@ -28,8 +31,9 @@ public class MainActivity extends AppCompatActivity
     public static final String PICKED_COMIC_LINK ="Comic.picked.link";
     public static final String PICKED_COMIC_TITLE = "Comic.picked.title";
     public static final String PICKED_COMIC_ORIGIN_LOCATION ="Comic.picked.origin.location";
-    private FragmentManager fragmentManager;
+    private static final String TAG = "MainActivity";
     private ServiceMediator serviceMediator = ServiceMediator.getInstance();
+    private Fragment mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +41,12 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         //TODO: Will be replaced with something that passes a tag based on user selection
         serviceMediator.setServiceTag(ComicTvHttpService.TAG);
         //Set Default Fragment
-        fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.frame_container, PopularComicFragment.newInstance()).commit();
+        mFragment = PopularComicFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mFragment).commit();
         //Code for Navigation Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         //Need to look up what this does
@@ -98,7 +103,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment mFragment = null;
         if (id == R.id.nav_all_comics) {
             mFragment = AllComicsFragment.newInstance();
         } else if (id == R.id.nav_stared_comics) {
@@ -113,8 +117,8 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        if( mFragment != null && mFragment != fragmentManager.findFragmentById(R.id.frame_container)){
-            fragmentManager.beginTransaction().replace(
+        if( mFragment != null && mFragment != getSupportFragmentManager().findFragmentById(R.id.frame_container)){
+            getSupportFragmentManager().beginTransaction().replace(
                     R.id.frame_container, mFragment).commit();
         }else{
 //            Return an error
@@ -134,4 +138,16 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra(PICKED_COMIC_TITLE, comic.getTitle());
         startActivity(intent);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        getSupportFragmentManager().putFragment(outState, "S", mFragment);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
 }
