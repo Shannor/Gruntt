@@ -1,5 +1,6 @@
 package comic.shannortrotty.gruntt;
 
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
 import comic.shannortrotty.gruntt.fragments.InfoFragment;
 import comic.shannortrotty.gruntt.fragments.ChapterListFragment;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
@@ -31,7 +33,6 @@ public class InfoAndChapterActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
     private String comicLink;
     private String comicTitle;
     private String startingOrigin;
@@ -59,10 +60,9 @@ public class InfoAndChapterActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.viewPager_activity_info_chapter);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        if(startingOrigin.equals(PopularComicFragment.TAG)){
+        if(startingOrigin.equals(PopularComicFragment.TAG) ||  startingOrigin.equals(AllComicsFragment.TAG)){
             mViewPager.setCurrentItem(0, true);
         }
-
     }
 
 
@@ -82,9 +82,6 @@ public class InfoAndChapterActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
-        }else if( id == android.R.id.home){
-            onBackPressed();
             return true;
         }
 

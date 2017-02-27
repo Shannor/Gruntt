@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = "MainActivity";
     private ServiceMediator serviceMediator = ServiceMediator.getInstance();
     private Fragment mFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,17 +136,6 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra(PICKED_COMIC_ORIGIN_LOCATION, originOfClick);
         intent.putExtra(PICKED_COMIC_TITLE, comic.getTitle());
         startActivity(intent);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        getSupportFragmentManager().putFragment(outState, "S", mFragment);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
     }
 
 }

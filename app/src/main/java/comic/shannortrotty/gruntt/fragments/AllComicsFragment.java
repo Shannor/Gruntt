@@ -13,6 +13,7 @@ import comic.shannortrotty.gruntt.models.OnComicListener;
 
 
 public class AllComicsFragment extends Fragment {
+    public static final String TAG = "AllComicsFragment";
 
     private OnComicListener mListener;
 
