@@ -2,16 +2,12 @@ package comic.shannortrotty.gruntt.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -19,8 +15,7 @@ import org.greenrobot.eventbus.Subscribe;
 import comic.shannortrotty.gruntt.EventBusClasses.SendComicsEvent;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.MyComicRecyclerViewAdapter;
-import comic.shannortrotty.gruntt.models.OnComicListener;
-import comic.shannortrotty.gruntt.services.ComicTvHttpService;
+import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.services.ServiceMediator;
 
 /**

@@ -1,6 +1,4 @@
-package comic.shannortrotty.gruntt.models;
-
-import android.support.annotation.NonNull;
+package comic.shannortrotty.gruntt.classes;
 
 /**
  * Created by shannortrotty on 2/13/17.

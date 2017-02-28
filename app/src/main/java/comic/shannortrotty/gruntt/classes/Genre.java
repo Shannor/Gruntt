@@ -1,7 +1,4 @@
-package comic.shannortrotty.gruntt.models;
-
-import android.os.Parcel;
-import android.os.Parcelable;
+package comic.shannortrotty.gruntt.classes;
 
 import java.util.Objects;
 

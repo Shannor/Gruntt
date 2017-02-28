@@ -1,7 +1,6 @@
 package comic.shannortrotty.gruntt.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +15,7 @@ import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.ReadComicActivity;
-import comic.shannortrotty.gruntt.models.Chapter;
+import comic.shannortrotty.gruntt.classes.Chapter;
 
 /**
  * Created by shannortrotty on 2/15/17.

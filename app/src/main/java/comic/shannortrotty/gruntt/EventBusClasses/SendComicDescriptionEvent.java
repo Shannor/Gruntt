@@ -1,6 +1,6 @@
 package comic.shannortrotty.gruntt.EventBusClasses;
 
-import comic.shannortrotty.gruntt.models.ComicSpecifics;
+import comic.shannortrotty.gruntt.classes.ComicSpecifics;
 
 /**
  * Created by shannortrotty on 2/16/17.

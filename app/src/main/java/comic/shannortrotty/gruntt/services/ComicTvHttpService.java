@@ -23,10 +23,10 @@ import comic.shannortrotty.gruntt.EventBusClasses.SendChapterPagesEvent;
 import comic.shannortrotty.gruntt.EventBusClasses.SendChaptersEvent;
 import comic.shannortrotty.gruntt.EventBusClasses.SendComicDescriptionEvent;
 import comic.shannortrotty.gruntt.EventBusClasses.SendComicsEvent;
-import comic.shannortrotty.gruntt.models.Comic;
-import comic.shannortrotty.gruntt.models.ComicSpecifics;
-import comic.shannortrotty.gruntt.models.Genre;
-import comic.shannortrotty.gruntt.models.Chapter;
+import comic.shannortrotty.gruntt.classes.Comic;
+import comic.shannortrotty.gruntt.classes.ComicSpecifics;
+import comic.shannortrotty.gruntt.classes.Genre;
+import comic.shannortrotty.gruntt.classes.Chapter;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in

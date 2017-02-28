@@ -1,4 +1,4 @@
-package comic.shannortrotty.gruntt.models;
+package comic.shannortrotty.gruntt.classes;
 
 import java.util.ArrayList;
 import java.util.List;

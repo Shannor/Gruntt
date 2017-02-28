@@ -3,7 +3,6 @@ package comic.shannortrotty.gruntt.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import comic.shannortrotty.gruntt.EventBusClasses.SendComicDescriptionEvent;
 import comic.shannortrotty.gruntt.R;
-import comic.shannortrotty.gruntt.models.ComicSpecifics;
+import comic.shannortrotty.gruntt.classes.ComicSpecifics;
 import comic.shannortrotty.gruntt.services.ServiceMediator;
 import comic.shannortrotty.gruntt.services.VolleyWrapper;
 

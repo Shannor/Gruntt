@@ -1,7 +1,6 @@
 package comic.shannortrotty.gruntt.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import comic.shannortrotty.gruntt.R;
-import comic.shannortrotty.gruntt.models.OnComicListener;
+import comic.shannortrotty.gruntt.classes.OnComicListener;
 
 
 public class AllComicsFragment extends Fragment {
