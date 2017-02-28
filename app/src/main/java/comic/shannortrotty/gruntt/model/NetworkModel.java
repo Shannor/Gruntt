@@ -13,7 +13,12 @@ public interface NetworkModel {
     interface OnItemFinishedListener<T>{
         void onItemFinished(T item);
     }
-    void getPopularComics(OnFinishedListener listener);
+
+    //Will be edited
+    interface OnProcess{
+        void currentProcess();
+    }
+    void getPopularComics(String pageNumber, OnFinishedListener listener);
     void getAllComics(OnFinishedListener listener);
     void getChapters(OnFinishedListener listener);
     void getComicDescription(OnItemFinishedListener listener);
