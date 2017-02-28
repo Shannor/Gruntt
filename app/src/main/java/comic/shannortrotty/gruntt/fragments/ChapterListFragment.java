@@ -60,8 +60,6 @@ public class ChapterListFragment extends Fragment {
             mTitle = getArguments().getString(COMIC_TITLE);
             mLink = getArguments().getString(COMIC_LINK);
         }
-        //Makes the call on create to fetch the list of Issues
-        mServiceMediator.getChapterList(getContext().getApplicationContext(),mLink);
     }
 
     @Override
@@ -69,6 +67,8 @@ public class ChapterListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chapter_list, container, false);
+        //Makes the call on create to fetch the list of Issues
+        mServiceMediator.getChapterList(getContext().getApplicationContext(),mLink);
         listView = ((ListView) view.findViewById(R.id.listView_fragment_chapter_list));
         mChapterListAdapter = new ChapterListAdapter(getContext());
         listView.setAdapter(mChapterListAdapter);

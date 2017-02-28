@@ -12,7 +12,7 @@ import android.util.Log;
 
 public class ServiceMediator {
     //String that will hold the Service to call
-    private  String serviceTag = null;
+    private String serviceTag = null;
     private static ServiceMediator mInstance = null;
     private static final String TAG = "ServiceMediator";
 
@@ -54,4 +54,11 @@ public class ServiceMediator {
         }
     }
 
+    public void getComicChapterPages(Context context, String formattedComicLink, String chapterNumber){
+        if(serviceTag.equals(ComicTvHttpService.TAG)){
+            ComicTvHttpService.startActionGetChapterPages(context, formattedComicLink, chapterNumber);
+        }else{
+            Log.e(TAG,"No Service matches the current Service Tag. Set the Mediator's Service Tag var." );
+        }
+    }
 }

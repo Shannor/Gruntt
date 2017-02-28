@@ -1,6 +1,7 @@
 package comic.shannortrotty.gruntt.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -42,7 +43,7 @@ public class ChapterListAdapter extends ArrayAdapter<Chapter> {
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        Chapter chapter = getItem(position);
+        final Chapter chapter = getItem(position);
         //Check if Reusing block or new
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.listview_chapter_view, parent, false);
@@ -57,7 +58,7 @@ public class ChapterListAdapter extends ArrayAdapter<Chapter> {
             @Override
             public void onClick(View v) {
 //                Start activity for reading that chapter
-                Toast.makeText(mContext, "Would start reading Activity", Toast.LENGTH_SHORT).show();
+                ReadComicActivity.start(getContext().getApplicationContext(),chapter.getURLFormattedLink(),chapter.getChapterNumber());
             }
         });
         return convertView;

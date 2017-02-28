@@ -26,6 +26,14 @@ public class Chapter {
     public String toString() {
         return chapterName;
     }
+    public String getURLFormattedLink(){
+        String[] correctLink = getLink().split("/");
+        return correctLink[(correctLink.length - 2)];
+    }
+    public String getChapterNumber(){
+        String[] names = this.chapterName.split("#");
+        return names[names.length-1];
+    }
 
     public String getChapterName() {
         return this.chapterName;

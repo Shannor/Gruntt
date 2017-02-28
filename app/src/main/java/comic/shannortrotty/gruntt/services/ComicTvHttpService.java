@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import comic.shannortrotty.gruntt.EventBusClasses.SendChapterPagesEvent;
 import comic.shannortrotty.gruntt.EventBusClasses.SendChaptersEvent;
 import comic.shannortrotty.gruntt.EventBusClasses.SendComicDescriptionEvent;
 import comic.shannortrotty.gruntt.EventBusClasses.SendComicsEvent;
@@ -39,8 +40,9 @@ public class ComicTvHttpService extends IntentService {
     private static final String ACTION_GET_AZ_COMIC_LIST = "comic.az.list";
     private static final String ACTION_GET_POPULAR_COMIC_LIST = "comic.popular.list";
     private static final String BASE_REQUEST_URL = "https://gruntt-156003.appspot.com/";
-    private static final String ACTION_GET_SPECIFIC_COMIC_CHAPTERS = "comic.list.specific";
+    private static final String ACTION_GET_SPECIFIC_COMIC_CHAPTERS_LIST = "comic.list.specific";
     private static final String ACTION_GET_SPECIFIC_COMIC_DESCRIPTION = "comic.specific.description";
+    private static final String ACTION_GET_SPECIFIC_COMIC_PAGES = "comic.chapters.pages";
 
     private static final String CHAPTER_NUMBER = "comic.chapter.number";
     private static final String PAGE_NUMBER = "popular.comic.page.number";
@@ -91,7 +93,7 @@ public class ComicTvHttpService extends IntentService {
      */
     public static void startActionGetChapterList(Context context, String formattedComicLink){
         Intent intent = new Intent(context, ComicTvHttpService.class);
-        intent.setAction(ACTION_GET_SPECIFIC_COMIC_CHAPTERS);
+        intent.setAction(ACTION_GET_SPECIFIC_COMIC_CHAPTERS_LIST);
         intent.putExtra(FORMATTED_COMIC_LINK, formattedComicLink);
         context.startService(intent);
     }
@@ -108,6 +110,14 @@ public class ComicTvHttpService extends IntentService {
         context.startService(intent);
     }
 
+    public static void startActionGetChapterPages(Context context, String formattedComicLink, String chapterNumber){
+        Intent intent = new Intent(context, ComicTvHttpService.class);
+        intent.setAction(ACTION_GET_SPECIFIC_COMIC_PAGES);
+        intent.putExtra(FORMATTED_COMIC_LINK, formattedComicLink);
+        intent.putExtra(CHAPTER_NUMBER, chapterNumber);
+        context.startService(intent);
+    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
@@ -118,12 +128,16 @@ public class ComicTvHttpService extends IntentService {
             } else if (ACTION_GET_POPULAR_COMIC_LIST.equals(action)) {
                 final String pageNumber = intent.getStringExtra(PAGE_NUMBER);
                 handleActionPopular(pageNumber);
-            }else if (ACTION_GET_SPECIFIC_COMIC_CHAPTERS.equals(action)){
+            }else if (ACTION_GET_SPECIFIC_COMIC_CHAPTERS_LIST.equals(action)){
                 final String comicName = intent.getStringExtra(FORMATTED_COMIC_LINK);
                 handleActionGetComicChapters(comicName);
             }else if (ACTION_GET_SPECIFIC_COMIC_DESCRIPTION.equals(action)){
                 final String comicName = intent.getStringExtra(FORMATTED_COMIC_LINK);
                 handleActionGetSpecificComicDescription(comicName);
+            }else if (ACTION_GET_SPECIFIC_COMIC_PAGES.equals(action)){
+                final  String comicLink = intent.getStringExtra(FORMATTED_COMIC_LINK);
+                final String chapterNumber = intent.getStringExtra(CHAPTER_NUMBER);
+                handleActionComicPages(comicLink, chapterNumber);
             }
         }
     }
@@ -193,6 +207,32 @@ public class ComicTvHttpService extends IntentService {
      */
     private void handleActionAZList() {
 
+    }
+
+
+    private void handleActionComicPages(String comicName, String chapterNumber){
+        final String request = BASE_REQUEST_URL + "read-comic/" + comicName + "/" + chapterNumber;
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, request, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                List<String> pagesLinks = new ArrayList<>();
+                try {
+                    for (int i = 0; i < response.length(); ++i){
+                        pagesLinks.add(response.getString(i));
+                    }
+                }catch(JSONException e){
+                    Log.e(TAG,"Error: Reading Data from Chapter pages Request",e);
+                }
+                EventBus.getDefault().post(new SendChapterPagesEvent(pagesLinks));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        VolleyWrapper.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayRequest);
     }
 
     /**

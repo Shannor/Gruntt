@@ -44,9 +44,11 @@ public class InfoAndChapterActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        comicLink =  getIntent().getStringExtra(MainActivity.PICKED_COMIC_LINK);
-        comicTitle = getIntent().getStringExtra(MainActivity.PICKED_COMIC_TITLE);
-        startingOrigin = getIntent().getStringExtra(MainActivity.PICKED_COMIC_ORIGIN_LOCATION);
+        if(getIntent() != null) {
+            comicLink = getIntent().getStringExtra(MainActivity.PICKED_COMIC_LINK);
+            comicTitle = getIntent().getStringExtra(MainActivity.PICKED_COMIC_TITLE);
+            startingOrigin = getIntent().getStringExtra(MainActivity.PICKED_COMIC_ORIGIN_LOCATION);
+        }
 
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -60,9 +62,9 @@ public class InfoAndChapterActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.viewPager_activity_info_chapter);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        if(startingOrigin.equals(PopularComicFragment.TAG) ||  startingOrigin.equals(AllComicsFragment.TAG)){
-            mViewPager.setCurrentItem(0, true);
-        }
+//        if(startingOrigin.equals(PopularComicFragment.TAG) ||  startingOrigin.equals(AllComicsFragment.TAG)){
+//            mViewPager.setCurrentItem(0, true);
+//        }
     }
 
 
