@@ -1,21 +1,28 @@
 package comic.shannortrotty.gruntt.model;
 
-import android.os.AsyncTask;
+import android.util.Log;
+
+import java.util.List;
+
+import comic.shannortrotty.gruntt.classes.Comic;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by shannortrotty on 2/28/17.
+ * Implementation of NetworkModel to perform Request for readcomic.tv
  */
 
 public class ComicTvNetworkImplementation implements NetworkModel {
-    private static final String BASE_REQUEST_URL = "https://gruntt-156003.appspot.com/";
-
+    private static final String TAG = "ComicTvNetworkImplement";
     @Override
-    public void getAllComics(OnFinishedListener listener) {
+    public void getAllComics(OnFinishedComicListener listener) {
 
     }
 
     @Override
-    public void getChapters(OnFinishedListener listener) {
+    public void getChapters(OnFinishedChapterListener listener) {
 
     }
 
@@ -25,13 +32,26 @@ public class ComicTvNetworkImplementation implements NetworkModel {
     }
 
     @Override
-    public void getComicPages(OnFinishedListener listener) {
+    public void getComicPages(OnFinishedComicListener listener) {
 
     }
 
     @Override
-    public void getPopularComics(String pageNumber,OnFinishedListener listener) {
-        final String requestURL = BASE_REQUEST_URL + "popular-comics/" + pageNumber;
+    public void getPopularComics(String pageNumber, final OnFinishedComicListener listener) {
+        ComicTVService comicTVService = ComicTVService.retrofit.create(ComicTVService.class);
+        Call<List<Comic>> call = comicTVService.listPopularComics(pageNumber);
+        call.enqueue(new Callback<List<Comic>>() {
+            @Override
+            public void onResponse(Call<List<Comic>> call, Response<List<Comic>> response) {                Log.i(TAG, "onResponse: "+ response.body().toString());
+                Log.i(TAG, "onResponse: "+ response.body());
+                listener.onListFinished(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Comic>> call, Throwable t) {
+
+            }
+        });
 
     }
 }

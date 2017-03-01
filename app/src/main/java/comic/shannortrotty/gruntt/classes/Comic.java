@@ -1,5 +1,7 @@
 package comic.shannortrotty.gruntt.classes;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,9 +12,13 @@ import java.util.Objects;
 
 public class Comic{
     //TODO: Add info for Descriptions
+    @SerializedName("title")
     private String title;
+    @SerializedName("link")
     private String link;
+    @SerializedName("img")
     private String thumbnailUrl;
+    @SerializedName("genre")
     private List<Genre> genres;
 
     public Comic(){
@@ -110,6 +116,7 @@ public class Comic{
     public String toString() {
         return "Comic{" +
                 "title='" + title + '\'' +
+                "link=" + link +
                 '}';
     }
 }

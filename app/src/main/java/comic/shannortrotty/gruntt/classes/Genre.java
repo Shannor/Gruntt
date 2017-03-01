@@ -1,14 +1,19 @@
 package comic.shannortrotty.gruntt.classes;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Objects;
 
 /**
  * Created by shannortrotty on 2/3/17.
+ * Inner Class for Comics, Holds the Genre from Popular Comics
  */
 
 public class Genre{
 
+    @SerializedName("name")
     private String genre;
+    @SerializedName("genreLink")
     private String genreLink;
 
     public Genre(){
