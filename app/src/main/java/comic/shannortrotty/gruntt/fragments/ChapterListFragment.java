@@ -8,20 +8,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
+import java.util.List;
 
-import comic.shannortrotty.gruntt.EventBusClasses.SendChaptersEvent;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.ChapterListAdapter;
+import comic.shannortrotty.gruntt.classes.Chapter;
+import comic.shannortrotty.gruntt.classes.Constants;
+import comic.shannortrotty.gruntt.classes.RequestType;
+import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.presenter.GenericNetworkPresenter;
+import comic.shannortrotty.gruntt.presenter.ListPresenter;
 import comic.shannortrotty.gruntt.services.ServiceMediator;
+import comic.shannortrotty.gruntt.view.GenericView;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ChapterListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChapterListFragment extends Fragment {
+public class ChapterListFragment extends Fragment implements GenericView<Chapter>{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String COMIC_TITLE = "comic.title.issue";
     private static final String COMIC_LINK = "comic.link.issue";
@@ -31,6 +36,9 @@ public class ChapterListFragment extends Fragment {
     private ListView listView;
     private ServiceMediator mServiceMediator = ServiceMediator.getInstance();
     private ChapterListAdapter mChapterListAdapter;
+    private GenericNetworkPresenter genericNetworkPresenter;
+
+
     public ChapterListFragment() {
         // Required empty public constructor
     }
@@ -68,27 +76,31 @@ public class ChapterListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chapter_list, container, false);
         //Makes the call on create to fetch the list of Issues
-        mServiceMediator.getChapterList(getContext().getApplicationContext(),mLink);
+//        mServiceMediator.getChapterList(getContext().getApplicationContext(),mLink);
+        genericNetworkPresenter = new ListPresenter<>(this, new ComicTvNetworkImplementation());
         listView = ((ListView) view.findViewById(R.id.listView_fragment_chapter_list));
         mChapterListAdapter = new ChapterListAdapter(getContext());
         listView.setAdapter(mChapterListAdapter);
 
         return view;
     }
-    @Subscribe
-    public void onChapterEvent(SendChaptersEvent event){
-        mChapterListAdapter.addChapters(event.getChapters());
+
+    @Override
+    public void setItems(List<Chapter> items) {
+        mChapterListAdapter.addChapters(items);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        EventBus.getDefault().unregister(this);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
+        RequestType requestType = new RequestType(RequestType.Type.CHAPTERS);
+        requestType.addExtras(Constants.COMIC_LINK, mLink);
+        genericNetworkPresenter.startRequest(requestType);
     }
 }

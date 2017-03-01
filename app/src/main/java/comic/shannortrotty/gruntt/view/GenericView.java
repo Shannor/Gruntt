@@ -9,13 +9,12 @@ import comic.shannortrotty.gruntt.classes.Comic;
  * Created by shannortrotty on 2/28/17.
  */
 
-public interface ComicView {
+public interface GenericView<T> {
 
 //    void showProgress();
 //
 //    void hideProgress();
 
-    void setItems(List<Comic> items);
-
+    void setItems(List<T> items);
 
 }

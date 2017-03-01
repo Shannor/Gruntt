@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import comic.shannortrotty.gruntt.fragments.InfoFragment;
+import comic.shannortrotty.gruntt.view.InfoFragment;
 import comic.shannortrotty.gruntt.fragments.ChapterListFragment;
 
 public class InfoAndChapterActivity extends AppCompatActivity {

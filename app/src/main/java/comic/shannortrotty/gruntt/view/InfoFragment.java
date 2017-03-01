@@ -1,4 +1,4 @@
-package comic.shannortrotty.gruntt.fragments;
+package comic.shannortrotty.gruntt.view;
 
 
 import android.os.Bundle;
@@ -13,21 +13,14 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import comic.shannortrotty.gruntt.EventBusClasses.SendComicDescriptionEvent;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.classes.ComicSpecifics;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
-import comic.shannortrotty.gruntt.presenter.ComicPresenter;
 import comic.shannortrotty.gruntt.presenter.DescriptionPresentor;
-import comic.shannortrotty.gruntt.presenter.NetworkPresenter;
-import comic.shannortrotty.gruntt.services.ServiceMediator;
+import comic.shannortrotty.gruntt.presenter.GenericNetworkPresenter;
 import comic.shannortrotty.gruntt.services.VolleyWrapper;
-import comic.shannortrotty.gruntt.view.DescriptionView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,7 +46,7 @@ public class InfoFragment extends Fragment implements DescriptionView{
     private TextView comicGenreView;
     private TextView comicDescriptionView;
 
-    private NetworkPresenter networkPresenter;
+    private GenericNetworkPresenter genericNetworkPresenter;
     public InfoFragment() {
         // Required empty public constructor
     }
@@ -91,7 +84,7 @@ public class InfoFragment extends Fragment implements DescriptionView{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_info_fragment, container, false);
         //TODO:Replace with Factory call
-        networkPresenter = new DescriptionPresentor(this, new ComicTvNetworkImplementation());
+        genericNetworkPresenter = new DescriptionPresentor(this, new ComicTvNetworkImplementation());
 
         mLargeComicImg = ((NetworkImageView) view.findViewById(R.id.networkImgView_info_fragment_large_img));
         mLargeComicImg.setDefaultImageResId(R.drawable.ic_menu_camera);
@@ -155,7 +148,7 @@ public class InfoFragment extends Fragment implements DescriptionView{
         super.onResume();
         RequestType requestType = new RequestType(RequestType.Type.COMICSDESCRIPTION);
         requestType.addExtras(Constants.COMIC_LINK,mLink);
-        networkPresenter.startRequest(requestType);
+        genericNetworkPresenter.startRequest(requestType);
     }
 
     @Override
@@ -166,6 +159,6 @@ public class InfoFragment extends Fragment implements DescriptionView{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        networkPresenter.onDestroy();
+        genericNetworkPresenter.onDestroy();
     }
 }

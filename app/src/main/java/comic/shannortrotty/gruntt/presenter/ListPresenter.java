@@ -6,18 +6,18 @@ import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.model.NetworkModel;
-import comic.shannortrotty.gruntt.view.ComicView;
-
+import comic.shannortrotty.gruntt.view.GenericView;
 /**
  * Created by shannortrotty on 2/28/17.
+ * Handles General List Types.
  */
 
-public class ComicPresenter implements NetworkPresenter, NetworkModel.OnFinishedComicListener {
-    private ComicView comicView;
+public class ListPresenter<T> implements GenericNetworkPresenter, NetworkModel.OnFinishedListener<T> {
+    private GenericView<T> genericView;
     private NetworkModel networkModel;
 
-    public ComicPresenter(ComicView comicView, NetworkModel networkModel){
-        this.comicView = comicView;
+    public ListPresenter(GenericView<T> genericView, NetworkModel networkModel) {
+        this.genericView = genericView;
         this.networkModel = networkModel;
     }
 
@@ -33,16 +33,21 @@ public class ComicPresenter implements NetworkPresenter, NetworkModel.OnFinished
             networkModel.getPopularComics(
                     requestType.getExtras().get(Constants.PAGE_NUMBER),
                     this);
+        }else if (requestType.getType() == RequestType.Type.CHAPTERS){
+            networkModel.getChapters(
+                    requestType.getExtras().get(Constants.COMIC_LINK),
+                    this);
         }
     }
 
     @Override
     public void onDestroy() {
-        comicView = null;
+        genericView = null;
+        networkModel = null;
     }
 
     @Override
-    public void onListFinished(List<Comic> items) {
-        comicView.setItems(items);
+    public void onListFinished(List<T> items) {
+        genericView.setItems(items);
     }
 }

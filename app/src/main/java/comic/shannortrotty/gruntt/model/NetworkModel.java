@@ -11,8 +11,9 @@ import comic.shannortrotty.gruntt.classes.ComicSpecifics;
  */
 
 public interface NetworkModel {
-    interface OnFinishedComicListener{
-        void onListFinished(List<Comic> items);
+
+    interface OnFinishedListener<T>{
+        void onListFinished(List<T> items);
     }
     interface OnItemFinishedListener{
         void onItemFinished(ComicSpecifics item);
@@ -26,9 +27,9 @@ public interface NetworkModel {
     interface OnProcess{
         void currentProcess();
     }
-    void getPopularComics(String pageNumber, OnFinishedComicListener listener);
-    void getAllComics(OnFinishedComicListener listener);
-    void getChapters(String comicLink, OnFinishedChapterListener listener);
+    void getPopularComics(String pageNumber, OnFinishedListener listener);
+    void getAllComics(OnFinishedListener listener);
+    void getChapters(String comicLink, OnFinishedListener listener);
     void getComicDescription(String comicLink, OnItemFinishedListener listener);
-    void getComicPages(String comicLink, String chapterNumber,OnFinishedComicListener listener);
+    void getComicPages(String comicLink, String chapterNumber, OnFinishedListener listener);
 }

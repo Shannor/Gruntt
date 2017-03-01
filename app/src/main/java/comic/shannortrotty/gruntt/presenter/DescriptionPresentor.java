@@ -10,7 +10,7 @@ import comic.shannortrotty.gruntt.view.DescriptionView;
  * Created by shannortrotty on 2/28/17.
  */
 
-public class DescriptionPresentor implements NetworkPresenter, NetworkModel.OnItemFinishedListener{
+public class DescriptionPresentor implements GenericNetworkPresenter, NetworkModel.OnItemFinishedListener{
 
     private DescriptionView descriptionView;
     private NetworkModel networkModel;
