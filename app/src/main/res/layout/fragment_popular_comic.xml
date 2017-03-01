@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="comic.shannortrotty.gruntt.fragments.PopularComicFragment"
+    tools:context="comic.shannortrotty.gruntt.view.PopularComicFragment"
     tools:listitem="@layout/fragment_popular_view" />

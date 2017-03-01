@@ -1,13 +1,18 @@
 package comic.shannortrotty.gruntt.classes;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by shannortrotty on 2/13/17.
  * Class created to hold Chapter information.
  */
 
 public class Chapter {
+    @SerializedName("chapterName")
     private String chapterName;
+    @SerializedName("link")
     private String link;
+    @SerializedName("releaseDate")
     private String releaseDate;
 
     public Chapter(){

@@ -11,6 +11,7 @@ import android.util.Log;
  */
 
 public class ServiceMediator {
+    //TODO: Turn into Factory to provide the specific implementation needed
     //String that will hold the Service to call
     private String serviceTag = null;
     private static ServiceMediator mInstance = null;

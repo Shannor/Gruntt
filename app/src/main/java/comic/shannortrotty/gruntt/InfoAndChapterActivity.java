@@ -1,6 +1,5 @@
 package comic.shannortrotty.gruntt;
 
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -12,10 +11,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
 import comic.shannortrotty.gruntt.fragments.InfoFragment;
 import comic.shannortrotty.gruntt.fragments.ChapterListFragment;
-import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
 
 public class InfoAndChapterActivity extends AppCompatActivity {
 

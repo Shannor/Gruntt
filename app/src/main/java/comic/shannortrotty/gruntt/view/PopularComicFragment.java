@@ -1,4 +1,4 @@
-package comic.shannortrotty.gruntt.fragments;
+package comic.shannortrotty.gruntt.view;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,26 +18,27 @@ import comic.shannortrotty.gruntt.EventBusClasses.SendComicsEvent;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.MyComicRecyclerViewAdapter;
 import comic.shannortrotty.gruntt.classes.Comic;
+import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
+import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.model.NetworkModel;
 import comic.shannortrotty.gruntt.presenter.ComicPresenter;
-import comic.shannortrotty.gruntt.services.ServiceMediator;
-import comic.shannortrotty.gruntt.view.BasicView;
+import comic.shannortrotty.gruntt.presenter.NetworkPresenter;
 
 /**
  * A fragment representing a list of Items.
  * <p/>
  * interface.
  */
-public class PopularComicFragment extends Fragment implements BasicView{
+public class PopularComicFragment extends Fragment implements ComicView {
 
     private OnComicListener mListener;
     public static final String TAG = "PopularComicFragment";
     private MyComicRecyclerViewAdapter myComicRecyclerViewAdapter;
-    private ServiceMediator serviceMediator = ServiceMediator.getInstance();
     private RecyclerView mComicRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private ComicPresenter comicPresenter;
+    private NetworkPresenter networkPresenter;
     private int pageCount = 1;
 
     /**
@@ -62,10 +63,8 @@ public class PopularComicFragment extends Fragment implements BasicView{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_popular_comic, container, false);
         //TODO:Page count will be incremented by USER as well
-//        serviceMediator.getPopularList(getContext().getApplicationContext(), (String.valueOf(pageCount)));
-//        TODO: Probably add more to the view.
-        // Only works if entire screen is Recycler View, If not must change this block
-        comicPresenter = new ComicPresenter(this,new ComicTvNetworkImplementation());
+        //TODO: Change to allow Factory to provide the Implementation
+        networkPresenter = new ComicPresenter(this,new ComicTvNetworkImplementation());
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             mComicRecyclerView = (RecyclerView) view;
@@ -77,10 +76,6 @@ public class PopularComicFragment extends Fragment implements BasicView{
         return view;
     }
 
-    @Subscribe
-    public void onComicEvent(SendComicsEvent event){
-        myComicRecyclerViewAdapter.addItems(event.getComics());
-    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -107,14 +102,20 @@ public class PopularComicFragment extends Fragment implements BasicView{
     @Override
     public void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
-        comicPresenter.startRequest();
+        RequestType type = new RequestType(RequestType.Type.POPULARCOMICS);
+        type.addExtras(Constants.PAGE_NUMBER,String.valueOf(pageCount));
+        networkPresenter.startRequest(type);
 
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        networkPresenter.onDestroy();
     }
 }

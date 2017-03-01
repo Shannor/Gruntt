@@ -1,17 +1,29 @@
 package comic.shannortrotty.gruntt.classes;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by shannortrotty on 2/16/17.
+ * Class to hold the details about a particular comic.
  */
 
 public class ComicSpecifics {
+
+    @SerializedName("description")
     private String description;
+    @SerializedName("largeImg")
     private String largeImgURL;
+    @SerializedName("name")
     private String name;
+    @SerializedName("alternate name")
     private String altName;
+    @SerializedName("status")
     private String status;
+    @SerializedName("author")
     private String author;
+    @SerializedName("genre")
     private String genre;
+    @SerializedName("year of Release")
     private String releaseDate;
 
 

@@ -13,9 +13,10 @@ import retrofit2.http.Path;
 
 /**
  * Created by shannortrotty on 2/28/17.
+ * Interface of RetroFit ComicTV Service
  */
 
-public interface ComicTVService {
+public interface RetrofitComicTVService {
 
     @GET("popular-comics/{pageNumber}")
     Call<List<Comic>> listPopularComics(@Path("pageNumber") String pageNumber);

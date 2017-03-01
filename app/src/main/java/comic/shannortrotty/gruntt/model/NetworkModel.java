@@ -28,7 +28,7 @@ public interface NetworkModel {
     }
     void getPopularComics(String pageNumber, OnFinishedComicListener listener);
     void getAllComics(OnFinishedComicListener listener);
-    void getChapters(OnFinishedChapterListener listener);
-    void getComicDescription(OnItemFinishedListener listener);
-    void getComicPages(OnFinishedComicListener listener);
+    void getChapters(String comicLink, OnFinishedChapterListener listener);
+    void getComicDescription(String comicLink, OnItemFinishedListener listener);
+    void getComicPages(String comicLink, String chapterNumber,OnFinishedComicListener listener);
 }

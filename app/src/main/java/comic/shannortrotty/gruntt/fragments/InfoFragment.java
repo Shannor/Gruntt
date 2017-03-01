@@ -19,15 +19,22 @@ import org.greenrobot.eventbus.Subscribe;
 import comic.shannortrotty.gruntt.EventBusClasses.SendComicDescriptionEvent;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.classes.ComicSpecifics;
+import comic.shannortrotty.gruntt.classes.Constants;
+import comic.shannortrotty.gruntt.classes.RequestType;
+import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.presenter.ComicPresenter;
+import comic.shannortrotty.gruntt.presenter.DescriptionPresentor;
+import comic.shannortrotty.gruntt.presenter.NetworkPresenter;
 import comic.shannortrotty.gruntt.services.ServiceMediator;
 import comic.shannortrotty.gruntt.services.VolleyWrapper;
+import comic.shannortrotty.gruntt.view.DescriptionView;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link InfoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InfoFragment extends Fragment {
+public class InfoFragment extends Fragment implements DescriptionView{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String COMIC_LINK = "comic.link.info";
@@ -46,6 +53,7 @@ public class InfoFragment extends Fragment {
     private TextView comicGenreView;
     private TextView comicDescriptionView;
 
+    private NetworkPresenter networkPresenter;
     public InfoFragment() {
         // Required empty public constructor
     }
@@ -82,7 +90,8 @@ public class InfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_info_fragment, container, false);
-        ServiceMediator.getInstance().getComicDescription(getContext(), mLink);
+        //TODO:Replace with Factory call
+        networkPresenter = new DescriptionPresentor(this, new ComicTvNetworkImplementation());
 
         mLargeComicImg = ((NetworkImageView) view.findViewById(R.id.networkImgView_info_fragment_large_img));
         mLargeComicImg.setDefaultImageResId(R.drawable.ic_menu_camera);
@@ -114,9 +123,22 @@ public class InfoFragment extends Fragment {
         return view;
     }
 
-    @Subscribe
-    public void onChapterDescription(SendComicDescriptionEvent sendComicDescriptionEvent){
-        ComicSpecifics comicSpecifics = sendComicDescriptionEvent.getComicSpecifics();
+//    @Subscribe
+//    public void onChapterDescription(SendComicDescriptionEvent sendComicDescriptionEvent){
+//        ComicSpecifics comicSpecifics = sendComicDescriptionEvent.getComicSpecifics();
+//        comicTitleView.setText(comicSpecifics.getFormattedName());
+//        comicAltTitleView.setText(comicSpecifics.getFormattedAltName());
+//        comicAuthorView.setText(comicSpecifics.getFormattedAuthor());
+//        comicGenreView.setText(comicSpecifics.getFormattedGenre());
+//        comicReleaseDateView.setText(comicSpecifics.getFormattedReleaseDate());
+//        comicDescriptionView.setText(comicSpecifics.getFormattedDescription());
+//        comicStatusView.setText(comicSpecifics.getFormattedStatus());
+//        ImageLoader imageLoader = VolleyWrapper.getInstance(getContext().getApplicationContext()).getImageLoader();
+//        mLargeComicImg.setImageUrl(comicSpecifics.getLargeImgURL(), imageLoader);
+//    }
+
+    @Override
+    public void setDescription(ComicSpecifics comicSpecifics) {
         comicTitleView.setText(comicSpecifics.getFormattedName());
         comicAltTitleView.setText(comicSpecifics.getFormattedAltName());
         comicAuthorView.setText(comicSpecifics.getFormattedAuthor());
@@ -131,12 +153,19 @@ public class InfoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
+        RequestType requestType = new RequestType(RequestType.Type.COMICSDESCRIPTION);
+        requestType.addExtras(Constants.COMIC_LINK,mLink);
+        networkPresenter.startRequest(requestType);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        networkPresenter.onDestroy();
     }
 }

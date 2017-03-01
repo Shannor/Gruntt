@@ -14,7 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
-import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
+import comic.shannortrotty.gruntt.view.PopularComicFragment;
 import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.services.ComicTvHttpService;

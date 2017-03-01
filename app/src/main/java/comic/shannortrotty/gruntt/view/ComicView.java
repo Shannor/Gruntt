@@ -9,7 +9,7 @@ import comic.shannortrotty.gruntt.classes.Comic;
  * Created by shannortrotty on 2/28/17.
  */
 
-public interface BasicView {
+public interface ComicView {
 
 //    void showProgress();
 //
@@ -17,6 +17,5 @@ public interface BasicView {
 
     void setItems(List<Comic> items);
 
-//    List<Comic> getItems();
 
 }

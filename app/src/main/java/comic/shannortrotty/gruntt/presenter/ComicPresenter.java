@@ -3,19 +3,21 @@ package comic.shannortrotty.gruntt.presenter;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.Comic;
+import comic.shannortrotty.gruntt.classes.Constants;
+import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.model.NetworkModel;
-import comic.shannortrotty.gruntt.view.BasicView;
+import comic.shannortrotty.gruntt.view.ComicView;
 
 /**
  * Created by shannortrotty on 2/28/17.
  */
 
 public class ComicPresenter implements NetworkPresenter, NetworkModel.OnFinishedComicListener {
-    private BasicView basicView;
+    private ComicView comicView;
     private NetworkModel networkModel;
 
-    public ComicPresenter(BasicView basicView, NetworkModel networkModel){
-        this.basicView = basicView;
+    public ComicPresenter(ComicView comicView, NetworkModel networkModel){
+        this.comicView = comicView;
         this.networkModel = networkModel;
     }
 
@@ -25,12 +27,22 @@ public class ComicPresenter implements NetworkPresenter, NetworkModel.OnFinished
     }
 
     @Override
-    public void startRequest() {
-        networkModel.getPopularComics("1",this);
+    public void startRequest(RequestType requestType) {
+        //TODO: Change this, Pass in param or something else
+        if(requestType.getType() == RequestType.Type.POPULARCOMICS){
+            networkModel.getPopularComics(
+                    requestType.getExtras().get(Constants.PAGE_NUMBER),
+                    this);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        comicView = null;
     }
 
     @Override
     public void onListFinished(List<Comic> items) {
-        basicView.setItems(items);
+        comicView.setItems(items);
     }
 }
