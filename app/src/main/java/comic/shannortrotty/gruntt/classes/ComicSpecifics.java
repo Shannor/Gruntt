@@ -28,6 +28,13 @@ public class ComicSpecifics {
 
 
     public ComicSpecifics(){
+        this.description = " -";
+        this.name = " -";
+        this.altName = " -";
+        this.status = " -";
+        this.author = " -";
+        this.genre = " -";
+        this.releaseDate = " -";
 
     }
     public String getFormattedName(){

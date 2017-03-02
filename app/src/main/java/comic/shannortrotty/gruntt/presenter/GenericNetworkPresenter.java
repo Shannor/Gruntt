@@ -7,8 +7,6 @@ import comic.shannortrotty.gruntt.classes.RequestType;
  */
 
 public interface GenericNetworkPresenter {
-    //Add param for which request to start ENUM possibly
     void startRequest(RequestType requestType);
-    void onFinishedRequest();
     void onDestroy();
 }

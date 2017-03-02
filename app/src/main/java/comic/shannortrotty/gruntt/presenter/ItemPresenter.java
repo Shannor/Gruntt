@@ -5,38 +5,36 @@ import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.model.NetworkModel;
 import comic.shannortrotty.gruntt.view.DescriptionView;
+import comic.shannortrotty.gruntt.view.GenericView;
 
 /**
  * Created by shannortrotty on 2/28/17.
  */
 
-public class DescriptionPresentor implements GenericNetworkPresenter, NetworkModel.OnItemFinishedListener{
+public class ItemPresenter<T> implements GenericNetworkPresenter, NetworkModel.OnFinishedItemListener<T> {
 
-    private DescriptionView descriptionView;
+    private GenericView<T> genericView;
     private NetworkModel networkModel;
 
-    public DescriptionPresentor(DescriptionView descriptionView, NetworkModel networkModel) {
-        this.descriptionView = descriptionView;
+    public ItemPresenter(GenericView<T> genericView, NetworkModel networkModel) {
+        this.genericView = genericView;
         this.networkModel = networkModel;
     }
 
     @Override
     public void onDestroy() {
-        descriptionView = null;
+        genericView = null;
     }
 
     @Override
-    public void onFinishedRequest() {
-
-    }
-
-    @Override
-    public void onItemFinished(ComicSpecifics item) {
-        descriptionView.setDescription(item);
+    public void onItemFinished(T item) {
+        genericView.setItem(item);
+        genericView.hideLoading();
     }
 
     @Override
     public void startRequest(RequestType requestType) {
+        genericView.showLoading();
         if(requestType.getType() == RequestType.Type.COMICSDESCRIPTION){
             networkModel.getComicDescription(
                     requestType.getExtras().get(Constants.COMIC_LINK),

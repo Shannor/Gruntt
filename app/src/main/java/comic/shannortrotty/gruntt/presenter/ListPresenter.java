@@ -2,7 +2,6 @@ package comic.shannortrotty.gruntt.presenter;
 
 import java.util.List;
 
-import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.model.NetworkModel;
@@ -12,7 +11,7 @@ import comic.shannortrotty.gruntt.view.GenericView;
  * Handles General List Types.
  */
 
-public class ListPresenter<T> implements GenericNetworkPresenter, NetworkModel.OnFinishedListener<T> {
+public class ListPresenter<T> implements GenericNetworkPresenter, NetworkModel.OnFinishedListListener<T> {
     private GenericView<T> genericView;
     private NetworkModel networkModel;
 
@@ -22,12 +21,8 @@ public class ListPresenter<T> implements GenericNetworkPresenter, NetworkModel.O
     }
 
     @Override
-    public void onFinishedRequest() {
-
-    }
-
-    @Override
     public void startRequest(RequestType requestType) {
+        genericView.showLoading();
         //TODO: Change this, Pass in param or something else
         if(requestType.getType() == RequestType.Type.POPULARCOMICS){
             networkModel.getPopularComics(
@@ -49,5 +44,6 @@ public class ListPresenter<T> implements GenericNetworkPresenter, NetworkModel.O
     @Override
     public void onListFinished(List<T> items) {
         genericView.setItems(items);
+        genericView.hideLoading();
     }
 }

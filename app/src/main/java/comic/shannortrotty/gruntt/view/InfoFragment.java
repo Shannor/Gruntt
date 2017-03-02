@@ -12,13 +12,16 @@ import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.wang.avi.AVLoadingIndicatorView;
+
+import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.classes.ComicSpecifics;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
-import comic.shannortrotty.gruntt.presenter.DescriptionPresentor;
+import comic.shannortrotty.gruntt.presenter.ItemPresenter;
 import comic.shannortrotty.gruntt.presenter.GenericNetworkPresenter;
 import comic.shannortrotty.gruntt.services.VolleyWrapper;
 
@@ -27,7 +30,7 @@ import comic.shannortrotty.gruntt.services.VolleyWrapper;
  * Use the {@link InfoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InfoFragment extends Fragment implements DescriptionView{
+public class InfoFragment extends Fragment implements GenericView<ComicSpecifics>{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String COMIC_LINK = "comic.link.info";
@@ -37,7 +40,7 @@ public class InfoFragment extends Fragment implements DescriptionView{
     private String mLink;
     private String mTitle;
 
-    private NetworkImageView mLargeComicImg;
+    private NetworkImageView networkLargeComicImg;
     private TextView comicTitleView;
     private TextView comicAltTitleView;
     private TextView comicReleaseDateView;
@@ -45,8 +48,10 @@ public class InfoFragment extends Fragment implements DescriptionView{
     private TextView comicAuthorView;
     private TextView comicGenreView;
     private TextView comicDescriptionView;
-
     private GenericNetworkPresenter genericNetworkPresenter;
+    private AVLoadingIndicatorView loadingIndicatorView;
+    private  Button addToFavoritesBtn;
+    private Button resumeReading;
     public InfoFragment() {
         // Required empty public constructor
     }
@@ -81,14 +86,17 @@ public class InfoFragment extends Fragment implements DescriptionView{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_info_fragment, container, false);
         //TODO:Replace with Factory call
-        genericNetworkPresenter = new DescriptionPresentor(this, new ComicTvNetworkImplementation());
+        //TODO: Add Decription Title
+        //TODO: Find a better way to display genre
+        genericNetworkPresenter = new ItemPresenter<>(this, new ComicTvNetworkImplementation());
 
-        mLargeComicImg = ((NetworkImageView) view.findViewById(R.id.networkImgView_info_fragment_large_img));
-        mLargeComicImg.setDefaultImageResId(R.drawable.ic_menu_camera);
-
+        networkLargeComicImg = ((NetworkImageView) view.findViewById(R.id.networkImgView_info_fragment_large_img));
+        networkLargeComicImg.setDefaultImageResId(R.drawable.ic_menu_camera);
+        loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_info));
         comicTitleView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_name));
         comicAltTitleView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_alt_name));
         comicAuthorView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_author));
@@ -96,8 +104,12 @@ public class InfoFragment extends Fragment implements DescriptionView{
         comicReleaseDateView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_release_date));
         comicDescriptionView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_description));
         comicStatusView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_status));
-        Button addToFavoritesBtn = ((Button) view.findViewById(R.id.btn_info_fragment_comic_add_to_favorites));
-        Button resumeReading = ((Button) view.findViewById(R.id.btn_info_fragment_comic_resume));
+        addToFavoritesBtn = ((Button) view.findViewById(R.id.btn_info_fragment_comic_add_to_favorites));
+        resumeReading = ((Button) view.findViewById(R.id.btn_info_fragment_comic_resume));
+
+        RequestType requestType = new RequestType(RequestType.Type.COMICSDESCRIPTION);
+        requestType.addExtras(Constants.COMIC_LINK,mLink);
+        genericNetworkPresenter.startRequest(requestType);
 
         addToFavoritesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,22 +128,38 @@ public class InfoFragment extends Fragment implements DescriptionView{
         return view;
     }
 
-//    @Subscribe
-//    public void onChapterDescription(SendComicDescriptionEvent sendComicDescriptionEvent){
-//        ComicSpecifics comicSpecifics = sendComicDescriptionEvent.getComicSpecifics();
-//        comicTitleView.setText(comicSpecifics.getFormattedName());
-//        comicAltTitleView.setText(comicSpecifics.getFormattedAltName());
-//        comicAuthorView.setText(comicSpecifics.getFormattedAuthor());
-//        comicGenreView.setText(comicSpecifics.getFormattedGenre());
-//        comicReleaseDateView.setText(comicSpecifics.getFormattedReleaseDate());
-//        comicDescriptionView.setText(comicSpecifics.getFormattedDescription());
-//        comicStatusView.setText(comicSpecifics.getFormattedStatus());
-//        ImageLoader imageLoader = VolleyWrapper.getInstance(getContext().getApplicationContext()).getImageLoader();
-//        mLargeComicImg.setImageUrl(comicSpecifics.getLargeImgURL(), imageLoader);
-//    }
+    public void setVisibility(int visibility){
+        networkLargeComicImg.setVisibility(visibility);
+        comicAltTitleView.setVisibility(visibility);
+        comicAuthorView.setVisibility(visibility);
+        comicDescriptionView.setVisibility(visibility);
+        comicGenreView.setVisibility(visibility);
+        comicReleaseDateView.setVisibility(visibility);
+        comicTitleView.setVisibility(visibility);
+        comicStatusView.setVisibility(visibility);
+        resumeReading.setVisibility(visibility);
+        addToFavoritesBtn.setVisibility(visibility);
+    }
 
     @Override
-    public void setDescription(ComicSpecifics comicSpecifics) {
+    public void hideLoading() {
+        loadingIndicatorView.hide();
+        setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showLoading() {
+        setVisibility(View.INVISIBLE);
+        loadingIndicatorView.show();
+    }
+
+    @Override
+    public void setItems(List<ComicSpecifics> items) {
+        //Do nothing here, don't get back a list
+    }
+
+    @Override
+    public void setItem(ComicSpecifics comicSpecifics) {
         comicTitleView.setText(comicSpecifics.getFormattedName());
         comicAltTitleView.setText(comicSpecifics.getFormattedAltName());
         comicAuthorView.setText(comicSpecifics.getFormattedAuthor());
@@ -140,20 +168,7 @@ public class InfoFragment extends Fragment implements DescriptionView{
         comicDescriptionView.setText(comicSpecifics.getFormattedDescription());
         comicStatusView.setText(comicSpecifics.getFormattedStatus());
         ImageLoader imageLoader = VolleyWrapper.getInstance(getContext().getApplicationContext()).getImageLoader();
-        mLargeComicImg.setImageUrl(comicSpecifics.getLargeImgURL(), imageLoader);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        RequestType requestType = new RequestType(RequestType.Type.COMICSDESCRIPTION);
-        requestType.addExtras(Constants.COMIC_LINK,mLink);
-        genericNetworkPresenter.startRequest(requestType);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
+        networkLargeComicImg.setImageUrl(comicSpecifics.getLargeImgURL(), imageLoader);
     }
 
     @Override

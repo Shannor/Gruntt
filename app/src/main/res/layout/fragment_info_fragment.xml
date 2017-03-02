@@ -1,4 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -14,16 +16,10 @@
             android:src="@drawable/ic_menu_camera"
             android:id="@+id/networkImgView_info_fragment_large_img"
             android:layout_width="150dp"
-            android:layout_height="0dp"
-            tools:layout_constraintTop_creator="1"
-            android:layout_marginTop="12dp"
-            tools:layout_constraintLeft_creator="1"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_height="225dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout_btn_holder"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="16dp" />
 
 
         <TextView
@@ -31,13 +27,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView_info_fragment_comic_description"
-            tools:layout_constraintTop_creator="1"
-            android:layout_marginStart="24dp"
             android:padding="@dimen/appbar_padding_top"
             android:layout_margin="12dp"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout_btn_holder"
             tools:layout_constraintLeft_creator="1"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_buttons" />
 
 
 
@@ -105,35 +99,53 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView_info_fragment_comic_status"
                 app:layout_constraintLeft_toLeftOf="@+id/textView_info_fragment_comic_status" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout_btn_holder"
-            android:layout_width="395dp"
+
+            <LinearLayout
+                android:id="@+id/linear_layout_buttons"
+                android:layout_width="379dp"
+                android:layout_height="53dp"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/networkImgView_info_fragment_large_img">
+
+                <Button
+                    android:text="Add To Favorites"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:id="@+id/btn_info_fragment_comic_add_to_favorites"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    />
+
+                <Button
+                    android:text="Resume"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/btn_info_fragment_comic_resume"
+                    />
+
+            </LinearLayout>
+        <com.wang.avi.AVLoadingIndicatorView
+            android:layout_width="wrap_content"
+            android:id="@+id/loading_icon_fragment_info"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:indicatorName="BallPulseIndicator"
+            app:indicatorColor="@color/colorAccent"
+            android:layout_centerInParent="true"
             android:layout_marginEnd="16dp"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView_info_fragment_comic_release_date"
-            app:layout_constraintHorizontal_bias="0.56">
-
-            <Button
-                android:text="Add To Favorites"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:id="@+id/btn_info_fragment_comic_add_to_favorites"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Button
-                android:text="Resume"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/btn_info_fragment_comic_resume" />
-        </LinearLayout>
-
+            app:layout_constraintLeft_toLeftOf="@+id/networkImgView_info_fragment_large_img"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintVertical_bias="0.53" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

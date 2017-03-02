@@ -15,6 +15,8 @@ public interface GenericView<T> {
 //
 //    void hideProgress();
 
+    void showLoading();
+    void hideLoading();
     void setItems(List<T> items);
-
+    void setItem(T item);
 }

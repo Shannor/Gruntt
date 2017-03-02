@@ -1,6 +1,7 @@
 package comic.shannortrotty.gruntt.view;
 
 import android.content.Context;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.List;
 
@@ -30,12 +33,13 @@ public class PopularComicFragment extends Fragment implements GenericView<Comic>
 
     private OnComicListener mListener;
     public static final String TAG = "PopularComicFragment";
+    public static final String LAYOUT_MANAGER = "layoutManager";
     private MyComicRecyclerViewAdapter myComicRecyclerViewAdapter;
     private RecyclerView mComicRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private GenericNetworkPresenter genericNetworkPresenter;
     private int pageCount = 1;
-
+    private AVLoadingIndicatorView loadingIndicatorView;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -57,17 +61,25 @@ public class PopularComicFragment extends Fragment implements GenericView<Comic>
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_popular_comic, container, false);
+        genericNetworkPresenter = new ListPresenter<>(this, new ComicTvNetworkImplementation());
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mComicRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_fragment_popular_comics);
+        loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_popular_comics));
+        mComicRecyclerView.setLayoutManager(mLayoutManager);
+        myComicRecyclerViewAdapter = new MyComicRecyclerViewAdapter(getContext().getApplicationContext() ,mListener);
+        mComicRecyclerView.setAdapter(myComicRecyclerViewAdapter);
+
+        //Only make this networking call on Create and show load when making the call.
+        RequestType type = new RequestType(RequestType.Type.POPULARCOMICS);
+        type.addExtras(Constants.PAGE_NUMBER,String.valueOf(pageCount));
+        genericNetworkPresenter.startRequest(type);
+
         //TODO:Page count will be incremented by USER as well
         //TODO: Change to allow Factory to provide the Implementation
-        genericNetworkPresenter = new ListPresenter<>(this, new ComicTvNetworkImplementation());
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            mComicRecyclerView = (RecyclerView) view;
-            mLayoutManager = new LinearLayoutManager(context);
-            mComicRecyclerView.setLayoutManager(mLayoutManager);
-            myComicRecyclerViewAdapter = new MyComicRecyclerViewAdapter(getContext().getApplicationContext() ,mListener);
-            mComicRecyclerView.setAdapter(myComicRecyclerViewAdapter);
-        }
+
+
+
+
         return view;
     }
 
@@ -89,24 +101,26 @@ public class PopularComicFragment extends Fragment implements GenericView<Comic>
     }
 
     @Override
+    public void setItem(Comic item) {
+
+    }
+
+    @Override
+    public void hideLoading() {
+        loadingIndicatorView.hide();
+    }
+
+    @Override
+    public void showLoading() {
+        loadingIndicatorView.show();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        RequestType type = new RequestType(RequestType.Type.POPULARCOMICS);
-        type.addExtras(Constants.PAGE_NUMBER,String.valueOf(pageCount));
-        genericNetworkPresenter.startRequest(type);
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
 
     @Override
     public void onDestroy() {

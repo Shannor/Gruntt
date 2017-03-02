@@ -81,7 +81,9 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
         listView = ((ListView) view.findViewById(R.id.listView_fragment_chapter_list));
         mChapterListAdapter = new ChapterListAdapter(getContext());
         listView.setAdapter(mChapterListAdapter);
-
+        RequestType requestType = new RequestType(RequestType.Type.CHAPTERS);
+        requestType.addExtras(Constants.COMIC_LINK, mLink);
+        genericNetworkPresenter.startRequest(requestType);
         return view;
     }
 
@@ -91,16 +93,18 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void hideLoading() {
 
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        RequestType requestType = new RequestType(RequestType.Type.CHAPTERS);
-        requestType.addExtras(Constants.COMIC_LINK, mLink);
-        genericNetworkPresenter.startRequest(requestType);
+    public void setItem(Chapter item) {
+        //Wont Implement
     }
+
+    @Override
+    public void showLoading() {
+
+    }
+
 }

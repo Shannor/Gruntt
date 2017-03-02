@@ -22,7 +22,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
 
 
     @Override
-    public void getAllComics(OnFinishedListener listener) {
+    public void getAllComics(OnFinishedListListener listener) {
 
     }
 
@@ -32,7 +32,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      * @param listener
      */
     @Override
-    public void getChapters(String comicLink, final OnFinishedListener listener) {
+    public void getChapters(String comicLink, final OnFinishedListListener listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
                 .create(RetrofitComicTVService.class);
 
@@ -56,7 +56,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      * @param listener
      */
     @Override
-    public void getComicDescription(String comicLink , final OnItemFinishedListener listener) {
+    public void getComicDescription(String comicLink , final OnFinishedItemListener listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
                 .create(RetrofitComicTVService.class);
 
@@ -75,7 +75,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
     }
 
     @Override
-    public void getComicPages(String comicLink, String chapterNum, OnFinishedListener listener) {
+    public void getComicPages(String comicLink, String chapterNum, OnFinishedListListener listener) {
 
     }
 
@@ -85,7 +85,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      * @param listener
      */
     @Override
-    public void getPopularComics(String pageNumber, final OnFinishedListener listener) {
+    public void getPopularComics(String pageNumber, final OnFinishedListListener listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit.
                 create(RetrofitComicTVService.class);
 
