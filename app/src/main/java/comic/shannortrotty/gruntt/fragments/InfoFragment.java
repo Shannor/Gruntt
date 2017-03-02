@@ -1,4 +1,4 @@
-package comic.shannortrotty.gruntt.view;
+package comic.shannortrotty.gruntt.fragments;
 
 
 import android.os.Bundle;
@@ -20,17 +20,18 @@ import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.classes.ComicSpecifics;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
-import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.presenter.ItemPresenter;
 import comic.shannortrotty.gruntt.presenter.GenericNetworkPresenter;
 import comic.shannortrotty.gruntt.services.VolleyWrapper;
+import comic.shannortrotty.gruntt.view.GenericView;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link InfoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InfoFragment extends Fragment implements GenericView<ComicSpecifics>{
+public class InfoFragment extends Fragment implements GenericView<ComicSpecifics> {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String COMIC_LINK = "comic.link.info";

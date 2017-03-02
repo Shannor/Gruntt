@@ -1,4 +1,4 @@
-package comic.shannortrotty.gruntt.view;
+package comic.shannortrotty.gruntt.fragments;
 
 
 import android.os.Bundle;
@@ -15,16 +15,17 @@ import comic.shannortrotty.gruntt.adapters.ChapterListAdapter;
 import comic.shannortrotty.gruntt.classes.Chapter;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
-import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.presenter.GenericNetworkPresenter;
 import comic.shannortrotty.gruntt.presenter.ListPresenter;
+import comic.shannortrotty.gruntt.view.GenericView;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ChapterListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChapterListFragment extends Fragment implements GenericView<Chapter>{
+public class ChapterListFragment extends Fragment implements GenericView<Chapter> {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String COMIC_TITLE = "comic.title.issue";
     private static final String COMIC_LINK = "comic.link.issue";

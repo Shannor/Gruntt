@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
-        tools:context="comic.shannortrotty.gruntt.view.PopularComicFragment"
+        tools:context="comic.shannortrotty.gruntt.fragments.PopularComicFragment"
         tools:listitem="@layout/fragment_popular_view" />
 
     <com.wang.avi.AVLoadingIndicatorView

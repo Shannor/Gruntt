@@ -14,11 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
-import comic.shannortrotty.gruntt.view.PopularComicFragment;
+import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
 import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
-import comic.shannortrotty.gruntt.services.ComicTvHttpService;
-import comic.shannortrotty.gruntt.services.ServiceMediator;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -28,7 +26,6 @@ public class MainActivity extends AppCompatActivity
     public static final String PICKED_COMIC_TITLE = "Comic.picked.title";
     public static final String PICKED_COMIC_ORIGIN_LOCATION ="Comic.picked.origin.location";
     private static final String TAG = "MainActivity";
-    private ServiceMediator serviceMediator = ServiceMediator.getInstance();
     private Fragment mFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +35,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         //TODO: Will be replaced with something that passes a tag based on user selection
-        serviceMediator.setServiceTag(ComicTvHttpService.TAG);
         //Set Default Fragment
         mFragment = PopularComicFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mFragment).commit();

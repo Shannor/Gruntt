@@ -16,11 +16,6 @@ public interface NetworkModel {
         void onItemFinished(T item);
     }
 
-    //Will be edited
-    interface OnProcessListener{
-        void callProcess();
-        void onFished();
-    }
     void getPopularComics(String pageNumber, OnResponseListListener listener);
     void getAllComics(OnResponseListListener listener);
     void getChapters(String comicLink, OnResponseListListener listener);

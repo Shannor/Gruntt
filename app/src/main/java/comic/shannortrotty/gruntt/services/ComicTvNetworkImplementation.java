@@ -1,4 +1,4 @@
-package comic.shannortrotty.gruntt.model;
+package comic.shannortrotty.gruntt.services;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +14,8 @@ import java.util.List;
 import comic.shannortrotty.gruntt.classes.Chapter;
 import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.ComicSpecifics;
+import comic.shannortrotty.gruntt.model.NetworkModel;
+import comic.shannortrotty.gruntt.model.RetrofitComicTVService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

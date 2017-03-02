@@ -11,7 +11,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
 import comic.shannortrotty.gruntt.R;
-import comic.shannortrotty.gruntt.view.PopularComicFragment;
+import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
 import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.services.VolleyWrapper;
