@@ -1,4 +1,4 @@
-package comic.shannortrotty.gruntt.fragments;
+package comic.shannortrotty.gruntt.view;
 
 
 import android.os.Bundle;
@@ -18,8 +18,6 @@ import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.presenter.GenericNetworkPresenter;
 import comic.shannortrotty.gruntt.presenter.ListPresenter;
-import comic.shannortrotty.gruntt.services.ServiceMediator;
-import comic.shannortrotty.gruntt.view.GenericView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +32,6 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     private String mLink;
     private String mTitle;
     private ListView listView;
-    private ServiceMediator mServiceMediator = ServiceMediator.getInstance();
     private ChapterListAdapter mChapterListAdapter;
     private GenericNetworkPresenter genericNetworkPresenter;
 
@@ -76,14 +73,16 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chapter_list, container, false);
         //Makes the call on create to fetch the list of Issues
-//        mServiceMediator.getChapterList(getContext().getApplicationContext(),mLink);
         genericNetworkPresenter = new ListPresenter<>(this, new ComicTvNetworkImplementation());
         listView = ((ListView) view.findViewById(R.id.listView_fragment_chapter_list));
         mChapterListAdapter = new ChapterListAdapter(getContext());
         listView.setAdapter(mChapterListAdapter);
+
+        //Perform Request for Comic Chapters
         RequestType requestType = new RequestType(RequestType.Type.CHAPTERS);
         requestType.addExtras(Constants.COMIC_LINK, mLink);
         genericNetworkPresenter.startRequest(requestType);
+
         return view;
     }
 
@@ -95,6 +94,11 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     @Override
     public void hideLoading() {
 
+    }
+
+    @Override
+    public void updateProgress(int progress) {
+        //Doesn't use currently
     }
 
     @Override

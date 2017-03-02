@@ -8,20 +8,22 @@ import java.util.List;
 
 public interface NetworkModel {
 
-    interface OnFinishedListListener<T>{
+    interface OnResponseListListener<T>{
         void onListFinished(List<T> items);
+        void onNextStep(List<T> items);
     }
-    interface OnFinishedItemListener<T>{
+    interface OnResponseItemListener<T>{
         void onItemFinished(T item);
     }
 
     //Will be edited
-    interface OnProcess{
-        void currentProcess();
+    interface OnProcessListener{
+        void callProcess();
+        void onFished();
     }
-    void getPopularComics(String pageNumber, OnFinishedListListener listener);
-    void getAllComics(OnFinishedListListener listener);
-    void getChapters(String comicLink, OnFinishedListListener listener);
-    void getComicDescription(String comicLink, OnFinishedItemListener listener);
-    void getComicPages(String comicLink, String chapterNumber, OnFinishedListListener listener);
+    void getPopularComics(String pageNumber, OnResponseListListener listener);
+    void getAllComics(OnResponseListListener listener);
+    void getChapters(String comicLink, OnResponseListListener listener);
+    void getComicDescription(String comicLink, OnResponseItemListener listener);
+    void getComicPages(String comicLink, String chapterNumber, OnResponseListListener listener);
 }

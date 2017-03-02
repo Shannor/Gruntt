@@ -1,7 +1,14 @@
 package comic.shannortrotty.gruntt.model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.Log;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.Chapter;
@@ -22,7 +29,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
 
 
     @Override
-    public void getAllComics(OnFinishedListListener listener) {
+    public void getAllComics(OnResponseListListener listener) {
 
     }
 
@@ -32,7 +39,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      * @param listener
      */
     @Override
-    public void getChapters(String comicLink, final OnFinishedListListener listener) {
+    public void getChapters(String comicLink, final OnResponseListListener listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
                 .create(RetrofitComicTVService.class);
 
@@ -56,7 +63,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      * @param listener
      */
     @Override
-    public void getComicDescription(String comicLink , final OnFinishedItemListener listener) {
+    public void getComicDescription(String comicLink , final OnResponseItemListener listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
                 .create(RetrofitComicTVService.class);
 
@@ -75,8 +82,21 @@ public class ComicTvNetworkImplementation implements NetworkModel {
     }
 
     @Override
-    public void getComicPages(String comicLink, String chapterNum, OnFinishedListListener listener) {
+    public void getComicPages(String comicLink, String chapterNum, final OnResponseListListener listener) {
+        RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit.
+                create(RetrofitComicTVService.class);
+        Call<List<String>> call = retrofitComicTVService.listPages(comicLink, chapterNum);
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                listener.onListFinished(response.body());
+            }
 
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
     }
 
     /**
@@ -85,7 +105,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      * @param listener
      */
     @Override
-    public void getPopularComics(String pageNumber, final OnFinishedListListener listener) {
+    public void getPopularComics(String pageNumber, final OnResponseListListener listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit.
                 create(RetrofitComicTVService.class);
 

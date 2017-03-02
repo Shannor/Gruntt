@@ -106,6 +106,11 @@ public class PopularComicFragment extends Fragment implements GenericView<Comic>
     }
 
     @Override
+    public void updateProgress(int progress) {
+        //Not Using Currently
+    }
+
+    @Override
     public void hideLoading() {
         loadingIndicatorView.hide();
     }

@@ -11,7 +11,7 @@ import comic.shannortrotty.gruntt.view.GenericView;
  * Handles General List Types.
  */
 
-public class ListPresenter<T> implements GenericNetworkPresenter, NetworkModel.OnFinishedListListener<T> {
+public class ListPresenter<T> implements GenericNetworkPresenter, NetworkModel.OnResponseListListener<T> {
     private GenericView<T> genericView;
     private NetworkModel networkModel;
 
@@ -23,7 +23,6 @@ public class ListPresenter<T> implements GenericNetworkPresenter, NetworkModel.O
     @Override
     public void startRequest(RequestType requestType) {
         genericView.showLoading();
-        //TODO: Change this, Pass in param or something else
         if(requestType.getType() == RequestType.Type.POPULARCOMICS){
             networkModel.getPopularComics(
                     requestType.getExtras().get(Constants.PAGE_NUMBER),
@@ -32,6 +31,12 @@ public class ListPresenter<T> implements GenericNetworkPresenter, NetworkModel.O
             networkModel.getChapters(
                     requestType.getExtras().get(Constants.COMIC_LINK),
                     this);
+        }else if (requestType.getType() == RequestType.Type.PAGES){
+            networkModel.getComicPages(
+                    requestType.getExtras().get(Constants.COMIC_LINK),
+                    requestType.getExtras().get(Constants.CHAPTER_NUMBER),
+                    this
+            );
         }
     }
 
@@ -45,5 +50,10 @@ public class ListPresenter<T> implements GenericNetworkPresenter, NetworkModel.O
     public void onListFinished(List<T> items) {
         genericView.setItems(items);
         genericView.hideLoading();
+    }
+
+    @Override
+    public void onNextStep(List<T> items) {
+        genericView.setItems(items);
     }
 }

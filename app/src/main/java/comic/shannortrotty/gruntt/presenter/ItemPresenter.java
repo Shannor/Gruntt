@@ -1,17 +1,15 @@
 package comic.shannortrotty.gruntt.presenter;
 
-import comic.shannortrotty.gruntt.classes.ComicSpecifics;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.model.NetworkModel;
-import comic.shannortrotty.gruntt.view.DescriptionView;
 import comic.shannortrotty.gruntt.view.GenericView;
 
 /**
  * Created by shannortrotty on 2/28/17.
  */
 
-public class ItemPresenter<T> implements GenericNetworkPresenter, NetworkModel.OnFinishedItemListener<T> {
+public class ItemPresenter<T> implements GenericNetworkPresenter, NetworkModel.OnResponseItemListener<T> {
 
     private GenericView<T> genericView;
     private NetworkModel networkModel;

@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/networkImgView_read_comic_chapter_pages"
+    <!--<com.android.volley.toolbox.NetworkImageView-->
+        <!--android:id="@+id/networkImgView_read_comic_chapter_pages"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <ImageView
+        android:contentDescription="Comic Page"
+        android:id="@+id/imageView_read_comic_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</LinearLayout>
+    <com.wang.avi.AVLoadingIndicatorView
+        android:layout_width="wrap_content"
+        android:id="@+id/loading_icon_viewpager_read_activity"
+        android:layout_height="wrap_content"
+        app:indicatorName="BallPulseIndicator"
+        app:indicatorColor="@color/colorAccent"
+        android:layout_centerInParent="true"
+        />
+    <TextView
+        android:id="@+id/textView_chapter_page_number"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

@@ -11,12 +11,10 @@ import comic.shannortrotty.gruntt.classes.Comic;
 
 public interface GenericView<T> {
 
-//    void showProgress();
-//
-//    void hideProgress();
-
     void showLoading();
     void hideLoading();
+    //Can Change Later
+    void updateProgress(int progress);
     void setItems(List<T> items);
     void setItem(T item);
 }

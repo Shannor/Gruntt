@@ -2,19 +2,29 @@ package comic.shannortrotty.gruntt;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -23,19 +33,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.EventBusClasses.SendChapterPagesEvent;
-import comic.shannortrotty.gruntt.R;
+import comic.shannortrotty.gruntt.classes.Constants;
+import comic.shannortrotty.gruntt.classes.RequestType;
+import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.presenter.GenericNetworkPresenter;
+import comic.shannortrotty.gruntt.presenter.ListPresenter;
 import comic.shannortrotty.gruntt.services.ServiceMediator;
 import comic.shannortrotty.gruntt.services.VolleyWrapper;
+import comic.shannortrotty.gruntt.view.GenericView;
 
-public class ReadComicActivity extends AppCompatActivity {
+public class ReadComicActivity extends AppCompatActivity implements GenericView<String> {
 
     public static final String COMIC_LINK = "comic.link.read";
     public static final String COMIC_CHAPTER_NUMBER = "comic.chapter.number.read";
+    private static final String TAG = "ReadComicActivity";
     private ViewPager mViewPager;
-    private ServiceMediator serviceMediator = ServiceMediator.getInstance();
     private ImagesPagerAdapter mImagesPagesAdapter;
     private String mComicLink;
     private String mComicChapterNumber;
+    private GenericNetworkPresenter genericNetworkPresenter;
+    private AVLoadingIndicatorView loadingIndictorView;
+
+    public static void start(Context context, String comicLink, String comicChapterNumber) {
+        Intent starter = new Intent(context, ReadComicActivity.class);
+        starter.putExtra(COMIC_CHAPTER_NUMBER, comicChapterNumber);
+        starter.putExtra(COMIC_LINK, comicLink);
+        context.startActivity(starter);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,80 +71,126 @@ public class ReadComicActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
         if(getIntent() != null){
             mComicChapterNumber = getIntent().getStringExtra(COMIC_CHAPTER_NUMBER);
             mComicLink = getIntent().getStringExtra(COMIC_LINK);
         }
-
-        serviceMediator.getComicChapterPages(getApplicationContext(), mComicLink, mComicChapterNumber);
+        genericNetworkPresenter = new ListPresenter<>(this, new ComicTvNetworkImplementation());
+        loadingIndictorView = ((AVLoadingIndicatorView) findViewById(R.id.loading_icon_read_comic_activity));
+//        serviceMediator.getComicChapterPages(getApplicationContext(), mComicLink, mComicChapterNumber);
         mViewPager = ((ViewPager) findViewById(R.id.viewPager_activity_read_comic));
         mImagesPagesAdapter = new ImagesPagerAdapter(this);
         mViewPager.setAdapter(mImagesPagesAdapter);
 
+        RequestType requestType = new RequestType(RequestType.Type.PAGES);
+        requestType.addExtras(Constants.COMIC_LINK, mComicLink);
+        requestType.addExtras(Constants.CHAPTER_NUMBER, mComicChapterNumber);
+        genericNetworkPresenter.startRequest(requestType);
     }
 
-    public static void start(Context context, String comicLink, String comicChapterNumber) {
-        Intent starter = new Intent(context, ReadComicActivity.class);
-        starter.putExtra(COMIC_CHAPTER_NUMBER, comicChapterNumber);
-        starter.putExtra(COMIC_LINK, comicLink);
-        context.startActivity(starter);
-    }
 
-    @Subscribe
-    public void onChapterPagesLinks(SendChapterPagesEvent chapterPagesEvent){
-        mImagesPagesAdapter.addList(chapterPagesEvent.getChapterPagesLinks());
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        EventBus.getDefault().register(this);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }else if(id == R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        EventBus.getDefault().unregister(this);
+    public void setItem(String item) {
+        //Wont Use
     }
 
+    @Override
+    public void setItems(List<String> items) {
+        mViewPager.setOffscreenPageLimit(6);
+        mImagesPagesAdapter.addList(items);
+    }
+
+    @Override
+    public void showLoading() {
+        loadingIndictorView.show();
+    }
+
+    @Override
+    public void updateProgress(int progress) {
+
+    }
+
+    @Override
+    public void hideLoading() {
+        loadingIndictorView.hide();
+    }
 
 
     public class  ImagesPagerAdapter extends PagerAdapter{
-        private List<String> chapterPageLinks;
+        private List<String> chapterPageString;
         private Context context;
         private LayoutInflater layoutInflater;
 
         public ImagesPagerAdapter(Context context){
             this.context = context;
             layoutInflater = ((LayoutInflater) this.context.getSystemService(this.context.LAYOUT_INFLATER_SERVICE));
-            this.chapterPageLinks = new ArrayList<>();
+            this.chapterPageString = new ArrayList<>();
         }
-        public ImagesPagerAdapter(Context context,List<String> chapterPageLinks){
+        public ImagesPagerAdapter(Context context,List<String> chapterPageString){
             this.context = context;
-            this.chapterPageLinks = chapterPageLinks;
+            this.chapterPageString = chapterPageString;
         }
 
-        public void addList(List<String> chapterPagesLinks){
-            this.chapterPageLinks.clear();
-            this.chapterPageLinks.addAll(chapterPagesLinks);
+        public void addList(List<String> chapterPagesBitmap){
+            this.chapterPageString.clear();
+            this.chapterPageString.addAll(chapterPagesBitmap);
             notifyDataSetChanged();
         }
 
         @Override
         public int getCount() {
-            return chapterPageLinks.size();
+            return chapterPageString.size();
         }
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
-            return view == ((View)object);
+            return view == ((RelativeLayout)object);
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View view = this.layoutInflater.inflate(R.layout.chapter_pages_layout,container, false);
-            NetworkImageView networkImageView = ((NetworkImageView) view.findViewById(R.id.networkImgView_read_comic_chapter_pages));
-            networkImageView.setImageUrl(this.chapterPageLinks.get(position), VolleyWrapper.getInstance(getApplicationContext()).getImageLoader());
+            final AVLoadingIndicatorView loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_viewpager_read_activity));
+            loadingIndicatorView.show();
+            String url = chapterPageString.get(position);
+            ImageView imageView = ((ImageView) view.findViewById(R.id.imageView_read_comic_activity));
+            Picasso.with(context)
+                    .load(url)
+                    .fit()
+                    .into(imageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            loadingIndicatorView.hide();
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+                    });
+
             container.addView(view);
             return view;
         }

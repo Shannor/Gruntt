@@ -159,6 +159,11 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
     }
 
     @Override
+    public void updateProgress(int progress) {
+//        Not Using Currently
+    }
+
+    @Override
     public void setItem(ComicSpecifics comicSpecifics) {
         comicTitleView.setText(comicSpecifics.getFormattedName());
         comicAltTitleView.setText(comicSpecifics.getFormattedAltName());
