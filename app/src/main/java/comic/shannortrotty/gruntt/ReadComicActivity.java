@@ -28,6 +28,8 @@ import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.presenter.GenericNetworkPresenter;
 import comic.shannortrotty.gruntt.presenter.ListPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
+import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ReadComicActivity extends AppCompatActivity implements GenericView<String> {
 
@@ -162,13 +164,16 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
             final AVLoadingIndicatorView loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_viewpager_read_activity));
             loadingIndicatorView.show();
             String url = chapterPageString.get(position);
-            ImageView imageView = ((ImageView) view.findViewById(R.id.imageView_read_comic_activity));
+            PhotoView photoView = ((PhotoView) view.findViewById(R.id.photoView_read_comic_activity));
+            final PhotoViewAttacher attacher = new PhotoViewAttacher(photoView);
+
             Picasso.with(context)
                     .load(url)
                     .fit()
-                    .into(imageView, new Callback() {
+                    .into(photoView, new Callback() {
                         @Override
                         public void onSuccess() {
+                            attacher.update();
                             loadingIndicatorView.hide();
                         }
 
