@@ -84,8 +84,13 @@ public class Comic{
     }
     public String getFormattedGenres(){
         List<Genre> genres = getGenres();
+        String lastGenre = genres.get((genres.size() -1)).getGenre();
         String formatted = "";
         for(Genre genre : genres){
+            //Last Genre
+            if (genre.getGenre().equals(lastGenre)){g
+                formatted += genre.getGenre();
+            }
             formatted += genre.getGenre() + ",";
         }
         return formatted;
