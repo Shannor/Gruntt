@@ -106,7 +106,7 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
     }
 
     @Override
-    public void saveDescription(ComicSpecifics comicSpecifics) {
+    public void addToFavorites(ComicSpecifics comicSpecifics) {
 //        Get comic list from other fragment and save comic data
 //        TODO: add bitmap field
         //Get data base reference
@@ -127,6 +127,18 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
         values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_STATUS, comicSpecifics.getStatus());
         values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_RELEASE_DATE, comicSpecifics.getReleaseDate());
         long rowId = db.insert(ComicDatabaseContract.ComicFavoriteEntry.TABLE_NAME, null, values);
+    }
+
+    @Override
+    public void removeFromFavorites(ComicSpecifics comicSpecifics) {
+        SQLiteDatabase db = mDatabase.getWritableDatabase();
+        // Define 'where' part of query.
+        String selection = ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_TITLE + " LIKE ?";
+        // Specify arguments in placeholder order.
+        String[] selectionArgs = { comicSpecifics.getTitle() };
+        // Issue SQL statement.
+        db.delete(ComicDatabaseContract.ComicFavoriteEntry.TABLE_NAME, selection, selectionArgs);
+
     }
 
     /**

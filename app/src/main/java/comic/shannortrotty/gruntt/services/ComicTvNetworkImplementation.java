@@ -1,18 +1,11 @@
 package comic.shannortrotty.gruntt.services;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.util.Log;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.Chapter;
-import comic.shannortrotty.gruntt.classes.Comic;
+import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.ComicSpecifics;
 import comic.shannortrotty.gruntt.model.NetworkModel;
 import comic.shannortrotty.gruntt.model.RetrofitComicTVService;
@@ -111,15 +104,15 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit.
                 create(RetrofitComicTVService.class);
 
-        Call<List<Comic>> call = retrofitComicTVService.listPopularComics(pageNumber);
-        call.enqueue(new Callback<List<Comic>>() {
+        Call<List<PopularComic>> call = retrofitComicTVService.listPopularComics(pageNumber);
+        call.enqueue(new Callback<List<PopularComic>>() {
             @Override
-            public void onResponse(Call<List<Comic>> call, Response<List<Comic>> response) {
+            public void onResponse(Call<List<PopularComic>> call, Response<List<PopularComic>> response) {
                 listener.onListFinished(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<Comic>> call, Throwable t) {
+            public void onFailure(Call<List<PopularComic>> call, Throwable t) {
 
             }
         });

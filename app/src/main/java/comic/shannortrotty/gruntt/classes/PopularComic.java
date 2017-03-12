@@ -10,7 +10,7 @@ import java.util.Objects;
  * Created by shannortrotty on 2/3/17.
  */
 
-public class Comic{
+public class PopularComic {
     //TODO: Add info for Descriptions
     @SerializedName("title")
     private String title;
@@ -21,20 +21,20 @@ public class Comic{
     @SerializedName("genre")
     private List<Genre> genres;
 
-    public Comic(){
+    public PopularComic(){
         this.title = null;
         this.link = null;
         this.thumbnailUrl = null;
         genres = new ArrayList<>();
     }
 
-    public Comic(String title, String link, String thumbnailUrl, List<Genre> genres){
+    public PopularComic(String title, String link, String thumbnailUrl, List<Genre> genres){
         this.title = title;
         this.link = link;
         this.thumbnailUrl = thumbnailUrl;
         this.genres = genres;
     }
-    public Comic(String title, String link, String thumbnailUrl){
+    public PopularComic(String title, String link, String thumbnailUrl){
         this.title = title;
         this.link = link;
         this.thumbnailUrl = thumbnailUrl;
@@ -107,9 +107,9 @@ public class Comic{
         // type check and cast
         if (getClass() != obj.getClass())
             return false;
-        Comic comic = (Comic) obj;
+        PopularComic popularComic = (PopularComic) obj;
         // field comparison
-        return Objects.equals(this.title, comic.getTitle());
+        return Objects.equals(this.title, popularComic.getTitle());
     }
 
     @Override

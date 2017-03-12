@@ -15,7 +15,7 @@ import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.MyComicRecyclerViewAdapter;
-import comic.shannortrotty.gruntt.classes.Comic;
+import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.classes.RequestType;
@@ -29,7 +29,7 @@ import comic.shannortrotty.gruntt.view.GenericView;
  * <p/>
  * interface.
  */
-public class PopularComicFragment extends Fragment implements GenericView<Comic> {
+public class PopularComicFragment extends Fragment implements GenericView<PopularComic> {
 
     private OnComicListener mListener;
     public static final String TAG = "PopularComicFragment";
@@ -96,12 +96,12 @@ public class PopularComicFragment extends Fragment implements GenericView<Comic>
 
 
     @Override
-    public void setItems(List<Comic> items) {
+    public void setItems(List<PopularComic> items) {
         myComicRecyclerViewAdapter.addItems(items);
     }
 
     @Override
-    public void setItem(Comic item) {
+    public void setItem(PopularComic item) {
 
     }
 

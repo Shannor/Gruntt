@@ -11,8 +11,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
 import comic.shannortrotty.gruntt.R;
+import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
-import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.services.VolleyWrapper;
 
@@ -23,19 +23,19 @@ import java.util.List;
  */
 public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Comic> mComics;
+    private final List<PopularComic> mPopularComics;
     private final OnComicListener mListener;
     private static final String TAG = "MyComicRecyclerViewAdap";
     private final Context mContext;
 
-    public MyComicRecyclerViewAdapter(Context context, List<Comic> items, OnComicListener listener) {
-        mComics = items;
+    public MyComicRecyclerViewAdapter(Context context, List<PopularComic> items, OnComicListener listener) {
+        mPopularComics = items;
         mListener = listener;
         mContext = context;
     }
 
     public MyComicRecyclerViewAdapter(Context context,  OnComicListener listener){
-        mComics = new ArrayList<>();
+        mPopularComics = new ArrayList<>();
         mListener = listener;
         this.mContext = context;
     }
@@ -48,17 +48,17 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
         return new ViewHolder(view);
     }
 
-    public void addItems(List<Comic> comics){
-        mComics.clear();
-        mComics.addAll(comics);
+    public void addItems(List<PopularComic> popularComics){
+        mPopularComics.clear();
+        mPopularComics.addAll(popularComics);
         notifyDataSetChanged();
         //Suppose to be memory efficient
 //        notifyItemChanged(comics.size() -1);
     }
 
-    public void addItem(Comic comic){
-        mComics.add(comic);
-        notifyItemChanged(mComics.size() - 1);
+    public void addItem(PopularComic popularComic){
+        mPopularComics.add(popularComic);
+        notifyItemChanged(mPopularComics.size() - 1);
     }
 
     /**
@@ -68,22 +68,23 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
      */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final Comic mComic = mComics.get(position);
-        holder.getComicTitle().setText(mComic.getTitle());
-        holder.getComicGenre().setText(mComic.getFormattedGenres());
+        final PopularComic mPopularComic = mPopularComics.get(position);
+        holder.getComicTitle().setText(mPopularComic.getTitle());
+        holder.getComicGenre().setText(mPopularComic.getFormattedGenres());
+        //TODO: Replace with Picasso
         ImageLoader imageLoader =  VolleyWrapper.getInstance(mContext).getImageLoader();
-        holder.getComicImg().setImageUrl(mComic.getThumbnailUrl(), imageLoader);
+        holder.getComicImg().setImageUrl(mPopularComic.getThumbnailUrl(), imageLoader);
         holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onListComicSelection(mComic, PopularComicFragment.TAG);
+                mListener.onListComicSelection(mPopularComic, PopularComicFragment.TAG);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mComics.size();
+        return mPopularComics.size();
     }
 
 

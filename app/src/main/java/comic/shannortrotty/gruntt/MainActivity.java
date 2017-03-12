@@ -16,7 +16,7 @@ import android.view.MenuItem;
 import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
 import comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
-import comic.shannortrotty.gruntt.classes.Comic;
+import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.fragments.dummy.DummyContent;
 
@@ -131,11 +131,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListComicSelection(Comic comic, String originOfClick) {
+    public void onListComicSelection(PopularComic popularComic, String originOfClick) {
         Intent intent = new Intent(this,InfoAndChapterActivity.class);
-        intent.putExtra(PICKED_COMIC_LINK,comic.getURLFormattedLink());
+        intent.putExtra(PICKED_COMIC_LINK, popularComic.getURLFormattedLink());
         intent.putExtra(PICKED_COMIC_ORIGIN_LOCATION, originOfClick);
-        intent.putExtra(PICKED_COMIC_TITLE, comic.getTitle());
+        intent.putExtra(PICKED_COMIC_TITLE, popularComic.getTitle());
         startActivity(intent);
     }
 

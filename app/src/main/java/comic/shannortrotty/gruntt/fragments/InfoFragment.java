@@ -121,6 +121,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
         resumeReading = ((Button) view.findViewById(R.id.btn_info_fragment_comic_resume));
 
         checkForFavorite();
+        //TODO: Move this code to the favorite check
         RequestType requestType = new RequestType(RequestType.Type.COMICSDESCRIPTION);
         requestType.addExtras(Constants.COMIC_LINK,mLink);
         genericNetworkPresenter.startRequest(requestType);
@@ -131,10 +132,15 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
                 //TODO: Check database if data is there already to know how to display the button
                 if(isFavorite){
                     //Remove from Database and change text to "add"
+                    mListener.removeFromFavorites(currentSpecifics);
+                    isFavorite = !isFavorite;
+                    setFavoriteLabel(isFavorite);
                 }else{
                     //Add to Database and Change text to "Remove"
+                    mListener.addToFavorites(currentSpecifics);
+                    isFavorite = !isFavorite;
+                    setFavoriteLabel(isFavorite);
                 }
-                mListener.saveDescription(currentSpecifics);
             }
         });
 
@@ -148,6 +154,9 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
         return view;
     }
 
+    /**
+     *
+     */
     public void checkForFavorite(){
         SQLiteDatabase db = mDatabase.getReadableDatabase();
 
@@ -174,17 +183,31 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
         );
         if ( cursor.getCount() > 0){
             //Already a favorite
-            addToFavoritesBtn.setText(R.string.favorite_btn_remove_from_favorites);
             isFavorite = true;
+            setFavoriteLabel(isFavorite);
             //TODO:Also if favorite, Load data from database and not network call
         }else{
             //Not a favorite
-            addToFavoritesBtn.setText(R.string.favorite_btn_add_to_favorites);
             isFavorite = false;
-            //TODO: Have setting to remove from database
+            setFavoriteLabel(isFavorite);
+            //TODO: Load from Network call
         }
         cursor.close();
     }
+
+    /**
+     * True = Is in favorites
+     * False = Not in Favorites
+     * @param isAFavorite boolean
+     */
+    public void setFavoriteLabel(Boolean isAFavorite){
+        if (isAFavorite){
+            addToFavoritesBtn.setText(R.string.favorite_btn_remove_from_favorites);
+        }else{
+            addToFavoritesBtn.setText(R.string.favorite_btn_add_to_favorites);
+        }
+    }
+
     public void setVisibility(int visibility){
         networkLargeComicImg.setVisibility(visibility);
         comicAltTitleView.setVisibility(visibility);
@@ -260,7 +283,8 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
 
     public interface OnInfoFragmentListener {
         //TODO:add bitmap
-        void saveDescription(ComicSpecifics comicSpecifics);
+        void addToFavorites(ComicSpecifics comicSpecifics);
+        void removeFromFavorites(ComicSpecifics comicSpecifics);
     }
 
 }
