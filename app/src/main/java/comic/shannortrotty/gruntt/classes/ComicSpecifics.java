@@ -15,7 +15,7 @@ public class ComicSpecifics {
     private String largeImgURL;
     @SerializedName("name")
     private String title;
-    @SerializedName("alternate name")
+    @SerializedName("alternate Name")
     private String altTitle;
     @SerializedName("status")
     private String status;

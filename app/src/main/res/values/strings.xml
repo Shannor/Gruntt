@@ -11,5 +11,7 @@
     <string name="title_activity_info_and_issue">InfoAndIssueActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_read_comic">ReadComicActivity</string>
-    
+    <string name="favorite_btn_add_to_favorites">Add to favorites</string>
+    <string name="favorite_btn_remove_from_favorites">Remove from Favorites</string>
+
 </resources>

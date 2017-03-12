@@ -2,6 +2,8 @@ package comic.shannortrotty.gruntt.fragments;
 
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -22,9 +24,11 @@ import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.classes.ComicSpecifics;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
+import comic.shannortrotty.gruntt.services.ComicDatabaseContract;
 import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.presenter.ItemPresenter;
 import comic.shannortrotty.gruntt.presenter.GenericNetworkPresenter;
+import comic.shannortrotty.gruntt.services.DatabaseHelper;
 import comic.shannortrotty.gruntt.services.VolleyWrapper;
 import comic.shannortrotty.gruntt.view.GenericView;
 
@@ -57,7 +61,8 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
     private Button resumeReading;
     private OnInfoFragmentListener mListener;
     private ComicSpecifics currentSpecifics;
-
+    private DatabaseHelper mDatabase;
+    private Boolean isFavorite;
 
     public InfoFragment() {
         // Required empty public constructor
@@ -96,6 +101,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_info_fragment, container, false);
+        mDatabase = new DatabaseHelper(getContext());
         //TODO:Replace with Factory call
         //TODO: Add Decription Title
         //TODO: Find a better way to display genre
@@ -114,6 +120,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
         addToFavoritesBtn = ((Button) view.findViewById(R.id.btn_info_fragment_comic_add_to_favorites));
         resumeReading = ((Button) view.findViewById(R.id.btn_info_fragment_comic_resume));
 
+        checkForFavorite();
         RequestType requestType = new RequestType(RequestType.Type.COMICSDESCRIPTION);
         requestType.addExtras(Constants.COMIC_LINK,mLink);
         genericNetworkPresenter.startRequest(requestType);
@@ -121,10 +128,12 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
         addToFavoritesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Change text to say Favorited once saved
                 //TODO: Check database if data is there already to know how to display the button
-//                ComicSpecifics comicSpecifics = getComicSpecifics();
-//                Log.i(TAG, "onClick: " + comicSpecifics.toString());
+                if(isFavorite){
+                    //Remove from Database and change text to "add"
+                }else{
+                    //Add to Database and Change text to "Remove"
+                }
                 mListener.saveDescription(currentSpecifics);
             }
         });
@@ -139,18 +148,43 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
         return view;
     }
 
-    public ComicSpecifics getComicSpecifics(){
-        ComicSpecifics comicSpecifics = new ComicSpecifics();
-        comicSpecifics.setAuthor(comicAuthorView.getText().toString());
-        comicSpecifics.setDescription(comicDescriptionView.getText().toString());
-        comicSpecifics.setAltTitle(comicAltTitleView.getText().toString());
-        comicSpecifics.setGenre(comicGenreView.getText().toString());
-        comicSpecifics.setTitle(comicTitleView.getText().toString());
-        comicSpecifics.setReleaseDate(comicReleaseDateView.getText().toString());
-        comicSpecifics.setStatus(comicStatusView.getText().toString());
-        return  comicSpecifics;
-    }
+    public void checkForFavorite(){
+        SQLiteDatabase db = mDatabase.getReadableDatabase();
 
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                ComicDatabaseContract.ComicFavoriteEntry._ID,
+                ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_TITLE,
+        };
+
+        // Filter results WHERE "title" = 'Title of Comic correctly'
+        String selection = ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_TITLE + " = ?";
+        String[] selectionArgs = { mTitle };
+        Log.i(TAG, "checkForFavorite: " + mTitle);
+
+        Cursor cursor = db.query(
+                ComicDatabaseContract.ComicFavoriteEntry.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+        if ( cursor.getCount() > 0){
+            //Already a favorite
+            addToFavoritesBtn.setText(R.string.favorite_btn_remove_from_favorites);
+            isFavorite = true;
+            //TODO:Also if favorite, Load data from database and not network call
+        }else{
+            //Not a favorite
+            addToFavoritesBtn.setText(R.string.favorite_btn_add_to_favorites);
+            isFavorite = false;
+            //TODO: Have setting to remove from database
+        }
+        cursor.close();
+    }
     public void setVisibility(int visibility){
         networkLargeComicImg.setVisibility(visibility);
         comicAltTitleView.setVisibility(visibility);
