@@ -14,9 +14,9 @@ public class ComicSpecifics {
     @SerializedName("largeImg")
     private String largeImgURL;
     @SerializedName("name")
-    private String name;
+    private String title;
     @SerializedName("alternate name")
-    private String altName;
+    private String altTitle;
     @SerializedName("status")
     private String status;
     @SerializedName("author")
@@ -29,8 +29,8 @@ public class ComicSpecifics {
 
     public ComicSpecifics(){
         this.description = " -";
-        this.name = " -";
-        this.altName = " -";
+        this.title = " -";
+        this.altTitle = " -";
         this.status = " -";
         this.author = " -";
         this.genre = " -";
@@ -38,11 +38,11 @@ public class ComicSpecifics {
 
     }
     public String getFormattedName(){
-        return "Name: " +  this.name;
+        return "Name: " +  this.title;
     }
 
     public String getFormattedAltName(){
-        return "Alternate Name: "  + this.altName;
+        return "Alternate Name: "  + this.altTitle;
     }
 
     public String getFormattedStatus(){
@@ -82,20 +82,20 @@ public class ComicSpecifics {
         this.largeImgURL = largeImgURL;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getAltName() {
-        return altName;
+    public String getAltTitle() {
+        return altTitle;
     }
 
-    public void setAltName(String altName) {
-        this.altName = altName;
+    public void setAltTitle(String altTitle) {
+        this.altTitle = altTitle;
     }
 
     public String getStatus() {
@@ -134,8 +134,8 @@ public class ComicSpecifics {
         return "ComicSpecifics{" +
                 "description='" + description + '\'' +
                 ", largeImgURL='" + largeImgURL + '\'' +
-                ", name='" + name + '\'' +
-                ", altName='" + altName + '\'' +
+                ", title='" + title + '\'' +
+                ", altTitle='" + altTitle + '\'' +
                 ", status='" + status + '\'' +
                 ", author='" + author + '\'' +
                 ", genre='" + genre + '\'' +

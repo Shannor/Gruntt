@@ -4,6 +4,7 @@ package comic.shannortrotty.gruntt.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,8 @@ import com.wang.avi.AVLoadingIndicatorView;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
-import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.ComicSpecifics;
 import comic.shannortrotty.gruntt.classes.Constants;
-import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.presenter.ItemPresenter;
@@ -57,6 +56,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
     private  Button addToFavoritesBtn;
     private Button resumeReading;
     private OnInfoFragmentListener mListener;
+    private ComicSpecifics currentSpecifics;
 
 
     public InfoFragment() {
@@ -122,8 +122,10 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
             @Override
             public void onClick(View v) {
                 //Change text to say Favorited once saved
-                ComicSpecifics comicSpecifics = getComicSpecifics();
-                mListener.saveDescription(comicSpecifics);
+                //TODO: Check database if data is there already to know how to display the button
+//                ComicSpecifics comicSpecifics = getComicSpecifics();
+//                Log.i(TAG, "onClick: " + comicSpecifics.toString());
+                mListener.saveDescription(currentSpecifics);
             }
         });
 
@@ -141,9 +143,9 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
         ComicSpecifics comicSpecifics = new ComicSpecifics();
         comicSpecifics.setAuthor(comicAuthorView.getText().toString());
         comicSpecifics.setDescription(comicDescriptionView.getText().toString());
-        comicSpecifics.setAltName(comicAltTitleView.getText().toString());
+        comicSpecifics.setAltTitle(comicAltTitleView.getText().toString());
         comicSpecifics.setGenre(comicGenreView.getText().toString());
-        comicSpecifics.setName(comicTitleView.getText().toString());
+        comicSpecifics.setTitle(comicTitleView.getText().toString());
         comicSpecifics.setReleaseDate(comicReleaseDateView.getText().toString());
         comicSpecifics.setStatus(comicStatusView.getText().toString());
         return  comicSpecifics;
@@ -186,6 +188,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
 
     @Override
     public void setItem(ComicSpecifics comicSpecifics) {
+        currentSpecifics = comicSpecifics;
         comicTitleView.setText(comicSpecifics.getFormattedName());
         comicAltTitleView.setText(comicSpecifics.getFormattedAltName());
         comicAuthorView.setText(comicSpecifics.getFormattedAuthor());

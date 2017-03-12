@@ -1,5 +1,7 @@
 package comic.shannortrotty.gruntt;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -11,7 +13,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ import comic.shannortrotty.gruntt.classes.Chapter;
 import comic.shannortrotty.gruntt.classes.ComicSpecifics;
 import comic.shannortrotty.gruntt.fragments.InfoFragment;
 import comic.shannortrotty.gruntt.fragments.ChapterListFragment;
+import comic.shannortrotty.gruntt.services.ComicDatabaseContract;
+import comic.shannortrotty.gruntt.services.DatabaseHelper;
 
 public class InfoAndChapterActivity extends AppCompatActivity implements InfoFragment.OnInfoFragmentListener {
 
@@ -40,6 +43,7 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
     private String comicTitle;
     private String startingOrigin;
     private static final String TAG = "InfoAndChapterActivity";
+    private DatabaseHelper mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +66,7 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
+        mDatabase = new DatabaseHelper(getBaseContext());
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.viewPager_activity_info_chapter);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -104,12 +108,25 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
     @Override
     public void saveDescription(ComicSpecifics comicSpecifics) {
 //        Get comic list from other fragment and save comic data
-//        TODO: add bitmap
+//        TODO: add bitmap field
+        //Get data base reference
+        Log.i(TAG, "saveDescription: " + comicSpecifics.toString());
+        SQLiteDatabase db = mDatabase.getWritableDatabase();
+
         String fragmentTag = makeFragmentName(R.id.viewPager_activity_info_chapter,1);
         ChapterListFragment fragment = (ChapterListFragment) getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        //Convert list to string using Gson.
         List<Chapter> chapterList = fragment.getChapters();
-        Log.i(TAG, "saveDescription: " + chapterList.toString());
-        Log.i(TAG, "saveDescription: " + comicSpecifics.toString());
+
+        ContentValues values = new ContentValues();
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_TITLE, comicSpecifics.getTitle());
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_ALT_TITLE, comicSpecifics.getAltTitle());
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_AUTHOR, comicSpecifics.getAuthor());
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_DESCRIPTION, comicSpecifics.getDescription());
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_GENRE, comicSpecifics.getGenre());
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_STATUS, comicSpecifics.getStatus());
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_RELEASE_DATE, comicSpecifics.getReleaseDate());
+        long rowId = db.insert(ComicDatabaseContract.ComicFavoriteEntry.TABLE_NAME, null, values);
     }
 
     /**

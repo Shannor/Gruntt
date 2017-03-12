@@ -14,12 +14,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
+import comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
 import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
+import comic.shannortrotty.gruntt.fragments.dummy.DummyContent;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
+        FavoriteComicsFragment.OnListFragmentInteractionListener,
         OnComicListener{
 
     public static final String PICKED_COMIC_LINK ="Comic.picked.link";
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_all_comics) {
             mFragment = AllComicsFragment.newInstance();
         } else if (id == R.id.nav_stared_comics) {
+            mFragment = FavoriteComicsFragment.newInstance(2);
             //Favorite Comics
         } else if (id == R.id.nav_popular_comics) {
             mFragment = PopularComicFragment.newInstance();
@@ -119,6 +123,11 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
     }
 
     @Override
