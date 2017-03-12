@@ -1,6 +1,7 @@
 package comic.shannortrotty.gruntt.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,8 +18,10 @@ import com.wang.avi.AVLoadingIndicatorView;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
+import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.ComicSpecifics;
 import comic.shannortrotty.gruntt.classes.Constants;
+import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.presenter.ItemPresenter;
@@ -53,6 +56,9 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
     private AVLoadingIndicatorView loadingIndicatorView;
     private  Button addToFavoritesBtn;
     private Button resumeReading;
+    private OnInfoFragmentListener mListener;
+
+
     public InfoFragment() {
         // Required empty public constructor
     }
@@ -115,7 +121,9 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
         addToFavoritesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Would be saved.", Toast.LENGTH_SHORT).show();
+                //Change text to say Favorited once saved
+                ComicSpecifics comicSpecifics = getComicSpecifics();
+                mListener.saveDescription(comicSpecifics);
             }
         });
 
@@ -127,6 +135,18 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
         });
 
         return view;
+    }
+
+    public ComicSpecifics getComicSpecifics(){
+        ComicSpecifics comicSpecifics = new ComicSpecifics();
+        comicSpecifics.setAuthor(comicAuthorView.getText().toString());
+        comicSpecifics.setDescription(comicDescriptionView.getText().toString());
+        comicSpecifics.setAltName(comicAltTitleView.getText().toString());
+        comicSpecifics.setGenre(comicGenreView.getText().toString());
+        comicSpecifics.setName(comicTitleView.getText().toString());
+        comicSpecifics.setReleaseDate(comicReleaseDateView.getText().toString());
+        comicSpecifics.setStatus(comicStatusView.getText().toString());
+        return  comicSpecifics;
     }
 
     public void setVisibility(int visibility){
@@ -173,6 +193,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
         comicReleaseDateView.setText(comicSpecifics.getFormattedReleaseDate());
         comicDescriptionView.setText(comicSpecifics.getFormattedDescription());
         comicStatusView.setText(comicSpecifics.getFormattedStatus());
+        //TODO:Change to Picasso, also able to get Bitmap
         ImageLoader imageLoader = VolleyWrapper.getInstance(getContext().getApplicationContext()).getImageLoader();
         networkLargeComicImg.setImageUrl(comicSpecifics.getLargeImgURL(), imageLoader);
     }
@@ -182,4 +203,27 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
         super.onDestroy();
         genericNetworkPresenter.onDestroy();
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnInfoFragmentListener) {
+            mListener = (OnInfoFragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnInfoFragmentListener {
+        //TODO:add bitmap
+        void saveDescription(ComicSpecifics comicSpecifics);
+    }
+
 }

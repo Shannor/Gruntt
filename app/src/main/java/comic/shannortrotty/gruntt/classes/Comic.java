@@ -88,7 +88,7 @@ public class Comic{
         String formatted = "";
         for(Genre genre : genres){
             //Last Genre
-            if (genre.getGenre().equals(lastGenre)){g
+            if (genre.getGenre().equals(lastGenre)){
                 formatted += genre.getGenre();
             }
             formatted += genre.getGenre() + ",";

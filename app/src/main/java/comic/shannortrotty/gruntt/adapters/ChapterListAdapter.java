@@ -69,6 +69,9 @@ public class ChapterListAdapter extends ArrayAdapter<Chapter> {
         notifyDataSetChanged();
     }
 
+    public List<Chapter> getmChapters(){
+        return this.mChapters;
+    }
     @Nullable
     @Override
     public Chapter getItem(int position) {

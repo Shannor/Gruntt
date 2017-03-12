@@ -87,6 +87,10 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
         return view;
     }
 
+    public List<Chapter> getChapters(){
+        return mChapterListAdapter.getmChapters();
+    }
+
     @Override
     public void setItems(List<Chapter> items) {
         mChapterListAdapter.addChapters(items);

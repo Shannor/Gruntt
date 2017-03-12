@@ -8,13 +8,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
+import java.util.List;
+
+import comic.shannortrotty.gruntt.classes.Chapter;
+import comic.shannortrotty.gruntt.classes.ComicSpecifics;
 import comic.shannortrotty.gruntt.fragments.InfoFragment;
 import comic.shannortrotty.gruntt.fragments.ChapterListFragment;
 
-public class InfoAndChapterActivity extends AppCompatActivity {
+public class InfoAndChapterActivity extends AppCompatActivity implements InfoFragment.OnInfoFragmentListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -33,6 +39,7 @@ public class InfoAndChapterActivity extends AppCompatActivity {
     private String comicLink;
     private String comicTitle;
     private String startingOrigin;
+    private static final String TAG = "InfoAndChapterActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +70,14 @@ public class InfoAndChapterActivity extends AppCompatActivity {
 //            mViewPager.setCurrentItem(0, true);
 //        }
     }
+    private String makeFragmentName(int viewId, int index) {
+        return "android:switcher:" + viewId + ":" + index;
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -85,6 +99,17 @@ public class InfoAndChapterActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void saveDescription(ComicSpecifics comicSpecifics) {
+//        Get comic list from other fragment and save comic data
+//        TODO: add bitmap
+        String fragmentTag = makeFragmentName(R.id.viewPager_activity_info_chapter,1);
+        ChapterListFragment fragment = (ChapterListFragment) getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        List<Chapter> chapterList = fragment.getChapters();
+        Log.i(TAG, "saveDescription: " + chapterList.toString());
+        Log.i(TAG, "saveDescription: " + comicSpecifics.toString());
     }
 
     /**
@@ -110,6 +135,7 @@ public class InfoAndChapterActivity extends AppCompatActivity {
             return null;
         }
 
+
         @Override
         public int getCount() {
             return 2;
@@ -126,4 +152,5 @@ public class InfoAndChapterActivity extends AppCompatActivity {
             return null;
         }
     }
+
 }
