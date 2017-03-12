@@ -4,7 +4,7 @@ import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.Chapter;
 import comic.shannortrotty.gruntt.classes.PopularComic;
-import comic.shannortrotty.gruntt.classes.ComicSpecifics;
+import comic.shannortrotty.gruntt.classes.ComicDetails;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -31,7 +31,7 @@ public interface RetrofitComicTVService {
     Call<List<String>> listPages(@Path("comicName") String comicName, @Path("chapterNumber") String chapterNumber);
 
     @GET("{comicName}/description")
-    Call<ComicSpecifics> getComicDescription(@Path("comicName") String comicName);
+    Call<ComicDetails> getComicDescription(@Path("comicName") String comicName);
 
 
      Retrofit retrofit = new Retrofit.Builder()

@@ -94,6 +94,7 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
         private final TextView mComicGenre;
         private final NetworkImageView mComicImg;
         private final View mView;
+
         ViewHolder(View view) {
             super(view);
             mComicTitle= (TextView) view.findViewById(R.id.textView_popular_frag_comic_title);

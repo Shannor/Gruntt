@@ -5,8 +5,8 @@ import android.util.Log;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.Chapter;
+import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.PopularComic;
-import comic.shannortrotty.gruntt.classes.ComicSpecifics;
 import comic.shannortrotty.gruntt.model.NetworkModel;
 import comic.shannortrotty.gruntt.model.RetrofitComicTVService;
 import retrofit2.Call;
@@ -62,15 +62,15 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
                 .create(RetrofitComicTVService.class);
 
-        Call<ComicSpecifics> call = retrofitComicTVService.getComicDescription(comicLink);
-        call.enqueue(new Callback<ComicSpecifics>() {
+        Call<ComicDetails> call = retrofitComicTVService.getComicDescription(comicLink);
+        call.enqueue(new Callback<ComicDetails>() {
             @Override
-            public void onResponse(Call<ComicSpecifics> call, Response<ComicSpecifics> response) {
+            public void onResponse(Call<ComicDetails> call, Response<ComicDetails> response) {
                 listener.onItemFinished(response.body());
             }
 
             @Override
-            public void onFailure(Call<ComicSpecifics> call, Throwable t) {
+            public void onFailure(Call<ComicDetails> call, Throwable t) {
 
             }
         });

@@ -13,12 +13,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
 import comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
 import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
-import comic.shannortrotty.gruntt.fragments.dummy.DummyContent;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(ComicDetails item) {
 
     }
 

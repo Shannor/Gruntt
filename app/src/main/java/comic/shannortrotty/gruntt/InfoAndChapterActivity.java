@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.Chapter;
-import comic.shannortrotty.gruntt.classes.ComicSpecifics;
+import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.fragments.InfoFragment;
 import comic.shannortrotty.gruntt.fragments.ChapterListFragment;
 import comic.shannortrotty.gruntt.services.ComicDatabaseContract;
@@ -106,11 +106,11 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
     }
 
     @Override
-    public void addToFavorites(ComicSpecifics comicSpecifics) {
+    public void addToFavorites(ComicDetails comicDetails) {
 //        Get comic list from other fragment and save comic data
 //        TODO: add bitmap field
         //Get data base reference
-        Log.i(TAG, "saveDescription: " + comicSpecifics.toString());
+        Log.i(TAG, "saveDescription: " + comicDetails.toString());
         SQLiteDatabase db = mDatabase.getWritableDatabase();
 
         String fragmentTag = makeFragmentName(R.id.viewPager_activity_info_chapter,1);
@@ -119,23 +119,23 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
         List<Chapter> chapterList = fragment.getChapters();
 
         ContentValues values = new ContentValues();
-        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_TITLE, comicSpecifics.getTitle());
-        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_ALT_TITLE, comicSpecifics.getAltTitle());
-        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_AUTHOR, comicSpecifics.getAuthor());
-        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_DESCRIPTION, comicSpecifics.getDescription());
-        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_GENRE, comicSpecifics.getGenre());
-        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_STATUS, comicSpecifics.getStatus());
-        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_RELEASE_DATE, comicSpecifics.getReleaseDate());
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_TITLE, comicDetails.getTitle());
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_ALT_TITLE, comicDetails.getAltTitle());
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_AUTHOR, comicDetails.getAuthor());
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_DESCRIPTION, comicDetails.getDescription());
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_GENRE, comicDetails.getGenre());
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_STATUS, comicDetails.getStatus());
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_RELEASE_DATE, comicDetails.getReleaseDate());
         long rowId = db.insert(ComicDatabaseContract.ComicFavoriteEntry.TABLE_NAME, null, values);
     }
 
     @Override
-    public void removeFromFavorites(ComicSpecifics comicSpecifics) {
+    public void removeFromFavorites(ComicDetails comicDetails) {
         SQLiteDatabase db = mDatabase.getWritableDatabase();
         // Define 'where' part of query.
         String selection = ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_TITLE + " LIKE ?";
         // Specify arguments in placeholder order.
-        String[] selectionArgs = { comicSpecifics.getTitle() };
+        String[] selectionArgs = { comicDetails.getTitle() };
         // Issue SQL statement.
         db.delete(ComicDatabaseContract.ComicFavoriteEntry.TABLE_NAME, selection, selectionArgs);
 

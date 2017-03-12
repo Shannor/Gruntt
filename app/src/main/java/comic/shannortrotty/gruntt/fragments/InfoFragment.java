@@ -21,7 +21,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
-import comic.shannortrotty.gruntt.classes.ComicSpecifics;
+import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.services.ComicDatabaseContract;
@@ -37,7 +37,7 @@ import comic.shannortrotty.gruntt.view.GenericView;
  * Use the {@link InfoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InfoFragment extends Fragment implements GenericView<ComicSpecifics> {
+public class InfoFragment extends Fragment implements GenericView<ComicDetails> {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String COMIC_LINK = "comic.link.info";
@@ -60,7 +60,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
     private  Button addToFavoritesBtn;
     private Button resumeReading;
     private OnInfoFragmentListener mListener;
-    private ComicSpecifics currentSpecifics;
+    private ComicDetails currentSpecifics;
     private DatabaseHelper mDatabase;
     private Boolean isFavorite;
 
@@ -234,7 +234,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
     }
 
     @Override
-    public void setItems(List<ComicSpecifics> items) {
+    public void setItems(List<ComicDetails> items) {
         //Do nothing here, don't get back a list
     }
 
@@ -244,18 +244,18 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
     }
 
     @Override
-    public void setItem(ComicSpecifics comicSpecifics) {
-        currentSpecifics = comicSpecifics;
-        comicTitleView.setText(comicSpecifics.getFormattedName());
-        comicAltTitleView.setText(comicSpecifics.getFormattedAltName());
-        comicAuthorView.setText(comicSpecifics.getFormattedAuthor());
-        comicGenreView.setText(comicSpecifics.getFormattedGenre());
-        comicReleaseDateView.setText(comicSpecifics.getFormattedReleaseDate());
-        comicDescriptionView.setText(comicSpecifics.getFormattedDescription());
-        comicStatusView.setText(comicSpecifics.getFormattedStatus());
+    public void setItem(ComicDetails comicDetails) {
+        currentSpecifics = comicDetails;
+        comicTitleView.setText(comicDetails.getFormattedName());
+        comicAltTitleView.setText(comicDetails.getFormattedAltName());
+        comicAuthorView.setText(comicDetails.getFormattedAuthor());
+        comicGenreView.setText(comicDetails.getFormattedGenre());
+        comicReleaseDateView.setText(comicDetails.getFormattedReleaseDate());
+        comicDescriptionView.setText(comicDetails.getFormattedDescription());
+        comicStatusView.setText(comicDetails.getFormattedStatus());
         //TODO:Change to Picasso, also able to get Bitmap
         ImageLoader imageLoader = VolleyWrapper.getInstance(getContext().getApplicationContext()).getImageLoader();
-        networkLargeComicImg.setImageUrl(comicSpecifics.getLargeImgURL(), imageLoader);
+        networkLargeComicImg.setImageUrl(comicDetails.getLargeImgURL(), imageLoader);
     }
 
     @Override
@@ -283,8 +283,8 @@ public class InfoFragment extends Fragment implements GenericView<ComicSpecifics
 
     public interface OnInfoFragmentListener {
         //TODO:add bitmap
-        void addToFavorites(ComicSpecifics comicSpecifics);
-        void removeFromFavorites(ComicSpecifics comicSpecifics);
+        void addToFavorites(ComicDetails comicDetails);
+        void removeFromFavorites(ComicDetails comicDetails);
     }
 
 }

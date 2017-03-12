@@ -10,12 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <!--<ImageView-->
-        <!--android:contentDescription="Comic Page"-->
-        <!--android:id="@+id/imageView_read_comic_activity"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
-
     <com.wang.avi.AVLoadingIndicatorView
         android:layout_width="wrap_content"
         android:id="@+id/loading_icon_viewpager_read_activity"

@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Class to hold the details about a particular comic.
  */
 
-public class ComicSpecifics {
+public class ComicDetails {
 
     @SerializedName("description")
     private String description;
@@ -27,7 +27,7 @@ public class ComicSpecifics {
     private String releaseDate;
 
 
-    public ComicSpecifics(){
+    public ComicDetails(){
         this.description = " -";
         this.title = " -";
         this.altTitle = " -";
@@ -131,7 +131,7 @@ public class ComicSpecifics {
     }
     @Override
     public String toString() {
-        return "ComicSpecifics{" +
+        return "ComicDetails{" +
                 "description='" + description + '\'' +
                 ", largeImgURL='" + largeImgURL + '\'' +
                 ", title='" + title + '\'' +
