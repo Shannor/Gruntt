@@ -51,6 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // convert from byte array to bitmap
     public static Bitmap getImage(byte[] image) {
         BitmapFactory.Options options = new BitmapFactory.Options();
+        //Needed for older versions of Android
         options.inPreferQualityOverSpeed = true;
         options.inScaled = false;
         return BitmapFactory.decodeByteArray(image, 0, image.length, options);

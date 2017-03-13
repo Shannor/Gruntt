@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     public static final String PICKED_COMIC_ORIGIN_LOCATION ="Comic.picked.origin.location";
     private static final String TAG = "MainActivity";
     private Fragment mFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity
 
         //Code to handle onclick action in Navigation Drawer
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_popular_comics);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -118,9 +120,10 @@ public class MainActivity extends AppCompatActivity
         }else{
 //            Return an error
         }
-
-
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(id);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        // Highlight the selected item, update the title, and close the drawer    // Highlight the selected item, update the title, and close the drawer
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
