@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //TODO: Will be replaced with something that passes a tag based on user selection
         //Set Default Fragment
+        //TODO:Should be Dynamic
         mFragment = PopularComicFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mFragment).commit();
         //Code for Navigation Drawer
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity
 
         //Code to handle onclick action in Navigation Drawer
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //TODO: Should be Dynamic
         navigationView.setCheckedItem(R.id.nav_popular_comics);
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -103,11 +104,8 @@ public class MainActivity extends AppCompatActivity
             mFragment = AllComicsFragment.newInstance();
         } else if (id == R.id.nav_stared_comics) {
             mFragment = FavoriteComicsFragment.newInstance(2);
-            //Favorite Comics
         } else if (id == R.id.nav_popular_comics) {
             mFragment = PopularComicFragment.newInstance();
-        } else if (id == R.id.nav_manage) {
-
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

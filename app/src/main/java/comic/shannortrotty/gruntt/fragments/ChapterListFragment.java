@@ -42,14 +42,11 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
      *
-     * @param comicTitle Parameter 1.
-     * @param comicLink Parameter 2.
+     * @param comicTitle The Title of the Comic, String
+     * @param comicLink The Formatted Link for the Comic, String
      * @return A new instance of fragment ChapterListFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ChapterListFragment newInstance(String comicTitle, String comicLink) {
         ChapterListFragment fragment = new ChapterListFragment();
         Bundle args = new Bundle();

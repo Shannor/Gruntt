@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--TODO: Put String in String file-->
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_all_comics"
             android:icon="@drawable/ic_menu_camera"
-            android:title="All Comics" />
+            android:title="@string/nav_drawer_all_comics" />
         <item
             android:id="@+id/nav_popular_comics"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Popular Comics" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="@string/nav_drawer_popular_comics" />
 
+        <!--TODO: Add Drawable for these-->
         <item
-            android:title="Favorite Comics"
+            android:title="@string/nav_drawer_favorite_comics"
             android:id="@+id/nav_stared_comics"/>
+
+        <item android:title="@string/nav_drawer_contact">
+            <menu>
+                <item
+                    android:id="@+id/nav_share"
+                    android:icon="@drawable/ic_menu_share"
+                    android:title="Share" />
+                <item
+                    android:id="@+id/nav_send"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="Send" />
+            </menu>
+        </item>
+
     </group>
 
-    <item android:title="Contact">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
+
 
 </menu>

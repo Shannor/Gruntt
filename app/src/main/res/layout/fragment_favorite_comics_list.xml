@@ -6,8 +6,6 @@
     android:name="comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
+    app:layoutManager="GridLayoutManager"
     tools:context="comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment"
     tools:listitem="@layout/fragment_favorite_comics" />

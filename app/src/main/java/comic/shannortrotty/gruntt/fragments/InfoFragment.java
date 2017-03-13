@@ -43,8 +43,7 @@ import comic.shannortrotty.gruntt.view.GenericView;
  * create an instance of this fragment.
  */
 public class InfoFragment extends Fragment implements GenericView<ComicDetails> {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String COMIC_LINK = "comic.link.info";
     private static final String COMIC_TITLE = "comic.title.info";
     private static final String TAG = "InfoFragment";
@@ -52,7 +51,6 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     private String mLink;
     private String mTitle;
 
-//    private NetworkImageView networkLargeComicImg;
     private ImageView largeComicImg;
     private TextView comicTitleView;
     private TextView comicAltTitleView;
@@ -76,14 +74,11 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
      *
-     * @param comicTitle Parameter 1.
-     * @param comicLink Parameter 2.
+     * @param comicTitle Title of the clicked Comic.
+     * @param comicLink Formatted link for the Comic.
      * @return A new instance of fragment InfoFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static InfoFragment newInstance(String comicTitle, String comicLink) {
         InfoFragment fragment = new InfoFragment();
         Bundle args = new Bundle();
@@ -110,12 +105,9 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         View view = inflater.inflate(R.layout.fragment_info_fragment, container, false);
         mDatabase = new DatabaseHelper(getContext());
         //TODO:Replace with Factory call
-        //TODO: Add Decription Title
-        //TODO: Find a better way to display genre
+        //TODO: Add Description title
         genericNetworkPresenter = new ItemPresenter<>(this, new ComicTvNetworkImplementation());
 
-//        networkLargeComicImg = ((NetworkImageView) view.findViewById(R.id.networkImgView_info_fragment_large_img));
-//        networkLargeComicImg.setDefaultImageResId(R.drawable.ic_menu_camera);
         largeComicImg = ((ImageView) view.findViewById(R.id.imageView_info_fragment_large_img));
         loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_info));
         comicTitleView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_name));
@@ -137,7 +129,6 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         addToFavoritesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Check database if data is there already to know how to display the button
                 if(isFavorite){
                     //Remove from Database and change text to "add"
                     mListener.removeFromFavorites(currentSpecifics);

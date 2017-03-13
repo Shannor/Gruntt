@@ -74,9 +74,7 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
         type.addExtras(Constants.PAGE_NUMBER,String.valueOf(pageCount));
         genericNetworkPresenter.startRequest(type);
 
-        //TODO:Page count will be incremented by USER as well
-        //TODO: Change to allow Factory to provide the Implementation
-
+        //TODO:Page count will be incremented by USER on Scroll
 
 
 

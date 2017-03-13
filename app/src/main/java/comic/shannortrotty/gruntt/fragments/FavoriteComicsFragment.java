@@ -3,6 +3,7 @@ package comic.shannortrotty.gruntt.fragments;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
+import comic.shannortrotty.gruntt.adapters.GridSpacingItemDecoration;
 import comic.shannortrotty.gruntt.adapters.MyFavoriteComicsRecyclerViewAdapter;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.services.ComicDatabaseContract;
@@ -82,6 +84,8 @@ public class FavoriteComicsFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             recyclerView.setAdapter(new MyFavoriteComicsRecyclerViewAdapter(comicDetails, mListener));
+            int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.favorite_comics_margin);
+            recyclerView.addItemDecoration(new GridSpacingItemDecoration(2,spacingInPixels,true, 0));
         }
         return view;
     }
@@ -146,7 +150,6 @@ public class FavoriteComicsFragment extends Fragment {
         cursor.close();
         return comicDetailsList;
     }
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

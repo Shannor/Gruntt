@@ -77,6 +77,13 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
 //            mViewPager.setCurrentItem(0, true);
 //        }
     }
+
+    /**
+     * Method to create the id to get the fragment from the FragmentPager
+     * @param viewId Id of the Fragment
+     * @param index Location in the FragmentPager
+     * @return String
+     */
     private String makeFragmentName(int viewId, int index) {
         return "android:switcher:" + viewId + ":" + index;
     }
@@ -110,7 +117,6 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
 
     @Override
     public void addToFavorites(ComicDetails comicDetails, Bitmap comicImage) {
-//        Get comic list from other fragment and save comic data
         //Get data base reference
         SQLiteDatabase db = mDatabase.getWritableDatabase();
         byte[] comicImageByteArray = DatabaseHelper.getBytes(comicImage);

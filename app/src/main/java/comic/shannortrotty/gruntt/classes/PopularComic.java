@@ -8,10 +8,13 @@ import java.util.Objects;
 
 /**
  * Created by shannortrotty on 2/3/17.
+ * Calls to hold the return call for Popular Comics Format.
+ * Differs slightly from other Comic calls
+ * Used in the retrofit calls
  */
 
 public class PopularComic {
-    //TODO: Add info for Descriptions
+
     @SerializedName("title")
     private String title;
     @SerializedName("link")
@@ -86,12 +89,15 @@ public class PopularComic {
         List<Genre> genres = getGenres();
         String lastGenre = genres.get((genres.size() -1)).getGenre();
         String formatted = "";
+
         for(Genre genre : genres){
             //Last Genre
             if (genre.getGenre().equals(lastGenre)){
                 formatted += genre.getGenre();
+            }else{
+                formatted += genre.getGenre() + ", ";
+
             }
-            formatted += genre.getGenre() + ",";
         }
         return formatted;
     }

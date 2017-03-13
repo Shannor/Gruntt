@@ -1,34 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+    <!--TODO:Add Background-->
     <ImageView
         android:contentDescription="Comic Image"
         android:id="@+id/imageView_favorite_comic_image"
-        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
         android:layout_width="150dp"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        android:scaleType="fitCenter"
+        />
 
     <TextView
         android:id="@+id/textView_favorite_comic_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
-
-    <TextView
-        android:id="@+id/textView_favorite_comic_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:text="Title"
+        android:textAppearance="?attr/textAppearanceListItem"
+    />
 
     <TextView
         android:id="@+id/textView_favorite_comic_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="Author"
+        />
+
+    <TextView
+        android:id="@+id/textView_favorite_comic_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:textAppearance="?attr/textAppearanceListItem"
+         />
 
 </LinearLayout>
