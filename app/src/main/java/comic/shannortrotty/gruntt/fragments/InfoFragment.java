@@ -4,6 +4,8 @@ package comic.shannortrotty.gruntt.fragments;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,11 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.List;
@@ -47,7 +52,8 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     private String mLink;
     private String mTitle;
 
-    private NetworkImageView networkLargeComicImg;
+//    private NetworkImageView networkLargeComicImg;
+    private ImageView largeComicImg;
     private TextView comicTitleView;
     private TextView comicAltTitleView;
     private TextView comicReleaseDateView;
@@ -57,12 +63,13 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     private TextView comicDescriptionView;
     private GenericNetworkPresenter genericNetworkPresenter;
     private AVLoadingIndicatorView loadingIndicatorView;
-    private  Button addToFavoritesBtn;
+    private Button addToFavoritesBtn;
     private Button resumeReading;
     private OnInfoFragmentListener mListener;
     private ComicDetails currentSpecifics;
     private DatabaseHelper mDatabase;
     private Boolean isFavorite;
+    private Bitmap comicImg;
 
     public InfoFragment() {
         // Required empty public constructor
@@ -107,8 +114,9 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         //TODO: Find a better way to display genre
         genericNetworkPresenter = new ItemPresenter<>(this, new ComicTvNetworkImplementation());
 
-        networkLargeComicImg = ((NetworkImageView) view.findViewById(R.id.networkImgView_info_fragment_large_img));
-        networkLargeComicImg.setDefaultImageResId(R.drawable.ic_menu_camera);
+//        networkLargeComicImg = ((NetworkImageView) view.findViewById(R.id.networkImgView_info_fragment_large_img));
+//        networkLargeComicImg.setDefaultImageResId(R.drawable.ic_menu_camera);
+        largeComicImg = ((ImageView) view.findViewById(R.id.imageView_info_fragment_large_img));
         loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_info));
         comicTitleView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_name));
         comicAltTitleView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_alt_name));
@@ -209,7 +217,8 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     }
 
     public void setVisibility(int visibility){
-        networkLargeComicImg.setVisibility(visibility);
+//        networkLargeComicImg.setVisibility(visibility);
+        largeComicImg.setVisibility(visibility);
         comicAltTitleView.setVisibility(visibility);
         comicAuthorView.setVisibility(visibility);
         comicDescriptionView.setVisibility(visibility);
@@ -254,14 +263,35 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         comicDescriptionView.setText(comicDetails.getFormattedDescription());
         comicStatusView.setText(comicDetails.getFormattedStatus());
         //TODO:Change to Picasso, also able to get Bitmap
-        ImageLoader imageLoader = VolleyWrapper.getInstance(getContext().getApplicationContext()).getImageLoader();
-        networkLargeComicImg.setImageUrl(comicDetails.getLargeImgURL(), imageLoader);
+        Picasso.with(getContext())
+                .load(comicDetails.getLargeImgURL())
+                .into(target);
     }
+
+    private Target target = new Target() {
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            Log.i(TAG, "onBitmapLoaded: " + bitmap.getHeight() + bitmap.getWidth());
+            comicImg = bitmap;
+            largeComicImg.setImageBitmap(bitmap);
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+            largeComicImg.setImageDrawable(errorDrawable);
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+            largeComicImg.setImageDrawable(placeHolderDrawable);
+        }
+    };
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         genericNetworkPresenter.onDestroy();
+        Picasso.with(getContext()).cancelRequest(target);
     }
 
     @Override
