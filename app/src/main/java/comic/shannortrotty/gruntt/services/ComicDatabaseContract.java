@@ -1,6 +1,7 @@
 package comic.shannortrotty.gruntt.services;
 
 import android.provider.BaseColumns;
+import android.util.StringBuilderPrinter;
 
 /**
  * Created by shannortrotty on 3/11/17.
@@ -23,7 +24,8 @@ public final class ComicDatabaseContract {
         public static final String COLUMN_NAME_RELEASE_DATE = "comic_release_date";
         public static final String COLUMN_NAME_ALT_TITLE = "comic_alt_name";
         public static final String COLUMN_NAME_DESCRIPTION = "comic_description";
-        //TODO: ADD INFO FOR BITMAP
+        public static final String COLUMN_NAME_COMIC_IMAGE = "comic_image";
+        public static final String COLUMN_NAME_LAST_READ_COMIC = "last_comic_read";
         public static final String COLUMN_NAME_CHAPTER_LIST = "comic_chapter_list";
     }
 

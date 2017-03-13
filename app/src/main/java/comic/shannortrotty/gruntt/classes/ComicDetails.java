@@ -1,5 +1,7 @@
 package comic.shannortrotty.gruntt.classes;
 
+import android.graphics.Bitmap;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -25,6 +27,8 @@ public class ComicDetails {
     private String genre;
     @SerializedName("year of Release")
     private String releaseDate;
+
+    private Bitmap localBitmap;
 
 
     public ComicDetails(){
@@ -66,6 +70,16 @@ public class ComicDetails {
     }
 
 //    ***********************GETTERS AND SETTERS**********************************
+
+
+    public Bitmap getLocalBitmap() {
+        return localBitmap;
+    }
+
+    public void setLocalBitmap(Bitmap localBitmap) {
+        this.localBitmap = localBitmap;
+    }
+
     public String getDescription() {
         return description;
     }

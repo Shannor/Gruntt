@@ -6,8 +6,9 @@
     <ImageView
         android:contentDescription="Comic Image"
         android:id="@+id/imageView_favorite_comic_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:scaleType="fitCenter"
+        android:layout_width="150dp"
+        android:layout_height="200dp" />
 
     <TextView
         android:id="@+id/textView_favorite_comic_title"

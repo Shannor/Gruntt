@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import comic.shannortrotty.gruntt.R;
@@ -41,6 +42,7 @@ public class MyFavoriteComicsRecyclerViewAdapter extends RecyclerView.Adapter<My
         holder.getTitle().setText(comicDetail.getTitle());
         holder.getAuthor().setText(comicDetail.getAuthor());
         holder.getStatus().setText(comicDetail.getStatus());
+        holder.getComicImage().setImageBitmap(comicDetail.getLocalBitmap());
         holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +72,7 @@ public class MyFavoriteComicsRecyclerViewAdapter extends RecyclerView.Adapter<My
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private final View mView;
+        private final ImageView mComicImage;
         private final TextView mTitle;
         private final TextView mStatus;
         private final TextView mAuthor;
@@ -80,7 +83,12 @@ public class MyFavoriteComicsRecyclerViewAdapter extends RecyclerView.Adapter<My
             this.mTitle = (TextView) view.findViewById(R.id.textView_favorite_comic_title);
             this.mStatus = (TextView) view.findViewById(R.id.textView_favorite_comic_status);
             this.mAuthor = ((TextView) view.findViewById(R.id.textView_favorite_comic_author));
+            this.mComicImage = ((ImageView) view.findViewById(R.id.imageView_favorite_comic_image));
 
+        }
+
+        public ImageView getComicImage() {
+            return mComicImage;
         }
 
         public View getView() {

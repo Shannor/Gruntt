@@ -145,7 +145,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
                     setFavoriteLabel(isFavorite);
                 }else{
                     //Add to Database and Change text to "Remove"
-                    mListener.addToFavorites(currentSpecifics);
+                    mListener.addToFavorites(currentSpecifics, comicImg);
                     isFavorite = !isFavorite;
                     setFavoriteLabel(isFavorite);
                 }
@@ -262,7 +262,6 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         comicReleaseDateView.setText(comicDetails.getFormattedReleaseDate());
         comicDescriptionView.setText(comicDetails.getFormattedDescription());
         comicStatusView.setText(comicDetails.getFormattedStatus());
-        //TODO:Change to Picasso, also able to get Bitmap
         Picasso.with(getContext())
                 .load(comicDetails.getLargeImgURL())
                 .into(target);
@@ -271,7 +270,6 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     private Target target = new Target() {
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            Log.i(TAG, "onBitmapLoaded: " + bitmap.getHeight() + bitmap.getWidth());
             comicImg = bitmap;
             largeComicImg.setImageBitmap(bitmap);
         }
@@ -312,8 +310,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     }
 
     public interface OnInfoFragmentListener {
-        //TODO:add bitmap
-        void addToFavorites(ComicDetails comicDetails);
+        void addToFavorites(ComicDetails comicDetails, Bitmap comicImage);
         void removeFromFavorites(ComicDetails comicDetails);
     }
 

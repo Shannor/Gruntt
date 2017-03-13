@@ -2,6 +2,8 @@ package comic.shannortrotty.gruntt;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -14,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.Chapter;
@@ -106,16 +109,15 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
     }
 
     @Override
-    public void addToFavorites(ComicDetails comicDetails) {
+    public void addToFavorites(ComicDetails comicDetails, Bitmap comicImage) {
 //        Get comic list from other fragment and save comic data
-//        TODO: add bitmap field
         //Get data base reference
-        Log.i(TAG, "saveDescription: " + comicDetails.toString());
         SQLiteDatabase db = mDatabase.getWritableDatabase();
+        byte[] comicImageByteArray = DatabaseHelper.getBytes(comicImage);
 
         String fragmentTag = makeFragmentName(R.id.viewPager_activity_info_chapter,1);
         ChapterListFragment fragment = (ChapterListFragment) getSupportFragmentManager().findFragmentByTag(fragmentTag);
-        //Convert list to string using Gson.
+        //TODO:Convert list to string using Gson.
         List<Chapter> chapterList = fragment.getChapters();
 
         ContentValues values = new ContentValues();
@@ -126,6 +128,7 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
         values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_GENRE, comicDetails.getGenre());
         values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_STATUS, comicDetails.getStatus());
         values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_RELEASE_DATE, comicDetails.getReleaseDate());
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_COMIC_IMAGE, comicImageByteArray);
         long rowId = db.insert(ComicDatabaseContract.ComicFavoriteEntry.TABLE_NAME, null, values);
     }
 

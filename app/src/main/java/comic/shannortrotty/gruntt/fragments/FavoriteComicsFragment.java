@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +134,11 @@ public class FavoriteComicsFragment extends Fragment {
                 comicDetails.setAuthor(
                         cursor.getString(
                                 cursor.getColumnIndexOrThrow(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_AUTHOR)));
-               //TODO:Add info for image
+                comicDetails.setLocalBitmap(
+                        DatabaseHelper.getImage(
+                                cursor.getBlob(
+                                        cursor.getColumnIndexOrThrow(
+                                                ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_COMIC_IMAGE))));
                 // comicDetails.setLargeImgURL();
                 comicDetailsList.add(comicDetails);
             } while (cursor.moveToNext());
