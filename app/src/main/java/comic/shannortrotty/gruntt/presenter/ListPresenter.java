@@ -37,6 +37,8 @@ public class ListPresenter<T> implements GenericNetworkPresenter, NetworkModel.O
                     requestType.getExtras().get(Constants.CHAPTER_NUMBER),
                     this
             );
+        }else if(requestType.getType() == RequestType.Type.ALLCOMICS){
+            networkModel.getAllComics(this);
         }
     }
 

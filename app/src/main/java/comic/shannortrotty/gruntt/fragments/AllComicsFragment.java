@@ -3,19 +3,36 @@ package comic.shannortrotty.gruntt.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wang.avi.AVLoadingIndicatorView;
+
+import java.util.List;
+
 import comic.shannortrotty.gruntt.R;
+import comic.shannortrotty.gruntt.adapters.AllComicRecyclerViewAdapter;
+import comic.shannortrotty.gruntt.classes.AllComicsResponse;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
+import comic.shannortrotty.gruntt.classes.RequestType;
+import comic.shannortrotty.gruntt.presenter.GenericNetworkPresenter;
+import comic.shannortrotty.gruntt.presenter.ListPresenter;
+import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.view.GenericView;
 
 
-public class AllComicsFragment extends Fragment {
+public class AllComicsFragment extends Fragment implements GenericView<AllComicsResponse> {
     public static final String TAG = "AllComicsFragment";
 
     private OnComicListener mListener;
-
+    private GenericNetworkPresenter networkPresenter;
+    private AVLoadingIndicatorView loadingIndicator;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManger;
+    private AllComicRecyclerViewAdapter allComicsAdapter;
     public AllComicsFragment() {
         // Required empty public constructor
     }
@@ -35,8 +52,22 @@ public class AllComicsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_all_comics_fragement, container, false);
+        recyclerView = ((RecyclerView) view.findViewById(R.id.recyclerView_fragment_all_comics));
+        loadingIndicator = (AVLoadingIndicatorView)view.findViewById(R.id.loading_icon_fragment_all_comics);
+        layoutManger = new LinearLayoutManager(getContext());
+        networkPresenter = new ListPresenter<>(this, new ComicTvNetworkImplementation());
+
+        recyclerView.setLayoutManager(layoutManger);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        RequestType request = new RequestType();
+        request.setType(RequestType.Type.ALLCOMICS);
+        networkPresenter.startRequest(request);
     }
 
     @Override
@@ -54,5 +85,32 @@ public class AllComicsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        networkPresenter.onDestroy();
+    }
+
+
+    //Methods for Generic View
+    @Override
+    public void hideLoading() {
+        loadingIndicator.hide();
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showLoading() {
+        loadingIndicator.show();
+        recyclerView.setVisibility(View.INVISIBLE);
+
+    }
+
+    @Override
+    public void setItem(AllComicsResponse item) {
+        //Wont get Called for this activity
+    }
+
+    @Override
+    public void setItems(List<AllComicsResponse> items) {
+        allComicsAdapter = new AllComicRecyclerViewAdapter(getContext(),items);
+        recyclerView.setAdapter(allComicsAdapter);
     }
 }

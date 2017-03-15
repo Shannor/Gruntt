@@ -208,7 +208,6 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     }
 
     public void setVisibility(int visibility){
-//        networkLargeComicImg.setVisibility(visibility);
         largeComicImg.setVisibility(visibility);
         comicAltTitleView.setVisibility(visibility);
         comicAuthorView.setVisibility(visibility);
@@ -221,6 +220,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         addToFavoritesBtn.setVisibility(visibility);
     }
 
+    //****************************** Methods for Generic View interface *************************
     @Override
     public void hideLoading() {
         loadingIndicatorView.hide();
@@ -236,11 +236,6 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     @Override
     public void setItems(List<ComicDetails> items) {
         //Do nothing here, don't get back a list
-    }
-
-    @Override
-    public void updateProgress(int progress) {
-//        Not Using Currently
     }
 
     @Override

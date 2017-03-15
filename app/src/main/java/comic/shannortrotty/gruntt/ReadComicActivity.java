@@ -117,11 +117,6 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
     }
 
     @Override
-    public void updateProgress(int progress) {
-
-    }
-
-    @Override
     public void hideLoading() {
         loadingIndictorView.hide();
     }

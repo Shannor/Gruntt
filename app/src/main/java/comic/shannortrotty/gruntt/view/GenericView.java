@@ -10,8 +10,6 @@ public interface GenericView<T> {
 
     void showLoading();
     void hideLoading();
-    //Can Change Later
-    void updateProgress(int progress);
     void setItems(List<T> items);
     void setItem(T item);
 }

@@ -15,6 +15,8 @@ public class Chapter {
     @SerializedName("releaseDate")
     private String releaseDate;
 
+    private Boolean haveRead;
+
     public Chapter(){
 
     }
@@ -23,6 +25,7 @@ public class Chapter {
         this.chapterName = chapterName;
         this.link = link;
         this.releaseDate =releaseDate;
+        this.haveRead = false;
     }
 
     @Override
@@ -36,6 +39,15 @@ public class Chapter {
     public String getChapterNumber(){
         String[] names = this.chapterName.split("#");
         return names[names.length-1];
+    }
+
+
+    public void setHaveRead(Boolean haveRead) {
+        this.haveRead = haveRead;
+    }
+
+    public Boolean getHaveRead() {
+        return haveRead;
     }
 
     public String getChapterName() {

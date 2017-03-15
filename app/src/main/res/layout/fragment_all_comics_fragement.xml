@@ -2,11 +2,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="comic.shannortrotty.gruntt.fragments.AllComicsFragment">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/title_activity_info_and_issue" />
+        android:layout_height="match_parent">
 
+        <com.wang.avi.AVLoadingIndicatorView
+            android:layout_width="wrap_content"
+            android:id="@+id/loading_icon_fragment_all_comics"
+            android:layout_height="wrap_content"
+            app:indicatorName="BallPulseIndicator"
+            app:indicatorColor="@color/colorAccent"
+            android:layout_centerInParent="true"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_fragment_all_comics"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
 </FrameLayout>

@@ -99,11 +99,6 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     }
 
     @Override
-    public void updateProgress(int progress) {
-        //Doesn't use currently
-    }
-
-    @Override
     public void setItem(Chapter item) {
         //Wont Implement
     }
