@@ -15,7 +15,7 @@
         android:id="@+id/loading_icon_viewpager_read_activity"
         android:layout_height="wrap_content"
         app:indicatorName="BallPulseIndicator"
-        app:indicatorColor="@color/colorAccent"
+        app:indicatorColor="@color/color_accent"
         android:layout_centerInParent="true"
         />
     <TextView

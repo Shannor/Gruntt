@@ -117,7 +117,7 @@
             android:id="@+id/loading_icon_fragment_info"
             android:layout_height="wrap_content"
             app:indicatorName="BallPulseIndicator"
-            app:indicatorColor="@color/colorAccent"
+            app:indicatorColor="@color/color_accent"
             android:layout_centerInParent="true"
             />
 
