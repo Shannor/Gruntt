@@ -21,8 +21,11 @@ import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.Chapter;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
+import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
+import comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment;
 import comic.shannortrotty.gruntt.fragments.InfoFragment;
 import comic.shannortrotty.gruntt.fragments.ChapterListFragment;
+import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
 import comic.shannortrotty.gruntt.services.ComicDatabaseContract;
 import comic.shannortrotty.gruntt.services.DatabaseHelper;
 
@@ -73,9 +76,11 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.viewPager_activity_info_chapter);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-//        if(startingOrigin.equals(PopularComicFragment.TAG) ||  startingOrigin.equals(AllComicsFragment.TAG)){
-//            mViewPager.setCurrentItem(0, true);
-//        }
+        if(startingOrigin.equals(PopularComicFragment.TAG) ||  startingOrigin.equals(AllComicsFragment.TAG)){
+            mViewPager.setCurrentItem(0, true);
+        }else if(startingOrigin.equals(FavoriteComicsFragment.TAG)){
+            mViewPager.setCurrentItem(1, true);
+        }
     }
 
     /**
@@ -110,6 +115,8 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if(id==R.id.home){
+            onBackPressed();
         }
 
         return super.onOptionsItemSelected(item);

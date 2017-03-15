@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
  * Base because has significantly less than other comic options
  */
 
-public class BareComics{
+public class BareComics implements Comic{
     @SerializedName("title")
     private String title;
     @SerializedName("link")
@@ -40,6 +40,12 @@ public class BareComics{
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    @Override
+    public String getFormattedURL() {
+        String[] correctLink = getLink().split("/");
+        return correctLink[(correctLink.length - 1)];
     }
 
     @Override

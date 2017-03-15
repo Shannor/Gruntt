@@ -59,15 +59,11 @@ public class AllComicsFragment extends Fragment implements GenericView<AllComics
 
         recyclerView.setLayoutManager(layoutManger);
 
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         RequestType request = new RequestType();
         request.setType(RequestType.Type.ALLCOMICS);
         networkPresenter.startRequest(request);
+
+        return view;
     }
 
     @Override
@@ -110,7 +106,7 @@ public class AllComicsFragment extends Fragment implements GenericView<AllComics
 
     @Override
     public void setItems(List<AllComicsResponse> items) {
-        allComicsAdapter = new AllComicRecyclerViewAdapter(getContext(),items);
+        allComicsAdapter = new AllComicRecyclerViewAdapter(getContext(),items, mListener);
         recyclerView.setAdapter(allComicsAdapter);
     }
 }

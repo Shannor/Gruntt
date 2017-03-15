@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
 import comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment;
@@ -132,11 +133,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListComicSelection(PopularComic popularComic, String originOfClick) {
+    public void onListComicSelection(Comic comic, String originOfClick) {
         Intent intent = new Intent(this,InfoAndChapterActivity.class);
-        intent.putExtra(PICKED_COMIC_LINK, popularComic.getURLFormattedLink());
+        intent.putExtra(PICKED_COMIC_LINK, comic.getFormattedURL());
         intent.putExtra(PICKED_COMIC_ORIGIN_LOCATION, originOfClick);
-        intent.putExtra(PICKED_COMIC_TITLE, popularComic.getTitle());
+        intent.putExtra(PICKED_COMIC_TITLE, comic.getTitle());
         startActivity(intent);
     }
 

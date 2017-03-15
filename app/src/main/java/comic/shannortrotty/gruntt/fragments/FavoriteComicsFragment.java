@@ -39,7 +39,7 @@ public class FavoriteComicsFragment extends Fragment {
     private int mColumnCount = 2;
     private OnListFragmentInteractionListener mListener;
     private DatabaseHelper mDatabase;
-    private static final String TAG = "FavoriteComicsFragment";
+    public static final String TAG = "FavoriteComicsFragment";
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the

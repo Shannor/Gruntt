@@ -33,7 +33,6 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
 
     private OnComicListener mListener;
     public static final String TAG = "PopularComicFragment";
-    public static final String LAYOUT_MANAGER = "layoutManager";
     private MyComicRecyclerViewAdapter myComicRecyclerViewAdapter;
     private RecyclerView mComicRecyclerView;
     private LinearLayoutManager mLayoutManager;

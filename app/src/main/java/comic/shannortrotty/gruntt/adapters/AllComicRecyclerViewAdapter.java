@@ -17,6 +17,8 @@ import java.util.List;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.classes.AllComicsResponse;
 import comic.shannortrotty.gruntt.classes.BareComics;
+import comic.shannortrotty.gruntt.classes.OnComicListener;
+import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
 
 /**
  * Created by shannortrotty on 3/15/17.
@@ -26,10 +28,12 @@ public class AllComicRecyclerViewAdapter extends ExpandableRecyclerAdapter<AllCo
         AllComicRecyclerViewAdapter.CategoryViewHolder, AllComicRecyclerViewAdapter.ComicViewHolder> {
 
     private LayoutInflater mInflater;
+    private OnComicListener mListener;
 
-    public AllComicRecyclerViewAdapter(Context context, @NonNull List<AllComicsResponse> comicsResponseList) {
+    public AllComicRecyclerViewAdapter(Context context, @NonNull List<AllComicsResponse> comicsResponseList, OnComicListener listener) {
         super(comicsResponseList);
         mInflater = LayoutInflater.from(context);
+        this.mListener = listener;
     }
         // onCreate ...
         @Override
@@ -72,14 +76,22 @@ public class AllComicRecyclerViewAdapter extends ExpandableRecyclerAdapter<AllCo
     public class ComicViewHolder extends ChildViewHolder {
 
         private TextView mComicTextView;
+        private BareComics bareComic;
 
         public ComicViewHolder(View itemView) {
             super(itemView);
             mComicTextView = (TextView) itemView.findViewById(R.id.recyclerView_all_comics_comic);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onListComicSelection(bareComic, AllComicsFragment.TAG);
+                }
+            });
         }
 
         public void bind(BareComics comic) {
             mComicTextView.setText(comic.getTitle());
+            bareComic = comic;
         }
     }
 }

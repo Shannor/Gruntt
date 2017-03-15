@@ -13,7 +13,7 @@ import java.util.Objects;
  * Used in the retrofit calls
  */
 
-public class PopularComic {
+public class PopularComic implements Comic{
 
     @SerializedName("title")
     private String title;
@@ -47,6 +47,11 @@ public class PopularComic {
     //Getters and Setters
     public String getTitle() {
         return title;
+    }
+
+    @Override
+    public String getFormattedURL() {
+        return getURLFormattedLink();
     }
 
     public void setTitle(String title) {
