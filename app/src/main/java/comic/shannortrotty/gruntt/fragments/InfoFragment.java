@@ -65,12 +65,19 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     private Button resumeReading;
     private OnInfoFragmentListener mListener;
     private ComicDetails currentSpecifics;
-    private DatabaseHelper mDatabase;
     private Boolean isFavorite;
     private Bitmap comicImg;
 
     public InfoFragment() {
         // Required empty public constructor
+    }
+
+    /**
+     * Interface for this Fragment
+     */
+    public interface OnInfoFragmentListener {
+        void addToFavorites(ComicDetails comicDetails, Bitmap comicImage);
+        void removeFromFavorites(ComicDetails comicDetails);
     }
 
     /**
@@ -103,10 +110,9 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_info_fragment, container, false);
-        mDatabase = new DatabaseHelper(getContext());
         //TODO:Replace with Factory call
         //TODO: Add Description title
-        genericNetworkPresenter = new ItemPresenter<>(this, new ComicTvNetworkImplementation());
+        genericNetworkPresenter = new ItemPresenter<>(getContext(),this, new ComicTvNetworkImplementation(), ComicDetails.class);
 
         largeComicImg = ((ImageView) view.findViewById(R.id.imageView_info_fragment_large_img));
         loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_info));
@@ -120,22 +126,20 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         addToFavoritesBtn = ((Button) view.findViewById(R.id.btn_info_fragment_comic_add_to_favorites));
         resumeReading = ((Button) view.findViewById(R.id.btn_info_fragment_comic_resume));
 
-        checkForFavorite();
-        //TODO: Move this code to the favorite check
-        RequestType requestType = new RequestType(RequestType.Type.COMICSDESCRIPTION);
-        requestType.addExtras(Constants.COMIC_LINK,mLink);
-        genericNetworkPresenter.startRequest(requestType);
-
+        loadComicRequest();
         addToFavoritesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isFavorite){
+                    //TODO: Can be cleaned up I'm sure
                     //Remove from Database and change text to "add"
+                    currentSpecifics.setFavorite(false);
                     mListener.removeFromFavorites(currentSpecifics);
                     isFavorite = !isFavorite;
                     setFavoriteLabel(isFavorite);
                 }else{
                     //Add to Database and Change text to "Remove"
+                    currentSpecifics.setFavorite(true);
                     mListener.addToFavorites(currentSpecifics, comicImg);
                     isFavorite = !isFavorite;
                     setFavoriteLabel(isFavorite);
@@ -153,46 +157,14 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         return view;
     }
 
-    /**
-     *
-     */
-    public void checkForFavorite(){
-        SQLiteDatabase db = mDatabase.getReadableDatabase();
 
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = {
-                ComicDatabaseContract.ComicFavoriteEntry._ID,
-                ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_TITLE,
-        };
-
-        // Filter results WHERE "title" = 'Title of Comic correctly'
-        String selection = ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_TITLE + " = ?";
-        String[] selectionArgs = { mTitle };
-        Log.i(TAG, "checkForFavorite: " + mTitle);
-
-        Cursor cursor = db.query(
-                ComicDatabaseContract.ComicFavoriteEntry.TABLE_NAME,                     // The table to query
-                projection,                               // The columns to return
-                selection,                                // The columns for the WHERE clause
-                selectionArgs,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                null                                 // The sort order
-        );
-        if ( cursor.getCount() > 0){
-            //Already a favorite
-            isFavorite = true;
-            setFavoriteLabel(isFavorite);
-            //TODO:Also if favorite, Load data from database and not network call
-        }else{
-            //Not a favorite
-            isFavorite = false;
-            setFavoriteLabel(isFavorite);
-            //TODO: Load from Network call
-        }
-        cursor.close();
+    public void loadComicRequest(){
+        RequestType requestType = new RequestType(RequestType.Type.COMICSDESCRIPTION);
+        requestType.addExtras(Constants.COMIC_LINK,mLink);
+        requestType.addExtras(Constants.COMIC_NAME, mTitle);
+        genericNetworkPresenter.startRequest(requestType);
     }
+
 
     /**
      * True = Is in favorites
@@ -248,11 +220,23 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         comicReleaseDateView.setText(comicDetails.getFormattedReleaseDate());
         comicDescriptionView.setText(comicDetails.getFormattedDescription());
         comicStatusView.setText(comicDetails.getFormattedStatus());
-        Picasso.with(getContext())
-                .load(comicDetails.getLargeImgURL())
-                .into(target);
+        isFavorite = comicDetails.getFavorite();
+        setFavoriteLabel(comicDetails.getFavorite());
+        //Check if Loaded from Database or Need to grab from url
+        //TODO:Set Error Image, and Load Image
+        if(comicDetails.getLocalBitmap() != null){
+            largeComicImg.setImageBitmap(comicDetails.getLocalBitmap());
+        }else{
+            Picasso.with(getContext())
+                    .load(comicDetails.getLargeImgURL())
+                    .into(target);
+        }
+
     }
 
+    /**
+     *
+     */
     private Target target = new Target() {
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -285,7 +269,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
             mListener = (OnInfoFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnInfoFragmentListener");
         }
     }
 
@@ -295,9 +279,5 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         mListener = null;
     }
 
-    public interface OnInfoFragmentListener {
-        void addToFavorites(ComicDetails comicDetails, Bitmap comicImage);
-        void removeFromFavorites(ComicDetails comicDetails);
-    }
 
 }

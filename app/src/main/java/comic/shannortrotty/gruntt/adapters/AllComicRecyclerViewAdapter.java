@@ -1,7 +1,6 @@
 package comic.shannortrotty.gruntt.adapters;
 
 import android.content.Context;
-import android.icu.util.ULocale;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,7 @@ import com.bignerdranch.expandablerecyclerview.ParentViewHolder;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
-import comic.shannortrotty.gruntt.classes.AllComicsResponse;
+import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.BareComics;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
@@ -24,13 +23,13 @@ import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
  * Created by shannortrotty on 3/15/17.
  */
 
-public class AllComicRecyclerViewAdapter extends ExpandableRecyclerAdapter<AllComicsResponse, BareComics,
+public class AllComicRecyclerViewAdapter extends ExpandableRecyclerAdapter<BareComicsCategory, BareComics,
         AllComicRecyclerViewAdapter.CategoryViewHolder, AllComicRecyclerViewAdapter.ComicViewHolder> {
 
     private LayoutInflater mInflater;
     private OnComicListener mListener;
 
-    public AllComicRecyclerViewAdapter(Context context, @NonNull List<AllComicsResponse> comicsResponseList, OnComicListener listener) {
+    public AllComicRecyclerViewAdapter(Context context, @NonNull List<BareComicsCategory> comicsResponseList, OnComicListener listener) {
         super(comicsResponseList);
         mInflater = LayoutInflater.from(context);
         this.mListener = listener;
@@ -50,7 +49,7 @@ public class AllComicRecyclerViewAdapter extends ExpandableRecyclerAdapter<AllCo
 
         // onBind ...
         @Override
-        public void onBindParentViewHolder(@NonNull CategoryViewHolder categoryViewHolder, int parentPosition, @NonNull AllComicsResponse comicsResponse) {
+        public void onBindParentViewHolder(@NonNull CategoryViewHolder categoryViewHolder, int parentPosition, @NonNull BareComicsCategory comicsResponse) {
             categoryViewHolder.bind(comicsResponse);
         }
 
@@ -68,7 +67,7 @@ public class AllComicRecyclerViewAdapter extends ExpandableRecyclerAdapter<AllCo
             mCategoryTextView = (TextView) itemView.findViewById(R.id.recyclerView_all_comics_category);
         }
 
-        public void bind(AllComicsResponse response) {
+        public void bind(BareComicsCategory response) {
             mCategoryTextView.setText(response.getCategory());
         }
     }

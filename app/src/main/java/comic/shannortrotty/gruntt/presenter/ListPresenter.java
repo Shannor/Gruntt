@@ -54,8 +54,4 @@ public class ListPresenter<T> implements GenericNetworkPresenter, NetworkModel.O
         genericView.hideLoading();
     }
 
-    @Override
-    public void onNextStep(List<T> items) {
-        genericView.setItems(items);
-    }
 }

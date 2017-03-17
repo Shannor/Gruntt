@@ -10,7 +10,6 @@ public interface NetworkModel {
 
     interface OnResponseListListener<T>{
         void onListFinished(List<T> items);
-        void onNextStep(List<T> items);
     }
     interface OnResponseItemListener<T>{
         void onItemFinished(T item);

@@ -17,7 +17,7 @@ import java.io.ByteArrayOutputStream;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     // Database Name
     private static final String DATABASE_NAME = "comic.db";
@@ -34,8 +34,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_STATUS + " TEXT, " +
                     ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_RELEASE_DATE + " TEXT, " +
                     ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_COMIC_IMAGE + " BLOB, " +
-                    ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_LAST_READ_COMIC + "TEXT, " +
-                    ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_CHAPTER_LIST +" TEXT" +
+                    ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_LAST_READ_COMIC + " TEXT, " +
+                    ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_CHAPTER_LIST +" TEXT, " +
+                    ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_IS_FAVORITE + " INTEGER " +
                     ")";
 
     private static final String SQL_DELETE_COMIC_FAVORITE_TABLE =
@@ -52,7 +53,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static Bitmap getImage(byte[] image) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         //Needed for older versions of Android
-        options.inPreferQualityOverSpeed = true;
         options.inScaled = false;
         return BitmapFactory.decodeByteArray(image, 0, image.length, options);
     }

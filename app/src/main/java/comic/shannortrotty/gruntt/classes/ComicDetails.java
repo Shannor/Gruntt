@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * Class to hold the details about a particular comic.
  */
 
-public class ComicDetails {
+public class ComicDetails implements Comic {
 
     @SerializedName("description")
     private String description;
@@ -29,7 +29,7 @@ public class ComicDetails {
     private String releaseDate;
 
     private Bitmap localBitmap;
-
+    private Boolean isFavorite;
 
     public ComicDetails(){
         this.description = " -";
@@ -39,8 +39,11 @@ public class ComicDetails {
         this.author = " -";
         this.genre = " -";
         this.releaseDate = " -";
+        this.isFavorite = false;
 
     }
+
+
     public String getFormattedName(){
         return "Name: " +  this.title;
     }
@@ -69,8 +72,29 @@ public class ComicDetails {
         return "Description: " + this.description;
     }
 
-//    ***********************GETTERS AND SETTERS**********************************
+    //Return empty string since Loading Data from memory
+    @Override
+    public String getFormattedURL() {
+        return " ";
+    }
 
+    public int getFormattedFavorite(){
+        return this.isFavorite ? 1 : 0;
+    }
+    public void setFavoriteFromDatabase(int value){
+        isFavorite = (value == 1);
+    }
+
+    //    ***********************GETTERS AND SETTERS**********************************
+
+
+    public Boolean getFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(Boolean favorite) {
+        isFavorite = favorite;
+    }
 
     public Bitmap getLocalBitmap() {
         return localBitmap;

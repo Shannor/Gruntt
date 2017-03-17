@@ -15,7 +15,7 @@ import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.AllComicRecyclerViewAdapter;
-import comic.shannortrotty.gruntt.classes.AllComicsResponse;
+import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.presenter.GenericNetworkPresenter;
@@ -24,7 +24,7 @@ import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.view.GenericView;
 
 
-public class AllComicsFragment extends Fragment implements GenericView<AllComicsResponse> {
+public class AllComicsFragment extends Fragment implements GenericView<BareComicsCategory> {
     public static final String TAG = "AllComicsFragment";
 
     private OnComicListener mListener;
@@ -73,7 +73,7 @@ public class AllComicsFragment extends Fragment implements GenericView<AllComics
             mListener = (OnComicListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnComicListener");
         }
     }
 
@@ -100,12 +100,12 @@ public class AllComicsFragment extends Fragment implements GenericView<AllComics
     }
 
     @Override
-    public void setItem(AllComicsResponse item) {
-        //Wont get Called for this activity
+    public void setItem(BareComicsCategory item) {
+        //Wont get Called for this fragment
     }
 
     @Override
-    public void setItems(List<AllComicsResponse> items) {
+    public void setItems(List<BareComicsCategory> items) {
         allComicsAdapter = new AllComicRecyclerViewAdapter(getContext(),items, mListener);
         recyclerView.setAdapter(allComicsAdapter);
     }

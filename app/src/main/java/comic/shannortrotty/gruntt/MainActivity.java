@@ -23,7 +23,6 @@ import comic.shannortrotty.gruntt.classes.OnComicListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        FavoriteComicsFragment.OnListFragmentInteractionListener,
         OnComicListener{
 
     public static final String PICKED_COMIC_LINK ="Comic.picked.link";
@@ -125,11 +124,6 @@ public class MainActivity extends AppCompatActivity
         // Highlight the selected item, update the title, and close the drawer    // Highlight the selected item, update the title, and close the drawer
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public void onListFragmentInteraction(ComicDetails item) {
-
     }
 
     @Override

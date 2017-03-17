@@ -8,23 +8,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import comic.shannortrotty.gruntt.R;
+import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
-import comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment.OnListFragmentInteractionListener;
+import comic.shannortrotty.gruntt.classes.OnComicListener;
+import comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment;
 
 import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
+ * specified {@link OnComicListener}.
  *
  */
 public class MyFavoriteComicsRecyclerViewAdapter extends RecyclerView.Adapter<MyFavoriteComicsRecyclerViewAdapter.ViewHolder> {
 
     private final List<ComicDetails> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final OnComicListener mListener;
 
 
-    public MyFavoriteComicsRecyclerViewAdapter(List<ComicDetails> items, OnListFragmentInteractionListener listener) {
+    public MyFavoriteComicsRecyclerViewAdapter(List<ComicDetails> items, OnComicListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -46,7 +48,7 @@ public class MyFavoriteComicsRecyclerViewAdapter extends RecyclerView.Adapter<My
         holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mListener.onListFragmentInteraction(comicDetail);
+                mListener.onListComicSelection(comicDetail, FavoriteComicsFragment.TAG);
             }
         });
     }

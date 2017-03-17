@@ -9,14 +9,14 @@ import java.util.List;
  * Created by shannortrotty on 3/14/17.
  */
 
-public class AllComicsResponse implements Parent<BareComics> {
+public class BareComicsCategory implements Parent<BareComics> {
 
     @SerializedName("category")
     String category;
     @SerializedName("comic_list")
     List<BareComics> comicsList;
 
-    public AllComicsResponse(String category, List<BareComics> comicsList) {
+    public BareComicsCategory(String category, List<BareComics> comicsList) {
         this.category = category;
         this.comicsList = comicsList;
     }
@@ -38,7 +38,7 @@ public class AllComicsResponse implements Parent<BareComics> {
 
     @Override
     public String toString() {
-        return "AllComicsResponse{" +
+        return "BareComicsCategory{" +
                 "category='" + category + '\'' +
                 ", comicsList=" + comicsList +
                 '}';

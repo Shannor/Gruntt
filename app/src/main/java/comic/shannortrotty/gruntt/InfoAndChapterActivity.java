@@ -142,7 +142,9 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
         values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_STATUS, comicDetails.getStatus());
         values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_RELEASE_DATE, comicDetails.getReleaseDate());
         values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_COMIC_IMAGE, comicImageByteArray);
-        long rowId = db.insert(ComicDatabaseContract.ComicFavoriteEntry.TABLE_NAME, null, values);
+        values.put(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_IS_FAVORITE, comicDetails.getFormattedFavorite());
+
+        db.insert(ComicDatabaseContract.ComicFavoriteEntry.TABLE_NAME, null, values);
     }
 
     @Override

@@ -4,8 +4,7 @@ import android.util.Log;
 
 import java.util.List;
 
-import comic.shannortrotty.gruntt.classes.AllComicsResponse;
-import comic.shannortrotty.gruntt.classes.BareComics;
+import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.Chapter;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.PopularComic;
@@ -34,15 +33,15 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
                 .create(RetrofitComicTVService.class);
 
-        Call<List<AllComicsResponse>> call = retrofitComicTVService.listAllComics();
-        call.enqueue(new Callback<List<AllComicsResponse>>() {
+        Call<List<BareComicsCategory>> call = retrofitComicTVService.listAllComics();
+        call.enqueue(new Callback<List<BareComicsCategory>>() {
             @Override
-            public void onResponse(Call<List<AllComicsResponse>> call, Response<List<AllComicsResponse>> response) {
+            public void onResponse(Call<List<BareComicsCategory>> call, Response<List<BareComicsCategory>> response) {
                 listener.onListFinished(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<AllComicsResponse>> call, Throwable t) {
+            public void onFailure(Call<List<BareComicsCategory>> call, Throwable t) {
                 Log.e(TAG, "onFailure: Error on All Comics Call.", t );
             }
         });
@@ -87,6 +86,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
             @Override
             public void onResponse(Call<ComicDetails> call, Response<ComicDetails> response) {
                 listener.onItemFinished(response.body());
+
             }
 
             @Override

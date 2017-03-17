@@ -27,6 +27,7 @@ public final class ComicDatabaseContract {
         public static final String COLUMN_NAME_COMIC_IMAGE = "comic_image";
         public static final String COLUMN_NAME_LAST_READ_COMIC = "last_comic_read";
         public static final String COLUMN_NAME_CHAPTER_LIST = "comic_chapter_list";
+        public static final String COLUMN_NAME_IS_FAVORITE =  "comic_is_favorite";
     }
 
 
