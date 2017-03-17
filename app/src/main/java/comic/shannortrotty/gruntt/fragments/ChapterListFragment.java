@@ -13,6 +13,7 @@ import java.util.List;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.ChapterListAdapter;
 import comic.shannortrotty.gruntt.classes.Chapter;
+import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
@@ -32,10 +33,9 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
 
     private String mLink;
     private String mTitle;
-    private ListView listView;
     private ChapterListAdapter mChapterListAdapter;
     private GenericNetworkPresenter genericNetworkPresenter;
-
+    private Comic lastReadComic;
 
     public ChapterListFragment() {
         // Required empty public constructor
@@ -71,14 +71,15 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chapter_list, container, false);
         //Makes the call on create to fetch the list of Issues
-        genericNetworkPresenter = new ListPresenter<>(this, new ComicTvNetworkImplementation());
-        listView = ((ListView) view.findViewById(R.id.listView_fragment_chapter_list));
+        genericNetworkPresenter = new ListPresenter<>(getContext(),this, new ComicTvNetworkImplementation());
+        ListView listView = ((ListView) view.findViewById(R.id.listView_fragment_chapter_list));
         mChapterListAdapter = new ChapterListAdapter(getContext());
         listView.setAdapter(mChapterListAdapter);
 
         //Perform Request for Comic Chapters
         RequestType requestType = new RequestType(RequestType.Type.CHAPTERS);
         requestType.addExtras(Constants.COMIC_LINK, mLink);
+        requestType.addExtras(Constants.COMIC_NAME,mTitle);
         genericNetworkPresenter.startRequest(requestType);
 
         return view;

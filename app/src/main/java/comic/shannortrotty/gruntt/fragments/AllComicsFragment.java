@@ -55,7 +55,7 @@ public class AllComicsFragment extends Fragment implements GenericView<BareComic
         recyclerView = ((RecyclerView) view.findViewById(R.id.recyclerView_fragment_all_comics));
         loadingIndicator = (AVLoadingIndicatorView)view.findViewById(R.id.loading_icon_fragment_all_comics);
         layoutManger = new LinearLayoutManager(getContext());
-        networkPresenter = new ListPresenter<>(this, new ComicTvNetworkImplementation());
+        networkPresenter = new ListPresenter<>(getContext(),this, new ComicTvNetworkImplementation());
 
         recyclerView.setLayoutManager(layoutManger);
 

@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,25 +112,25 @@ public class FavoriteComicsFragment extends Fragment {
         SQLiteDatabase db = mDatabase.getReadableDatabase();
         List<ComicDetails> comicDetailsList = new ArrayList<>();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + ComicDatabaseContract.ComicFavoriteEntry.TABLE_NAME, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + ComicDatabaseContract.ComicInfoEntry.TABLE_NAME_FAVORITE, null);
         if(cursor.moveToFirst()){
             do {
                 ComicDetails comicDetails = new ComicDetails();
                 comicDetails.setTitle(cursor.getString(
                         cursor.getColumnIndexOrThrow(
-                                ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_TITLE)));
+                                ComicDatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE)));
                 comicDetails.setStatus(
                         cursor.getString(
                                 cursor.getColumnIndexOrThrow(
-                                        ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_STATUS)));
+                                        ComicDatabaseContract.ComicInfoEntry.COLUMN_NAME_STATUS)));
                 comicDetails.setAuthor(
                         cursor.getString(
-                                cursor.getColumnIndexOrThrow(ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_AUTHOR)));
+                                cursor.getColumnIndexOrThrow(ComicDatabaseContract.ComicInfoEntry.COLUMN_NAME_AUTHOR)));
                 comicDetails.setLocalBitmap(
                         DatabaseHelper.getImage(
                                 cursor.getBlob(
                                         cursor.getColumnIndexOrThrow(
-                                                ComicDatabaseContract.ComicFavoriteEntry.COLUMN_NAME_COMIC_IMAGE))));
+                                                ComicDatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_IMAGE))));
                 // comicDetails.setLargeImgURL();
                 comicDetailsList.add(comicDetails);
             } while (cursor.moveToNext());

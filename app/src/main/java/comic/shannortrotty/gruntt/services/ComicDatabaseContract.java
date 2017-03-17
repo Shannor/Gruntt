@@ -13,10 +13,13 @@ public final class ComicDatabaseContract {
     //So that no one can create this class
     private ComicDatabaseContract(){}
 
-    public static class ComicFavoriteEntry implements BaseColumns{
+    public static class ComicInfoEntry implements BaseColumns{
 
-        public static final String TABLE_NAME = "favorite_comics";
-        // column names
+        //Table Names
+        public static final String TABLE_NAME_FAVORITE = "favorite_comics";
+        public static final String TABLE_NAME_CHAPTERS = "comic_chapters";
+
+        //Comic Details Columns
         public static final String COLUMN_NAME_TITLE = "comic_title";
         public static final String COLUMN_NAME_STATUS = "comic_status";
         public static final String COLUMN_NAME_AUTHOR = "comic_author";
@@ -25,9 +28,13 @@ public final class ComicDatabaseContract {
         public static final String COLUMN_NAME_ALT_TITLE = "comic_alt_name";
         public static final String COLUMN_NAME_DESCRIPTION = "comic_description";
         public static final String COLUMN_NAME_COMIC_IMAGE = "comic_image";
+        public static final String COLUMN_NAME_IS_FAVORITE =  "comic_is_favorite";
+
+
+        //Comic Chapter List Columns
         public static final String COLUMN_NAME_LAST_READ_COMIC = "last_comic_read";
         public static final String COLUMN_NAME_CHAPTER_LIST = "comic_chapter_list";
-        public static final String COLUMN_NAME_IS_FAVORITE =  "comic_is_favorite";
+
     }
 
 

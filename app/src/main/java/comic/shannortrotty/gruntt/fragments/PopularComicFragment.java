@@ -60,7 +60,7 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_popular_comic, container, false);
-        genericNetworkPresenter = new ListPresenter<>(this, new ComicTvNetworkImplementation());
+        genericNetworkPresenter = new ListPresenter<>(getContext(),this, new ComicTvNetworkImplementation());
         mLayoutManager = new LinearLayoutManager(getContext());
         mComicRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_fragment_popular_comics);
         loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_popular_comics));

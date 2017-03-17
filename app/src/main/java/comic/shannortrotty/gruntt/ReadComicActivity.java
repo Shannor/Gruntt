@@ -65,7 +65,7 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
             mComicChapterNumber = getIntent().getStringExtra(COMIC_CHAPTER_NUMBER);
             mComicLink = getIntent().getStringExtra(COMIC_LINK);
         }
-        genericNetworkPresenter = new ListPresenter<>(this, new ComicTvNetworkImplementation());
+        genericNetworkPresenter = new ListPresenter<>(this,this, new ComicTvNetworkImplementation());
         loadingIndictorView = ((AVLoadingIndicatorView) findViewById(R.id.loading_icon_read_comic_activity));
 //        serviceMediator.getComicChapterPages(getApplicationContext(), mComicLink, mComicChapterNumber);
         mViewPager = ((ViewPager) findViewById(R.id.viewPager_activity_read_comic));
