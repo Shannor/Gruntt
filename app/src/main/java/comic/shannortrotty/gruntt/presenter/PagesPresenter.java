@@ -4,7 +4,6 @@ import android.content.Context;
 
 import java.util.List;
 
-import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.model.NetworkModel;
@@ -37,7 +36,7 @@ public class PagesPresenter implements GenericPresenter, NetworkModel.OnResponse
         genericView.showLoading();
         finished = false;
         if (requestType.getType() == RequestType.Type.PAGES) {
-            networkModel.getComicPages(
+            networkModel.getChapterPages(
                     requestType.getExtras().get(Constants.COMIC_LINK),
                     requestType.getExtras().get(Constants.CHAPTER_NUMBER),
                     this
@@ -54,7 +53,7 @@ public class PagesPresenter implements GenericPresenter, NetworkModel.OnResponse
     }
 
     @Override
-    public void onCanceledRequest(Call<List<String>> call) {
+    public void setRequestCall(Call<List<String>> call) {
         this.call = call;
     }
 

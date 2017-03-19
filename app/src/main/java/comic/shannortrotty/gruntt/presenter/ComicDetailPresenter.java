@@ -81,7 +81,7 @@ public class ComicDetailPresenter implements GenericPresenter, NetworkModel.OnRe
     }
 
     @Override
-    public void onCanceledRequest(Call<ComicDetails> call) {
+    public void setRequestCall(Call<ComicDetails> call) {
         this.call = call;
     }
 

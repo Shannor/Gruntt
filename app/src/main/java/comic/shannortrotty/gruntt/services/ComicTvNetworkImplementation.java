@@ -10,7 +10,6 @@ import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.model.NetworkModel;
 import comic.shannortrotty.gruntt.model.RetrofitComicTVService;
-import comic.shannortrotty.gruntt.presenter.GenericPresenter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,7 +33,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                 .create(RetrofitComicTVService.class);
 
         Call<List<BareComicsCategory>> call = retrofitComicTVService.listAllComics();
-        listener.onCanceledRequest(call);
+        listener.setRequestCall(call);
         call.enqueue(new Callback<List<BareComicsCategory>>() {
             @Override
             public void onResponse(Call<List<BareComicsCategory>> call, Response<List<BareComicsCategory>> response) {
@@ -43,7 +42,11 @@ public class ComicTvNetworkImplementation implements NetworkModel {
 
             @Override
             public void onFailure(Call<List<BareComicsCategory>> call, Throwable t) {
-                Log.e(TAG, "onFailure: Error on All Comics Call.", t );
+                if(call.isCanceled()){
+                    Log.e(TAG, "User canceled the Call. ", t);
+                }else{
+                    Log.e(TAG, "onFailure: Error on All Comics Call.", t );
+                }
             }
         });
     }
@@ -59,7 +62,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                 .create(RetrofitComicTVService.class);
 
         Call<List<Chapter>> call = retrofitComicTVService.listComicChapters(comicLink);
-        listener.onCanceledRequest(call);
+        listener.setRequestCall(call);
         call.enqueue(new Callback<List<Chapter>>() {
             @Override
             public void onResponse(Call<List<Chapter>> call, Response<List<Chapter>> response) {
@@ -68,7 +71,11 @@ public class ComicTvNetworkImplementation implements NetworkModel {
 
             @Override
             public void onFailure(Call<List<Chapter>> call, Throwable t) {
-                Log.e(TAG, "Error on Retrofit call for Chapters", t);
+                if(call.isCanceled()){
+                    Log.e(TAG, "User canceled the Call. ", t);
+                }else {
+                    Log.e(TAG, "Error on Retrofit call for Chapters. ", t);
+                }
             }
         });
     }
@@ -84,7 +91,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                 .create(RetrofitComicTVService.class);
 
         Call<ComicDetails> call = retrofitComicTVService.getComicDescription(comicLink);
-        listener.onCanceledRequest(call);
+        listener.setRequestCall(call);
         call.enqueue(new Callback<ComicDetails>() {
             @Override
             public void onResponse(Call<ComicDetails> call, Response<ComicDetails> response) {
@@ -94,17 +101,22 @@ public class ComicTvNetworkImplementation implements NetworkModel {
 
             @Override
             public void onFailure(Call<ComicDetails> call, Throwable t) {
-
+                if(call.isCanceled()){
+                    Log.e(TAG, "User canceled the Call. ", t);
+                }else{
+                    Log.e(TAG, "Error on Retrofit call for ComicDetails. ", t);
+                }
             }
         });
     }
 
     @Override
-    public void getComicPages(String comicLink, String chapterNum, final OnResponseListListener<String> listener) {
+    public void getChapterPages(String comicLink, String chapterNum, final OnResponseListListener<String> listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit.
                 create(RetrofitComicTVService.class);
+
         Call<List<String>> call = retrofitComicTVService.listPages(comicLink, chapterNum);
-        listener.onCanceledRequest(call);
+        listener.setRequestCall(call);
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
@@ -113,7 +125,12 @@ public class ComicTvNetworkImplementation implements NetworkModel {
 
             @Override
             public void onFailure(Call<List<String>> call, Throwable t) {
+                if(call.isCanceled()){
+                    Log.e(TAG, "User canceled the Call. ", t);
+                }else{
+                    Log.e(TAG, "Error on Retrofit call for Chapter Pages. ", t);
 
+                }
             }
         });
     }
@@ -129,7 +146,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                 create(RetrofitComicTVService.class);
 
         Call<List<PopularComic>> call = retrofitComicTVService.listPopularComics(pageNumber);
-        listener.onCanceledRequest(call);
+        listener.setRequestCall(call);
         call.enqueue(new Callback<List<PopularComic>>() {
             @Override
             public void onResponse(Call<List<PopularComic>> call, Response<List<PopularComic>> response) {
@@ -138,7 +155,11 @@ public class ComicTvNetworkImplementation implements NetworkModel {
 
             @Override
             public void onFailure(Call<List<PopularComic>> call, Throwable t) {
-
+                if(call.isCanceled()){
+                    Log.e(TAG, "User canceled the Call. ", t);
+                }else{
+                    Log.e(TAG, "Error on Retrofit call for Popular Comics.", t);
+                }
             }
         });
 

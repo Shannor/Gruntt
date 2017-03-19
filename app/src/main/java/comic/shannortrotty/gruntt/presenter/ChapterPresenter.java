@@ -68,7 +68,7 @@ public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnRespo
     }
 
     @Override
-    public void onCanceledRequest(Call<List<Chapter>> call) {
+    public void setRequestCall(Call<List<Chapter>> call) {
         this.call = call;
     }
 

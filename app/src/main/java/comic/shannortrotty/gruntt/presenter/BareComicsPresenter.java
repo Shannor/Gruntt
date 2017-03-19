@@ -52,7 +52,7 @@ public class BareComicsPresenter implements  GenericPresenter, NetworkModel.OnRe
     }
 
     @Override
-    public void onCanceledRequest(Call<List<BareComicsCategory>> call) {
+    public void setRequestCall(Call<List<BareComicsCategory>> call) {
         this.call = call;
     }
 

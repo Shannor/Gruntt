@@ -50,7 +50,7 @@ public class PopularComicsPresenter implements GenericPresenter, NetworkModel.On
     }
 
     @Override
-    public void onCanceledRequest(Call<List<PopularComic>> call) {
+    public void setRequestCall(Call<List<PopularComic>> call) {
         this.call = call;
     }
 

@@ -16,16 +16,16 @@ public interface NetworkModel {
 
     interface OnResponseListListener<T>{
         void onListFinished(List<T> items);
-        void onCanceledRequest(Call<List<T>> call);
+        void setRequestCall(Call<List<T>> call);
     }
     interface OnResponseItemListener<T>{
         void onItemFinished(T item);
-        void onCanceledRequest(Call<T> call);
+        void setRequestCall(Call<T> call);
     }
 
     void getPopularComics(String pageNumber, OnResponseListListener<PopularComic> listener);
     void getAllComics(OnResponseListListener<BareComicsCategory> listener);
     void getChapters(String comicLink, OnResponseListListener<Chapter> listener);
     void getComicDescription(String comicLink, OnResponseItemListener<ComicDetails> listener);
-    void getComicPages(String comicLink, String chapterNumber, OnResponseListListener<String> listener);
+    void getChapterPages(String comicLink, String chapterNumber, OnResponseListListener<String> listener);
 }
