@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +23,12 @@ import retrofit2.Call;
  * Created by shannortrotty on 3/16/17.
  */
 
-public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnResponseListListener<Chapter>{
+public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnResponseListListener<Chapter>,
+        NetworkModel.OnResponseItemListener<Chapter>{
     private GenericView<Chapter> genericView;
     private NetworkModel networkModel;
     private Context mContext;
     private boolean canceled;
-    private boolean finished;
     private Call call;
     private static final String TAG = "ChapterPresenter";
 
@@ -36,7 +37,6 @@ public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnRespo
         this.networkModel = networkModel;
         this.mContext = mContext;
         this.canceled = false;
-        this.finished = false;
     }
 
     @Override
@@ -47,12 +47,12 @@ public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnRespo
             if (chapters.isEmpty()) {
                 networkModel.getChapters(
                         requestType.getExtras().get(Constants.COMIC_LINK),
-                        this);
+                        this,this);
             } else {
                 //Remove last read chapter from the front
                 Chapter lastRead = chapters.get(0);
                 chapters.remove(0);
-                genericView.setItem(lastRead);
+                onItemFinished(lastRead);
                 onListFinished(chapters);
             }
         }else {
@@ -68,13 +68,28 @@ public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnRespo
     }
 
     @Override
-    public void setRequestCall(Call<List<Chapter>> call) {
+    public void setRequestListCall(Call<List<Chapter>> call) {
         this.call = call;
+    }
+
+    @Override
+    public void setRequestCall(Call<Chapter> call) {
+        //Wont Use
+    }
+
+    @Override
+    public void onListFailed(Throwable throwable) {
+        if(throwable instanceof SocketTimeoutException){
+            //Set time out
+            genericView.setErrorMessage();
+            genericView.hideLoading();
+        }
     }
 
     @Override
     public void cancelRequest() {
         canceled = true;
+        call.cancel();
     }
 
     @Override
@@ -85,6 +100,12 @@ public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnRespo
         }
     }
 
+    @Override
+    public void onItemFinished(Chapter item) {
+        if(!canceled){
+            genericView.setItem(item);
+        }
+    }
 
     public void saveComicProgress(String comicName, List<Chapter>chapterList, Chapter last_read_chapter, int chapterIndex){
         SQLiteDatabase db = new DatabaseHelper(mContext).getWritableDatabase();
@@ -109,8 +130,9 @@ public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnRespo
         db.close();
 
     }
-    private @NonNull
-    List<Chapter> checkDatabaseForChapterList(String comicName){
+
+    @NonNull
+    private List<Chapter> checkDatabaseForChapterList(String comicName){
         DatabaseHelper mDatabase = new DatabaseHelper(mContext);
         SQLiteDatabase db = mDatabase.getReadableDatabase();
         List<Chapter> chapters = new ArrayList<>();

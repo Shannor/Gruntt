@@ -10,4 +10,5 @@
     <color name="divider">#BDBDBD</color>
 
     <color name="subcategory_background">#EEEEEE</color>
+    <color name="button_text_color">#FFFFFF</color>
 </resources>

@@ -73,6 +73,10 @@ public class ChapterListAdapter extends ArrayAdapter<Chapter> {
         return convertView;
     }
 
+    public int getIndex(Chapter chapter){
+        return this.mChapters.indexOf(chapter);
+    }
+
     public void addChapters(List<Chapter> chapters){
         this.mChapters.clear();
         Collections.reverse(chapters);

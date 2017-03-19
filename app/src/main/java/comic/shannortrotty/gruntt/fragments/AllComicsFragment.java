@@ -107,6 +107,11 @@ public class AllComicsFragment extends Fragment implements GenericView<BareComic
     }
 
     @Override
+    public void setErrorMessage() {
+
+    }
+
+    @Override
     public void setItems(List<BareComicsCategory> items) {
         allComicsAdapter = new AllComicRecyclerViewAdapter(getContext(),items, mListener);
         recyclerView.setAdapter(allComicsAdapter);

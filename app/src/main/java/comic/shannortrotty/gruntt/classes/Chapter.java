@@ -16,7 +16,6 @@ public class Chapter implements Comic{
     private String link;
     @SerializedName("releaseDate")
     private String releaseDate;
-
     private Boolean haveRead;
 
     public Chapter(){
@@ -86,5 +85,24 @@ public class Chapter implements Comic{
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Chapter chapter = (Chapter) o;
+
+        if (!chapterName.equals(chapter.chapterName)) return false;
+        return link.equals(chapter.link);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = chapterName.hashCode();
+        result = 31 * result + link.hashCode();
+        return result;
     }
 }

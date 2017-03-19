@@ -2,7 +2,9 @@ package comic.shannortrotty.gruntt.services;
 
 import android.util.Log;
 
+import java.net.SocketTimeoutException;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.Chapter;
@@ -33,7 +35,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                 .create(RetrofitComicTVService.class);
 
         Call<List<BareComicsCategory>> call = retrofitComicTVService.listAllComics();
-        listener.setRequestCall(call);
+        listener.setRequestListCall(call);
         call.enqueue(new Callback<List<BareComicsCategory>>() {
             @Override
             public void onResponse(Call<List<BareComicsCategory>> call, Response<List<BareComicsCategory>> response) {
@@ -57,15 +59,16 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      * @param listener
      */
     @Override
-    public void getChapters(String comicLink, final OnResponseListListener<Chapter> listener) {
+    public void getChapters(String comicLink, final OnResponseListListener<Chapter> listener, final OnResponseItemListener<Chapter> itemListener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
                 .create(RetrofitComicTVService.class);
 
         Call<List<Chapter>> call = retrofitComicTVService.listComicChapters(comicLink);
-        listener.setRequestCall(call);
+        listener.setRequestListCall(call);
         call.enqueue(new Callback<List<Chapter>>() {
             @Override
             public void onResponse(Call<List<Chapter>> call, Response<List<Chapter>> response) {
+                itemListener.onItemFinished(response.body().get(0));
                 listener.onListFinished(response.body());
             }
 
@@ -74,6 +77,8 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                 if(call.isCanceled()){
                     Log.e(TAG, "User canceled the Call. ", t);
                 }else {
+                    //TODO: Need error catching of some type
+                    listener.onListFailed(t);
                     Log.e(TAG, "Error on Retrofit call for Chapters. ", t);
                 }
             }
@@ -116,7 +121,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                 create(RetrofitComicTVService.class);
 
         Call<List<String>> call = retrofitComicTVService.listPages(comicLink, chapterNum);
-        listener.setRequestCall(call);
+        listener.setRequestListCall(call);
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
@@ -146,7 +151,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                 create(RetrofitComicTVService.class);
 
         Call<List<PopularComic>> call = retrofitComicTVService.listPopularComics(pageNumber);
-        listener.setRequestCall(call);
+        listener.setRequestListCall(call);
         call.enqueue(new Callback<List<PopularComic>>() {
             @Override
             public void onResponse(Call<List<PopularComic>> call, Response<List<PopularComic>> response) {

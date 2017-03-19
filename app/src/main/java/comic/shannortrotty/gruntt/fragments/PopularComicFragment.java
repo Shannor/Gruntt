@@ -89,27 +89,6 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
         }
     }
 
-
-    @Override
-    public void setItems(List<PopularComic> items) {
-        myComicRecyclerViewAdapter.addItems(items);
-    }
-
-    @Override
-    public void setItem(PopularComic item) {
-
-    }
-
-    @Override
-    public void hideLoading() {
-        loadingIndicatorView.hide();
-    }
-
-    @Override
-    public void showLoading() {
-        loadingIndicatorView.show();
-    }
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -123,4 +102,32 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
         super.onDestroy();
         genericPresenter.onDestroy();
     }
+
+    //********************OnGenericView Listener***************************
+    @Override
+    public void setItems(List<PopularComic> items) {
+        myComicRecyclerViewAdapter.addItems(items);
+    }
+
+    @Override
+    public void setItem(PopularComic item) {
+        //Not In Use
+    }
+
+    @Override
+    public void setErrorMessage() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+        loadingIndicatorView.hide();
+    }
+
+    @Override
+    public void showLoading() {
+        loadingIndicatorView.show();
+    }
+
+
 }

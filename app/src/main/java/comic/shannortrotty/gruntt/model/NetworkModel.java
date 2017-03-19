@@ -16,7 +16,8 @@ public interface NetworkModel {
 
     interface OnResponseListListener<T>{
         void onListFinished(List<T> items);
-        void setRequestCall(Call<List<T>> call);
+        void setRequestListCall(Call<List<T>> call);
+        void onListFailed(Throwable throwable);
     }
     interface OnResponseItemListener<T>{
         void onItemFinished(T item);
@@ -25,7 +26,7 @@ public interface NetworkModel {
 
     void getPopularComics(String pageNumber, OnResponseListListener<PopularComic> listener);
     void getAllComics(OnResponseListListener<BareComicsCategory> listener);
-    void getChapters(String comicLink, OnResponseListListener<Chapter> listener);
+    void getChapters(String comicLink, OnResponseListListener<Chapter> listener, OnResponseItemListener<Chapter> chapterListener);
     void getComicDescription(String comicLink, OnResponseItemListener<ComicDetails> listener);
     void getChapterPages(String comicLink, String chapterNumber, OnResponseListListener<String> listener);
 }

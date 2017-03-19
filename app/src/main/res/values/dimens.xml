@@ -12,6 +12,13 @@
     <dimen name="favorite_comics_margin">16dp</dimen>
 
 
+    <!--Button Dimens-->
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="button_touchable_target_height">48dp</dimen>
+    <dimen name="button_corner_radius">2dp</dimen>
+    <dimen name="button_min_width">44dp</dimen>
+    <dimen name="button_horizontal_margin">8dp</dimen>
+    <dimen name="button_horizontal_padding">8dp</dimen>
     <!--Text Dimens-->
     <dimen name="tile_height">48dp</dimen>
     <dimen name="text_top_btm_padding">16dp</dimen>

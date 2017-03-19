@@ -53,8 +53,13 @@ public class PagesPresenter implements GenericPresenter, NetworkModel.OnResponse
     }
 
     @Override
-    public void setRequestCall(Call<List<String>> call) {
+    public void setRequestListCall(Call<List<String>> call) {
         this.call = call;
+    }
+
+    @Override
+    public void onListFailed(Throwable throwable) {
+
     }
 
     @Override

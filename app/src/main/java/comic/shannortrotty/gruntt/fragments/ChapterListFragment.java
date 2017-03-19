@@ -81,8 +81,6 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
         loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_chapter_list));
         mChapterListAdapter = new ChapterListAdapter(getContext(), this);
         listView.setAdapter(mChapterListAdapter);
-
-
         return view;
     }
 
@@ -114,13 +112,18 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     }
     public Chapter getLastReadChapter(){ return lastReadComic; }
     public void resumeReading(){
-        onClickedChapter(lastReadComic, mChapterListAdapter.getPosition(lastReadComic));
+        onClickedChapter(lastReadComic, mChapterListAdapter.getIndex(lastReadComic));
     }
 
     //********************* OnGenericView implementation **************
     @Override
     public void setItems(List<Chapter> items) {
         mChapterListAdapter.addChapters(items);
+    }
+
+    @Override
+    public void setErrorMessage() {
+        //TODO:Set some error message
     }
 
     @Override

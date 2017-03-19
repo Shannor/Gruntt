@@ -120,23 +120,29 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
         loadingIndictorView.hide();
     }
 
+    @Override
+    public void setErrorMessage() {
 
-    public class  ImagesPagerAdapter extends PagerAdapter{
+    }
+
+
+    //*****************Images Pages Adapter only for this Activity
+    private class  ImagesPagerAdapter extends PagerAdapter{
         private List<String> chapterPageString;
         private Context context;
         private LayoutInflater layoutInflater;
 
-        public ImagesPagerAdapter(Context context){
+        ImagesPagerAdapter(Context context){
             this.context = context;
-            layoutInflater = ((LayoutInflater) this.context.getSystemService(this.context.LAYOUT_INFLATER_SERVICE));
+            this.layoutInflater = ((LayoutInflater) this.context.getSystemService(this.context.LAYOUT_INFLATER_SERVICE));
             this.chapterPageString = new ArrayList<>();
         }
-        public ImagesPagerAdapter(Context context,List<String> chapterPageString){
+        ImagesPagerAdapter(Context context,List<String> chapterPageString){
             this.context = context;
             this.chapterPageString = chapterPageString;
         }
 
-        public void addList(List<String> chapterPagesBitmap){
+        void addList(List<String> chapterPagesBitmap){
             this.chapterPageString.clear();
             this.chapterPageString.addAll(chapterPagesBitmap);
             notifyDataSetChanged();
@@ -160,7 +166,7 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
             String url = chapterPageString.get(position);
             PhotoView photoView = ((PhotoView) view.findViewById(R.id.photoView_read_comic_activity));
             final PhotoViewAttacher attacher = new PhotoViewAttacher(photoView);
-
+            //TODO:Add error message
             Picasso.with(context)
                     .load(url)
                     .fit()
@@ -180,6 +186,7 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
             container.addView(view);
             return view;
         }
+
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {

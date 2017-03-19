@@ -50,8 +50,14 @@ public class PopularComicsPresenter implements GenericPresenter, NetworkModel.On
     }
 
     @Override
-    public void setRequestCall(Call<List<PopularComic>> call) {
+    public void setRequestListCall(Call<List<PopularComic>> call) {
         this.call = call;
+    }
+
+
+    @Override
+    public void onListFailed(Throwable throwable) {
+
     }
 
     @Override

@@ -12,4 +12,6 @@ public interface GenericView<T> {
     void hideLoading();
     void setItems(List<T> items);
     void setItem(T item);
+    //TODO:Maybe provide an enum for the type of Error
+    void setErrorMessage();
 }

@@ -196,6 +196,11 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     }
 
     @Override
+    public void setErrorMessage() {
+
+    }
+
+    @Override
     public void showLoading() {
         setVisibility(View.INVISIBLE);
         loadingIndicatorView.show();

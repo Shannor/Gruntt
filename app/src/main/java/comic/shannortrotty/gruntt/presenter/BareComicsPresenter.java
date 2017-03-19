@@ -52,7 +52,7 @@ public class BareComicsPresenter implements  GenericPresenter, NetworkModel.OnRe
     }
 
     @Override
-    public void setRequestCall(Call<List<BareComicsCategory>> call) {
+    public void setRequestListCall(Call<List<BareComicsCategory>> call) {
         this.call = call;
     }
 
@@ -62,6 +62,11 @@ public class BareComicsPresenter implements  GenericPresenter, NetworkModel.OnRe
             this.canceled = true;
             this.call.cancel();
         }
+
+    }
+
+    @Override
+    public void onListFailed(Throwable throwable) {
 
     }
 
