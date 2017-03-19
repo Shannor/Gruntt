@@ -14,6 +14,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
+import comic.shannortrotty.gruntt.adapters.EndlessRecyclerViewScrollListener;
 import comic.shannortrotty.gruntt.adapters.MyComicRecyclerViewAdapter;
 import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.Constants;
@@ -37,8 +38,8 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
     private RecyclerView mComicRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private GenericPresenter genericPresenter;
-    private int pageCount = 1;
     private AVLoadingIndicatorView loadingIndicatorView;
+    private EndlessRecyclerViewScrollListener scrollListener;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -67,17 +68,34 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
         mComicRecyclerView.setLayoutManager(mLayoutManager);
         myComicRecyclerViewAdapter = new MyComicRecyclerViewAdapter(getContext().getApplicationContext() ,mListener);
         mComicRecyclerView.setAdapter(myComicRecyclerViewAdapter);
+        scrollListener =  new EndlessRecyclerViewScrollListener(mLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                loadRequest(page);
+            }
+        };
 
-        //Only make this networking call on Create and show load when making the call.
-        RequestType type = new RequestType(RequestType.Type.POPULARCOMICS);
-        type.addExtras(Constants.PAGE_NUMBER,String.valueOf(pageCount));
-        genericPresenter.startRequest(type);
-
-        //TODO:Page count will be incremented by USER on Scroll
+        mComicRecyclerView.addOnScrollListener(scrollListener);
+        loadRequest(1);
 
         return view;
     }
 
+    /**
+     *
+     * @param pageCount
+     */
+    private void loadRequest(int pageCount){
+        //Only make this networking call on Create and show load when making the call.
+        RequestType type = new RequestType(RequestType.Type.POPULARCOMICS);
+        type.addExtras(Constants.PAGE_NUMBER,String.valueOf(pageCount));
+        genericPresenter.startRequest(type);
+    }
+
+    private void clearItems(){
+        myComicRecyclerViewAdapter.clearItems();
+        scrollListener.resetState();
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -93,6 +111,7 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        clearItems();
         genericPresenter.cancelRequest();
     }
 

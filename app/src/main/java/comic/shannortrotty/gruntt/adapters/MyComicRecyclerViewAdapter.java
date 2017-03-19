@@ -49,11 +49,11 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
     }
 
     public void addItems(List<PopularComic> popularComics){
-        mPopularComics.clear();
+//        mPopularComics.clear();
+        int currentSize = mPopularComics.size();
         mPopularComics.addAll(popularComics);
         notifyDataSetChanged();
-        //Suppose to be memory efficient
-//        notifyItemChanged(comics.size() -1);
+        notifyItemRangeInserted(currentSize, mPopularComics.size() - 1);
     }
 
     public void addItem(PopularComic popularComic){
@@ -61,6 +61,10 @@ public class MyComicRecyclerViewAdapter extends RecyclerView.Adapter<MyComicRecy
         notifyItemChanged(mPopularComics.size() - 1);
     }
 
+    public void clearItems(){
+        mPopularComics.clear();
+        notifyDataSetChanged();
+    }
     /**
      * Method where data should be set, replace contents
      * @param holder viewHolder
