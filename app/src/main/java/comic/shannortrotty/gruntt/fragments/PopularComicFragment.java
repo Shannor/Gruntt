@@ -20,7 +20,7 @@ import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
-import comic.shannortrotty.gruntt.presenter.ListPresenter;
+import comic.shannortrotty.gruntt.presenter.PopularComicsPresenter;
 import comic.shannortrotty.gruntt.presenter.GenericPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
 
@@ -60,7 +60,7 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_popular_comic, container, false);
-        genericPresenter = new ListPresenter<>(getContext(),this, new ComicTvNetworkImplementation());
+        genericPresenter = new PopularComicsPresenter(getContext(),this, new ComicTvNetworkImplementation());
         mLayoutManager = new LinearLayoutManager(getContext());
         mComicRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_fragment_popular_comics);
         loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_popular_comics));

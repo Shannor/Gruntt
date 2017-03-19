@@ -104,7 +104,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         View view = inflater.inflate(R.layout.fragment_info_fragment, container, false);
         //TODO:Replace with Factory call
         //TODO: Add Description title
-        genericPresenter = new ComicDetailPresenter<>(getContext(),this, new ComicTvNetworkImplementation(), ComicDetails.class);
+        genericPresenter = new ComicDetailPresenter(getContext(),this, new ComicTvNetworkImplementation());
 
         largeComicImg = ((ImageView) view.findViewById(R.id.imageView_info_fragment_large_img));
         loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_info));

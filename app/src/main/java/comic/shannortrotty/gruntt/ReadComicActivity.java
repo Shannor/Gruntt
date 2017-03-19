@@ -23,9 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
+import comic.shannortrotty.gruntt.presenter.PagesPresenter;
 import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.presenter.GenericPresenter;
-import comic.shannortrotty.gruntt.presenter.ListPresenter;
+import comic.shannortrotty.gruntt.presenter.PopularComicsPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -64,7 +65,7 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
             mComicChapterNumber = getIntent().getStringExtra(COMIC_CHAPTER_NUMBER);
             mComicLink = getIntent().getStringExtra(COMIC_LINK);
         }
-        genericPresenter = new ListPresenter<>(this,this, new ComicTvNetworkImplementation());
+        genericPresenter = new PagesPresenter(this,this, new ComicTvNetworkImplementation());
         loadingIndictorView = ((AVLoadingIndicatorView) findViewById(R.id.loading_icon_read_comic_activity));
         mViewPager = ((ViewPager) findViewById(R.id.viewPager_activity_read_comic));
         mImagesPagesAdapter = new ImagesPagerAdapter(this);

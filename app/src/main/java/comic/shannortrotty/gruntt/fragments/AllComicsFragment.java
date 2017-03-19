@@ -18,8 +18,9 @@ import comic.shannortrotty.gruntt.adapters.AllComicRecyclerViewAdapter;
 import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.classes.RequestType;
+import comic.shannortrotty.gruntt.presenter.BareComicsPresenter;
 import comic.shannortrotty.gruntt.presenter.GenericPresenter;
-import comic.shannortrotty.gruntt.presenter.ListPresenter;
+import comic.shannortrotty.gruntt.presenter.PopularComicsPresenter;
 import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.view.GenericView;
 
@@ -55,7 +56,7 @@ public class AllComicsFragment extends Fragment implements GenericView<BareComic
         recyclerView = ((RecyclerView) view.findViewById(R.id.recyclerView_fragment_all_comics));
         loadingIndicator = (AVLoadingIndicatorView)view.findViewById(R.id.loading_icon_fragment_all_comics);
         layoutManger = new LinearLayoutManager(getContext());
-        mPresenter = new ListPresenter<>(getContext(),this, new ComicTvNetworkImplementation());
+        mPresenter = new BareComicsPresenter(getContext(),this, new ComicTvNetworkImplementation());
 
         recyclerView.setLayoutManager(layoutManger);
 

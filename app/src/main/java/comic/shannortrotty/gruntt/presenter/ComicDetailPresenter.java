@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
@@ -18,22 +19,22 @@ import retrofit2.Call;
  * Created by shannortrotty on 2/28/17.
  */
 
-public class ComicDetailPresenter<T> implements GenericPresenter, NetworkModel.OnResponseItemListener<T> {
+public class ComicDetailPresenter implements GenericPresenter, NetworkModel.OnResponseItemListener<ComicDetails> {
 
-    private GenericView<T> genericView;
+    private GenericView<ComicDetails> genericView;
     private NetworkModel networkModel;
-    private final Class<T> tClass;
     private Context mContext;
-    private Call<T> call;
-    private boolean canceled = false;
-    private boolean finished = false;
+    private Call<ComicDetails> call;
+    private boolean canceled;
+    private boolean finished;
     private static final String TAG = "ComicDetailPresenter";
 
-    public ComicDetailPresenter(Context context, GenericView<T> genericView, NetworkModel networkModel, Class<T> castClass) {
+    public ComicDetailPresenter(Context context, GenericView<ComicDetails> genericView, NetworkModel networkModel) {
         this.genericView = genericView;
         this.networkModel = networkModel;
-        this.tClass = castClass;
         this.mContext = context;
+        this.canceled = false;
+        this.finished = false;
     }
 
     @Override
@@ -42,10 +43,10 @@ public class ComicDetailPresenter<T> implements GenericPresenter, NetworkModel.O
     }
 
     @Override
-    public void onItemFinished(T item) {
+    public void onItemFinished(ComicDetails item) {
         finished = true;
         if(!canceled) {
-            genericView.setItem(tClass.cast(item));
+            genericView.setItem(item);
             genericView.hideLoading();
         }
     }
@@ -71,12 +72,7 @@ public class ComicDetailPresenter<T> implements GenericPresenter, NetworkModel.O
                     requestType.getExtras().get(Constants.COMIC_LINK),
                     this);
             }else{
-                try{
-                    onItemFinished(tClass.cast(comicDetails));
-                }catch (ClassCastException e){
-                    Log.e(TAG, "startRequest: Database retrieval call ",e);
-                    throw e;
-                }
+                onItemFinished(comicDetails);
             }
 
         }else{
@@ -85,7 +81,7 @@ public class ComicDetailPresenter<T> implements GenericPresenter, NetworkModel.O
     }
 
     @Override
-    public void onCanceledRequest(Call<T> call) {
+    public void onCanceledRequest(Call<ComicDetails> call) {
         this.call = call;
     }
 

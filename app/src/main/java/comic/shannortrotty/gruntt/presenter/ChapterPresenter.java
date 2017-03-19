@@ -27,14 +27,16 @@ public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnRespo
     private NetworkModel networkModel;
     private Context mContext;
     private boolean canceled;
+    private boolean finished;
     private Call call;
     private static final String TAG = "ChapterPresenter";
 
-    public ChapterPresenter(GenericView<Chapter> genericView, NetworkModel networkModel, Context mContext) {
+    public ChapterPresenter(Context mContext, GenericView<Chapter> genericView, NetworkModel networkModel) {
         this.genericView = genericView;
         this.networkModel = networkModel;
         this.mContext = mContext;
         this.canceled = false;
+        this.finished = false;
     }
 
     @Override
@@ -66,7 +68,7 @@ public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnRespo
     }
 
     @Override
-    public void onCanceledRequest(Call<Chapter> call) {
+    public void onCanceledRequest(Call<List<Chapter>> call) {
         this.call = call;
     }
 

@@ -29,7 +29,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      * @param listener
      */
     @Override
-    public void getAllComics(final OnResponseListListener listener) {
+    public void getAllComics(final OnResponseListListener<BareComicsCategory> listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
                 .create(RetrofitComicTVService.class);
 
@@ -54,7 +54,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      * @param listener
      */
     @Override
-    public void getChapters(String comicLink, final OnResponseListListener listener) {
+    public void getChapters(String comicLink, final OnResponseListListener<Chapter> listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
                 .create(RetrofitComicTVService.class);
 
@@ -79,7 +79,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      * @param listener
      */
     @Override
-    public void getComicDescription(String comicLink , final OnResponseItemListener listener) {
+    public void getComicDescription(String comicLink , final OnResponseItemListener<ComicDetails> listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
                 .create(RetrofitComicTVService.class);
 
@@ -100,7 +100,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
     }
 
     @Override
-    public void getComicPages(String comicLink, String chapterNum, final OnResponseListListener listener) {
+    public void getComicPages(String comicLink, String chapterNum, final OnResponseListListener<String> listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit.
                 create(RetrofitComicTVService.class);
         Call<List<String>> call = retrofitComicTVService.listPages(comicLink, chapterNum);
@@ -124,7 +124,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      * @param listener
      */
     @Override
-    public void getPopularComics(String pageNumber, final OnResponseListListener listener) {
+    public void getPopularComics(String pageNumber, final OnResponseListListener<PopularComic> listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit.
                 create(RetrofitComicTVService.class);
 
