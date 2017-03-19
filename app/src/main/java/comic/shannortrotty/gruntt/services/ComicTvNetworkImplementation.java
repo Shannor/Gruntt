@@ -10,6 +10,7 @@ import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.model.NetworkModel;
 import comic.shannortrotty.gruntt.model.RetrofitComicTVService;
+import comic.shannortrotty.gruntt.presenter.GenericPresenter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,7 +24,6 @@ public class ComicTvNetworkImplementation implements NetworkModel {
 
     private static final String TAG = "ComicTvNetworkImplement";
 
-
     /**
      *
      * @param listener
@@ -34,6 +34,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                 .create(RetrofitComicTVService.class);
 
         Call<List<BareComicsCategory>> call = retrofitComicTVService.listAllComics();
+        listener.onCanceledRequest(call);
         call.enqueue(new Callback<List<BareComicsCategory>>() {
             @Override
             public void onResponse(Call<List<BareComicsCategory>> call, Response<List<BareComicsCategory>> response) {
@@ -58,6 +59,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                 .create(RetrofitComicTVService.class);
 
         Call<List<Chapter>> call = retrofitComicTVService.listComicChapters(comicLink);
+        listener.onCanceledRequest(call);
         call.enqueue(new Callback<List<Chapter>>() {
             @Override
             public void onResponse(Call<List<Chapter>> call, Response<List<Chapter>> response) {
@@ -82,6 +84,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                 .create(RetrofitComicTVService.class);
 
         Call<ComicDetails> call = retrofitComicTVService.getComicDescription(comicLink);
+        listener.onCanceledRequest(call);
         call.enqueue(new Callback<ComicDetails>() {
             @Override
             public void onResponse(Call<ComicDetails> call, Response<ComicDetails> response) {
@@ -101,6 +104,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit.
                 create(RetrofitComicTVService.class);
         Call<List<String>> call = retrofitComicTVService.listPages(comicLink, chapterNum);
+        listener.onCanceledRequest(call);
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
@@ -125,6 +129,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                 create(RetrofitComicTVService.class);
 
         Call<List<PopularComic>> call = retrofitComicTVService.listPopularComics(pageNumber);
+        listener.onCanceledRequest(call);
         call.enqueue(new Callback<List<PopularComic>>() {
             @Override
             public void onResponse(Call<List<PopularComic>> call, Response<List<PopularComic>> response) {

@@ -11,8 +11,10 @@ import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
+import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +31,11 @@ public class MyFavoriteComicsRecyclerViewAdapter extends RecyclerView.Adapter<My
     public MyFavoriteComicsRecyclerViewAdapter(List<ComicDetails> items, OnComicListener listener) {
         mValues = items;
         mListener = listener;
+    }
+
+    public MyFavoriteComicsRecyclerViewAdapter(OnComicListener mListener) {
+        this.mListener = mListener;
+        this.mValues = new ArrayList<>();
     }
 
     @Override
@@ -53,6 +60,11 @@ public class MyFavoriteComicsRecyclerViewAdapter extends RecyclerView.Adapter<My
         });
     }
 
+    public void addItems(List<ComicDetails> comics){
+        mValues.clear();
+        mValues.addAll(comics);
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return mValues.size();

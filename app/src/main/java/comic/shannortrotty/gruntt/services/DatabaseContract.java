@@ -8,10 +8,10 @@ import android.util.StringBuilderPrinter;
  * Forms the contract for the comic favorites Database Table
  */
 
-public final class ComicDatabaseContract {
+public final class DatabaseContract {
 
     //So that no one can create this class
-    private ComicDatabaseContract(){}
+    private DatabaseContract(){}
 
     public static class ComicInfoEntry implements BaseColumns{
 
@@ -32,7 +32,7 @@ public final class ComicDatabaseContract {
 
 
         //Comic Chapter List Columns
-        public static final String COLUMN_NAME_LAST_READ_COMIC = "last_comic_read";
+        public static final String COLUMN_NAME_LAST_READ_CHAPTER = "last_chapter_read";
         public static final String COLUMN_NAME_CHAPTER_LIST = "comic_chapter_list";
 
     }

@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.squareup.picasso.Callback;
@@ -25,7 +24,7 @@ import java.util.List;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
-import comic.shannortrotty.gruntt.presenter.GenericNetworkPresenter;
+import comic.shannortrotty.gruntt.presenter.GenericPresenter;
 import comic.shannortrotty.gruntt.presenter.ListPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
 import uk.co.senab.photoview.PhotoView;
@@ -40,7 +39,7 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
     private ImagesPagerAdapter mImagesPagesAdapter;
     private String mComicLink;
     private String mComicChapterNumber;
-    private GenericNetworkPresenter genericNetworkPresenter;
+    private GenericPresenter genericPresenter;
     private AVLoadingIndicatorView loadingIndictorView;
 
     public static void start(Context context, String comicLink, String comicChapterNumber) {
@@ -65,9 +64,8 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
             mComicChapterNumber = getIntent().getStringExtra(COMIC_CHAPTER_NUMBER);
             mComicLink = getIntent().getStringExtra(COMIC_LINK);
         }
-        genericNetworkPresenter = new ListPresenter<>(this,this, new ComicTvNetworkImplementation());
+        genericPresenter = new ListPresenter<>(this,this, new ComicTvNetworkImplementation());
         loadingIndictorView = ((AVLoadingIndicatorView) findViewById(R.id.loading_icon_read_comic_activity));
-//        serviceMediator.getComicChapterPages(getApplicationContext(), mComicLink, mComicChapterNumber);
         mViewPager = ((ViewPager) findViewById(R.id.viewPager_activity_read_comic));
         mImagesPagesAdapter = new ImagesPagerAdapter(this);
         mViewPager.setAdapter(mImagesPagesAdapter);
@@ -75,7 +73,7 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
         RequestType requestType = new RequestType(RequestType.Type.PAGES);
         requestType.addExtras(Constants.COMIC_LINK, mComicLink);
         requestType.addExtras(Constants.CHAPTER_NUMBER, mComicChapterNumber);
-        genericNetworkPresenter.startRequest(requestType);
+        genericPresenter.startRequest(requestType);
     }
 
 

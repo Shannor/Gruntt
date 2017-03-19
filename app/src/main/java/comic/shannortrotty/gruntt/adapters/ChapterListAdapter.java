@@ -1,6 +1,7 @@
 package comic.shannortrotty.gruntt.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import java.util.List;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.ReadComicActivity;
 import comic.shannortrotty.gruntt.classes.Chapter;
+import comic.shannortrotty.gruntt.classes.OnChapterListener;
+import comic.shannortrotty.gruntt.fragments.ChapterListFragment;
 
 /**
  * Created by shannortrotty on 2/15/17.
@@ -25,22 +28,25 @@ import comic.shannortrotty.gruntt.classes.Chapter;
 public class ChapterListAdapter extends ArrayAdapter<Chapter> {
     private List<Chapter> mChapters;
     private Context mContext;
+    private OnChapterListener mListener;
 
-    public ChapterListAdapter(Context context, List<Chapter> chapterList){
+    public ChapterListAdapter(Context context, List<Chapter> chapterList, OnChapterListener listener){
         super(context, R.layout.listview_chapter_view, chapterList);
         mContext = context;
         mChapters = chapterList;
+        mListener = listener;
     }
 
-    public ChapterListAdapter(Context context){
+    public ChapterListAdapter(Context context, OnChapterListener listener){
         super(context, R.layout.listview_chapter_view);
         mContext = context;
         mChapters = new ArrayList<>();
+        mListener = listener;
     }
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         final Chapter chapter = getItem(position);
         //Check if Reusing block or new
         if(convertView == null){
@@ -52,11 +58,16 @@ public class ChapterListAdapter extends ArrayAdapter<Chapter> {
 
         chapterName.setText(chapter.getChapterName());
         chapterReleaseDate.setText(chapter.getReleaseDate());
+        if(chapter.getHaveRead()){
+            //TODO:Change to strings color
+            chapterName.setTextColor(Color.GRAY);
+            chapterReleaseDate.setTextColor(Color.GRAY);
+        }
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Start activity for reading that chapter
-                ReadComicActivity.start(getContext().getApplicationContext(),chapter.getURLFormattedLink(),chapter.getChapterNumber());
+                mListener.onClickedChapter(chapter,position);
             }
         });
         return convertView;
@@ -69,9 +80,10 @@ public class ChapterListAdapter extends ArrayAdapter<Chapter> {
         notifyDataSetChanged();
     }
 
-    public List<Chapter> getmChapters(){
+    public List<Chapter> getChapters(){
         return this.mChapters;
     }
+
     @Nullable
     @Override
     public Chapter getItem(int position) {

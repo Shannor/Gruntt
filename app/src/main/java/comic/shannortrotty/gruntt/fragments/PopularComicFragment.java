@@ -21,7 +21,7 @@ import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.presenter.ListPresenter;
-import comic.shannortrotty.gruntt.presenter.GenericNetworkPresenter;
+import comic.shannortrotty.gruntt.presenter.GenericPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
 
 /**
@@ -36,7 +36,7 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
     private MyComicRecyclerViewAdapter myComicRecyclerViewAdapter;
     private RecyclerView mComicRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private GenericNetworkPresenter genericNetworkPresenter;
+    private GenericPresenter genericPresenter;
     private int pageCount = 1;
     private AVLoadingIndicatorView loadingIndicatorView;
     /**
@@ -60,7 +60,7 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_popular_comic, container, false);
-        genericNetworkPresenter = new ListPresenter<>(getContext(),this, new ComicTvNetworkImplementation());
+        genericPresenter = new ListPresenter<>(getContext(),this, new ComicTvNetworkImplementation());
         mLayoutManager = new LinearLayoutManager(getContext());
         mComicRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_fragment_popular_comics);
         loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_popular_comics));
@@ -71,11 +71,9 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
         //Only make this networking call on Create and show load when making the call.
         RequestType type = new RequestType(RequestType.Type.POPULARCOMICS);
         type.addExtras(Constants.PAGE_NUMBER,String.valueOf(pageCount));
-        genericNetworkPresenter.startRequest(type);
+        genericPresenter.startRequest(type);
 
         //TODO:Page count will be incremented by USER on Scroll
-
-
 
         return view;
     }
@@ -116,12 +114,13 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        genericPresenter.cancelRequest();
     }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        genericNetworkPresenter.onDestroy();
+        genericPresenter.onDestroy();
     }
 }

@@ -21,7 +21,7 @@ import comic.shannortrotty.gruntt.adapters.GridSpacingItemDecoration;
 import comic.shannortrotty.gruntt.adapters.MyFavoriteComicsRecyclerViewAdapter;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
-import comic.shannortrotty.gruntt.services.ComicDatabaseContract;
+import comic.shannortrotty.gruntt.services.DatabaseContract;
 import comic.shannortrotty.gruntt.services.DatabaseHelper;
 
 /**
@@ -39,6 +39,7 @@ public class FavoriteComicsFragment extends Fragment {
     private int mColumnCount = 2;
     private OnComicListener mListener;
     private DatabaseHelper mDatabase;
+    private MyFavoriteComicsRecyclerViewAdapter adapter;
     public static final String TAG = "FavoriteComicsFragment";
 
     /**
@@ -72,7 +73,6 @@ public class FavoriteComicsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_favorite_comics_list, container, false);
 
         mDatabase = new DatabaseHelper(getContext());
-        List<ComicDetails> comicDetails = getFavoriteComics();
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -82,13 +82,19 @@ public class FavoriteComicsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyFavoriteComicsRecyclerViewAdapter(comicDetails, mListener));
+            adapter = new MyFavoriteComicsRecyclerViewAdapter(mListener);
+            recyclerView.setAdapter(adapter);
             int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.favorite_comics_margin);
             recyclerView.addItemDecoration(new GridSpacingItemDecoration(2,spacingInPixels,true, 0));
         }
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.addItems(getFavoriteComics());
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -112,30 +118,31 @@ public class FavoriteComicsFragment extends Fragment {
         SQLiteDatabase db = mDatabase.getReadableDatabase();
         List<ComicDetails> comicDetailsList = new ArrayList<>();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + ComicDatabaseContract.ComicInfoEntry.TABLE_NAME_FAVORITE, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseContract.ComicInfoEntry.TABLE_NAME_FAVORITE, null);
         if(cursor.moveToFirst()){
             do {
                 ComicDetails comicDetails = new ComicDetails();
                 comicDetails.setTitle(cursor.getString(
                         cursor.getColumnIndexOrThrow(
-                                ComicDatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE)));
+                                DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE)));
                 comicDetails.setStatus(
                         cursor.getString(
                                 cursor.getColumnIndexOrThrow(
-                                        ComicDatabaseContract.ComicInfoEntry.COLUMN_NAME_STATUS)));
+                                        DatabaseContract.ComicInfoEntry.COLUMN_NAME_STATUS)));
                 comicDetails.setAuthor(
                         cursor.getString(
-                                cursor.getColumnIndexOrThrow(ComicDatabaseContract.ComicInfoEntry.COLUMN_NAME_AUTHOR)));
+                                cursor.getColumnIndexOrThrow(DatabaseContract.ComicInfoEntry.COLUMN_NAME_AUTHOR)));
                 comicDetails.setLocalBitmap(
                         DatabaseHelper.getImage(
                                 cursor.getBlob(
                                         cursor.getColumnIndexOrThrow(
-                                                ComicDatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_IMAGE))));
+                                                DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_IMAGE))));
                 // comicDetails.setLargeImgURL();
                 comicDetailsList.add(comicDetails);
             } while (cursor.moveToNext());
         }
         cursor.close();
+        db.close();
         return comicDetailsList;
     }
 }

@@ -1,15 +1,20 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="comic.shannortrotty.gruntt.fragments.ChapterListFragment">
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listView_fragment_chapter_list"
-        >
-
-    </ListView>
-
-</FrameLayout>
+        />
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loading_icon_fragment_chapter_list"
+        android:layout_centerInParent="true"
+        app:indicatorName="BallPulseIndicator"
+        app:indicatorColor="@color/color_accent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

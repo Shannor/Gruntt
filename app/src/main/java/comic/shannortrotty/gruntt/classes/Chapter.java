@@ -1,5 +1,7 @@
 package comic.shannortrotty.gruntt.classes;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -7,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * Class created to hold Chapter information.
  */
 
-public class Chapter {
+public class Chapter implements Comic{
     @SerializedName("chapterName")
     private String chapterName;
     @SerializedName("link")
@@ -18,13 +20,16 @@ public class Chapter {
     private Boolean haveRead;
 
     public Chapter(){
-
+        this.chapterName = "-";
+        this.releaseDate = "-";
+        this.link = "-";
+        this.haveRead = false;
     }
 
     public Chapter(String chapterName, String link, String releaseDate){
         this.chapterName = chapterName;
         this.link = link;
-        this.releaseDate =releaseDate;
+        this.releaseDate = releaseDate;
         this.haveRead = false;
     }
 
@@ -32,7 +37,9 @@ public class Chapter {
     public String toString() {
         return chapterName;
     }
-    public String getURLFormattedLink(){
+
+
+    public String getFormattedURL(){
         String[] correctLink = getLink().split("/");
         return correctLink[(correctLink.length - 2)];
     }
@@ -41,6 +48,12 @@ public class Chapter {
         return names[names.length-1];
     }
 
+    @Override
+    public String getTitle() {
+        return getChapterName();
+    }
+
+    //TODO: add a way to compare Chapters
 
     public void setHaveRead(Boolean haveRead) {
         this.haveRead = haveRead;
@@ -50,6 +63,7 @@ public class Chapter {
         return haveRead;
     }
 
+    @NonNull
     public String getChapterName() {
         return this.chapterName;
     }

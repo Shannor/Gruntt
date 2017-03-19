@@ -18,7 +18,7 @@ import comic.shannortrotty.gruntt.adapters.AllComicRecyclerViewAdapter;
 import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.classes.RequestType;
-import comic.shannortrotty.gruntt.presenter.GenericNetworkPresenter;
+import comic.shannortrotty.gruntt.presenter.GenericPresenter;
 import comic.shannortrotty.gruntt.presenter.ListPresenter;
 import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.view.GenericView;
@@ -28,7 +28,7 @@ public class AllComicsFragment extends Fragment implements GenericView<BareComic
     public static final String TAG = "AllComicsFragment";
 
     private OnComicListener mListener;
-    private GenericNetworkPresenter networkPresenter;
+    private GenericPresenter mPresenter;
     private AVLoadingIndicatorView loadingIndicator;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManger;
@@ -55,13 +55,13 @@ public class AllComicsFragment extends Fragment implements GenericView<BareComic
         recyclerView = ((RecyclerView) view.findViewById(R.id.recyclerView_fragment_all_comics));
         loadingIndicator = (AVLoadingIndicatorView)view.findViewById(R.id.loading_icon_fragment_all_comics);
         layoutManger = new LinearLayoutManager(getContext());
-        networkPresenter = new ListPresenter<>(getContext(),this, new ComicTvNetworkImplementation());
+        mPresenter = new ListPresenter<>(getContext(),this, new ComicTvNetworkImplementation());
 
         recyclerView.setLayoutManager(layoutManger);
 
         RequestType request = new RequestType();
         request.setType(RequestType.Type.ALLCOMICS);
-        networkPresenter.startRequest(request);
+        mPresenter.startRequest(request);
 
         return view;
     }
@@ -81,7 +81,8 @@ public class AllComicsFragment extends Fragment implements GenericView<BareComic
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        networkPresenter.onDestroy();
+        mPresenter.cancelRequest();
+        mPresenter.onDestroy();
     }
 
 

@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="11dp"
-            android:layout_below="@+id/imageView_info_fragment_large_img"
+            android:layout_below="@+id/linear_layout_descriptions"
             android:layout_alignParentStart="true">
 
             <Button

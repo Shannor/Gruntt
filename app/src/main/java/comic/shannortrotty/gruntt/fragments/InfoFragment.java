@@ -2,23 +2,17 @@ package comic.shannortrotty.gruntt.fragments;
 
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -29,12 +23,9 @@ import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
-import comic.shannortrotty.gruntt.services.ComicDatabaseContract;
+import comic.shannortrotty.gruntt.presenter.ComicDetailPresenter;
 import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
-import comic.shannortrotty.gruntt.presenter.ItemPresenter;
-import comic.shannortrotty.gruntt.presenter.GenericNetworkPresenter;
-import comic.shannortrotty.gruntt.services.DatabaseHelper;
-import comic.shannortrotty.gruntt.services.VolleyWrapper;
+import comic.shannortrotty.gruntt.presenter.GenericPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
 
 /**
@@ -59,7 +50,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     private TextView comicAuthorView;
     private TextView comicGenreView;
     private TextView comicDescriptionView;
-    private GenericNetworkPresenter genericNetworkPresenter;
+    private GenericPresenter genericPresenter;
     private AVLoadingIndicatorView loadingIndicatorView;
     private Button addToFavoritesBtn;
     private Button resumeReading;
@@ -78,6 +69,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     public interface OnInfoFragmentListener {
         void addToFavorites(ComicDetails comicDetails, Bitmap comicImage);
         void removeFromFavorites(ComicDetails comicDetails);
+        void resumeReading();
     }
 
     /**
@@ -112,7 +104,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         View view = inflater.inflate(R.layout.fragment_info_fragment, container, false);
         //TODO:Replace with Factory call
         //TODO: Add Description title
-        genericNetworkPresenter = new ItemPresenter<>(getContext(),this, new ComicTvNetworkImplementation(), ComicDetails.class);
+        genericPresenter = new ComicDetailPresenter<>(getContext(),this, new ComicTvNetworkImplementation(), ComicDetails.class);
 
         largeComicImg = ((ImageView) view.findViewById(R.id.imageView_info_fragment_large_img));
         loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_info));
@@ -125,8 +117,8 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         comicStatusView = ((TextView) view.findViewById(R.id.textView_info_fragment_comic_status));
         addToFavoritesBtn = ((Button) view.findViewById(R.id.btn_info_fragment_comic_add_to_favorites));
         resumeReading = ((Button) view.findViewById(R.id.btn_info_fragment_comic_resume));
-
         loadComicRequest();
+
         addToFavoritesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,19 +142,23 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         resumeReading.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Continue Reading.", Toast.LENGTH_SHORT).show();
+                mListener.resumeReading();
             }
         });
 
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     public void loadComicRequest(){
         RequestType requestType = new RequestType(RequestType.Type.COMICSDESCRIPTION);
         requestType.addExtras(Constants.COMIC_LINK,mLink);
         requestType.addExtras(Constants.COMIC_NAME, mTitle);
-        genericNetworkPresenter.startRequest(requestType);
+        genericPresenter.startRequest(requestType);
     }
 
 
@@ -258,7 +254,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        genericNetworkPresenter.onDestroy();
+        genericPresenter.onDestroy();
         Picasso.with(getContext()).cancelRequest(target);
     }
 
@@ -276,6 +272,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     @Override
     public void onDetach() {
         super.onDetach();
+        genericPresenter.cancelRequest();
         mListener = null;
     }
 
