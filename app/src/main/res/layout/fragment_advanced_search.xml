@@ -1,0 +1,364 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="comic.shannortrotty.gruntt.fragments.AdvancedSearchFragment">
+
+    <!--May have sources options later -->
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/TextInputLayout_advanced_search_fragment_keyword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:inputType="text"
+            android:id="@+id/editText_advanced_search_fragment_keyword"
+            android:layout_height="wrap_content"
+            android:hint="Keyword"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+
+    <View style="@style/Divider"/>
+
+    <TextView
+        android:id="@+id/textView_advanced_search_fragment_status"
+        android:text="Status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RadioGroup
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:id="@+id/radioButton_advanced_search_fragment_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:layout_weight="1"
+            android:text="@string/radio_button_all" />
+
+        <RadioButton
+            android:id="@+id/radioButton_advanced_search_fragment_completed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/radio_button_complete" />
+
+        <RadioButton
+            android:id="@+id/radioButton_advanced_search_fragment_ongoing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/radio_button_ongoing" />
+    </RadioGroup>
+
+    <View style="@style/Divider"/>
+
+    <TextView
+        android:id="@+id/textView_advanced_search_fragment_genre_titles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/category_genres" />
+
+
+    <com.google.android.flexbox.FlexboxLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:flexWrap="wrap"
+        app:alignItems="stretch"
+        app:alignContent="stretch" >
+
+        <!--33 Total buttons, 33 Total categories-->
+        <Button
+            android:id="@+id/button_advanced_search_fragment_marvel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_marvel" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_adventure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_adventure" />
+
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_dc_comics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_dc_comics" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_action" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_drama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_drama" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_horror"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_horror" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_military"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_military" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_robots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_robots" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_supernatural"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_supernatural" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_comedy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_comedy" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_fantasy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_fantasy" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_magic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_magic" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_movie_cinematic_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_movie_cinematic_link" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_romance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_romance" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_suspense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_suspense" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_vertigo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_vertigo" />
+        <Button
+            android:id="@+id/button_advanced_search_fragment_crime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_crime" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_gore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_gore" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_martial_arts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_martial_arts" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_mystery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_mystery" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_science_fiction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_science_fiction" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_tragedy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_tragedy" />
+        <Button
+            android:id="@+id/button_advanced_search_fragment_dark_horse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_dark_horse" />
+        <Button
+            android:id="@+id/button_advanced_search_fragment_cyborgs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_cyborgs" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_graphic_novels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_graphic_novels" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_mature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_mature" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_mythology"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_mythology" />
+
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_sports"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_sports" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_action" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_demons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_demons" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_historical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_historical" />
+
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_mecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_mecha" />
+
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_psychological"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_psychological" />
+
+        <Button
+            android:id="@+id/button_advanced_search_fragment_spy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/neutral_btn"
+            android:textColor="@color/button_text_color"
+            android:text="@string/category_spy" />
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+
+</LinearLayout>
+
+</ScrollView>

@@ -11,4 +11,7 @@
 
     <color name="subcategory_background">#EEEEEE</color>
     <color name="button_text_color">#FFFFFF</color>
+    <color name="button_include">#64dd17</color>
+    <color name="button_exclude">#d50000</color>
+    <color name="button_neutral">#bdbdbd</color>
 </resources>

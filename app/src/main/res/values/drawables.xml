@@ -5,4 +5,15 @@
     <item name="ic_menu_manage" type="drawable">@android:drawable/ic_menu_manage</item>
     <item name="ic_menu_share" type="drawable">@android:drawable/ic_menu_share</item>
     <item name="ic_menu_send" type="drawable">@android:drawable/ic_menu_send</item>
+
+
+    <item name="ic_black_button_include" type="drawable">@drawable/ic_add_black_24dp</item>
+    <item name="ic_black_button_exclude" type="drawable">@drawable/ic_remove_black_24dp</item>
+    <item name="ic_white_button_include" type="drawable">@drawable/ic_add_white_24dp</item>
+    <item name="ic_white_button_exclude" type="drawable">@drawable/ic_remove_white_24dp</item>
+    <item name="button_include_background" type="drawable">@drawable/include_btn</item>
+    <item name="button_exclude_background" type="drawable">@drawable/exclude_btn</item>
+    <item name="button_neutral_background" type="drawable">@drawable/neutral_btn</item>
+
+
 </resources>

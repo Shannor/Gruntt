@@ -6,6 +6,7 @@ import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.Chapter;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.PopularComic;
+import comic.shannortrotty.gruntt.classes.SearchComic;
 import retrofit2.Call;
 
 /**
@@ -29,4 +30,7 @@ public interface NetworkModel {
     void getChapters(String comicLink, OnResponseListListener<Chapter> listener, OnResponseItemListener<Chapter> chapterListener);
     void getComicDescription(String comicLink, OnResponseItemListener<ComicDetails> listener);
     void getChapterPages(String comicLink, String chapterNumber, OnResponseListListener<String> listener);
+    void searchComics(String keyword, String include, String exclude,
+                      String status,String pageNumber, OnResponseListListener<SearchComic> listener);
+    void getSearchCategories(OnResponseListListener<String> listener);
 }

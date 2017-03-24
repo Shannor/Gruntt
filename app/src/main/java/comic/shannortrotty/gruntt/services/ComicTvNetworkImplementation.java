@@ -10,6 +10,7 @@ import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.Chapter;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.PopularComic;
+import comic.shannortrotty.gruntt.classes.SearchComic;
 import comic.shannortrotty.gruntt.model.NetworkModel;
 import comic.shannortrotty.gruntt.model.RetrofitComicTVService;
 import retrofit2.Call;
@@ -68,8 +69,11 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         call.enqueue(new Callback<List<Chapter>>() {
             @Override
             public void onResponse(Call<List<Chapter>> call, Response<List<Chapter>> response) {
-                itemListener.onItemFinished(response.body().get(0));
-                listener.onListFinished(response.body());
+                if(!response.body().isEmpty()){
+                    itemListener.onItemFinished(response.body().get(0));
+                    listener.onListFinished(response.body());
+                }
+
             }
 
             @Override
@@ -135,6 +139,70 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                 }else{
                     Log.e(TAG, "Error on Retrofit call for Chapter Pages. ", t);
 
+                }
+            }
+        });
+    }
+
+
+    /**
+     *
+     * @param keyword
+     * @param include
+     * @param exclude
+     * @param status
+     * @param listener
+     */
+    @Override
+    public void searchComics(String keyword, String include, String exclude, String status, String pageNumber,final OnResponseListListener<SearchComic> listener) {
+        RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
+                .create(RetrofitComicTVService.class);
+        Call<List<SearchComic>> call = retrofitComicTVService.searchComics(keyword,include,exclude,status,pageNumber);
+        listener.setRequestListCall(call);
+
+        call.enqueue(new Callback<List<SearchComic>>() {
+            @Override
+            public void onResponse(Call<List<SearchComic>> call, Response<List<SearchComic>> response) {
+                listener.onListFinished(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<SearchComic>> call, Throwable t) {
+                if(call.isCanceled()){
+                    Log.e(TAG, "User canceled the Call. ", t);
+                }else{
+                    Log.e(TAG, "Error on Retrofit call for Search Comics.", t);
+                    listener.onListFailed(t);
+                }
+            }
+        });
+    }
+
+
+    /**
+     *
+     * @param listener
+     */
+    @Override
+    public void getSearchCategories(final OnResponseListListener<String> listener) {
+        RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
+                .create(RetrofitComicTVService.class);
+        Call<List<String>> call = retrofitComicTVService.getSearchCategories();
+        listener.setRequestListCall(call);
+
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                listener.onListFinished(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                if(call.isCanceled()){
+                    Log.e(TAG, "User canceled the Call. ", t);
+                }else{
+                    Log.e(TAG, "Error on Retrofit call for Search Categories.", t);
+                    listener.onListFailed(t);
                 }
             }
         });

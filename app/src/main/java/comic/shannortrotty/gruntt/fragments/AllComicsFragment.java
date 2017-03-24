@@ -34,6 +34,7 @@ public class AllComicsFragment extends Fragment implements GenericView<BareComic
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManger;
     private AllComicRecyclerViewAdapter allComicsAdapter;
+
     public AllComicsFragment() {
         // Required empty public constructor
     }

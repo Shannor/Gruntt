@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
+import comic.shannortrotty.gruntt.fragments.AdvancedSearchFragment;
 import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
 import comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
@@ -106,7 +107,10 @@ public class MainActivity extends AppCompatActivity
             mFragment = FavoriteComicsFragment.newInstance(2);
         } else if (id == R.id.nav_popular_comics) {
             mFragment = PopularComicFragment.newInstance();
-        } else if (id == R.id.nav_share) {
+
+        }else if(id == R.id.nav_advanced_search) {
+            mFragment = AdvancedSearchFragment.newInstance();
+        }else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 

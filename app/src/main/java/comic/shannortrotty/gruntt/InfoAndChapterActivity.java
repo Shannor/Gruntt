@@ -174,8 +174,10 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
         String selection = DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE + " LIKE ?";
         // Specify arguments in placeholder order.
         String[] selectionArgs = { comicDetails.getTitle() };
-        // Issue SQL statement.
+        // Drop this comic from favorites list
         db.delete(DatabaseContract.ComicInfoEntry.TABLE_NAME_FAVORITE, selection, selectionArgs);
+        //TODO: Remove this and replace with a timely update.
+        db.delete(DatabaseContract.ComicInfoEntry.TABLE_NAME_CHAPTERS, selection, selectionArgs);
         db.close();
     }
 
