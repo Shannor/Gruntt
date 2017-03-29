@@ -73,10 +73,10 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.viewPager_activity_info_chapter);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        if(startingOrigin.equals(PopularComicFragment.TAG) ||  startingOrigin.equals(AllComicsFragment.TAG)){
-            mViewPager.setCurrentItem(0, true);
-        }else if(startingOrigin.equals(FavoriteComicsFragment.TAG)){
+        if(startingOrigin.equals(FavoriteComicsFragment.TAG)){
             mViewPager.setCurrentItem(1, true);
+        }else{
+            mViewPager.setCurrentItem(0, true);
         }
     }
 
@@ -185,9 +185,9 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    private class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

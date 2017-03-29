@@ -1,18 +1,14 @@
-package comic.shannortrotty.gruntt.services;
+package comic.shannortrotty.gruntt.model;
 
 import android.util.Log;
 
-import java.net.SocketTimeoutException;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 
 import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.Chapter;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.SearchComic;
-import comic.shannortrotty.gruntt.model.NetworkModel;
-import comic.shannortrotty.gruntt.model.RetrofitComicTVService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +36,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         call.enqueue(new Callback<List<BareComicsCategory>>() {
             @Override
             public void onResponse(Call<List<BareComicsCategory>> call, Response<List<BareComicsCategory>> response) {
-                listener.onListFinished(response.body());
+                listener.onListSuccess(response.body());
             }
 
             @Override
@@ -70,8 +66,8 @@ public class ComicTvNetworkImplementation implements NetworkModel {
             @Override
             public void onResponse(Call<List<Chapter>> call, Response<List<Chapter>> response) {
                 if(!response.body().isEmpty()){
-                    itemListener.onItemFinished(response.body().get(0));
-                    listener.onListFinished(response.body());
+                    itemListener.onItemSuccess(response.body().get(0));
+                    listener.onListSuccess(response.body());
                 }
 
             }
@@ -104,7 +100,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         call.enqueue(new Callback<ComicDetails>() {
             @Override
             public void onResponse(Call<ComicDetails> call, Response<ComicDetails> response) {
-                listener.onItemFinished(response.body());
+                listener.onItemSuccess(response.body());
 
             }
 
@@ -129,7 +125,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                listener.onListFinished(response.body());
+                listener.onListSuccess(response.body());
             }
 
             @Override
@@ -163,7 +159,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         call.enqueue(new Callback<List<SearchComic>>() {
             @Override
             public void onResponse(Call<List<SearchComic>> call, Response<List<SearchComic>> response) {
-                listener.onListFinished(response.body());
+                listener.onListSuccess(response.body());
             }
 
             @Override
@@ -193,7 +189,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                listener.onListFinished(response.body());
+                listener.onListSuccess(response.body());
             }
 
             @Override
@@ -223,7 +219,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         call.enqueue(new Callback<List<PopularComic>>() {
             @Override
             public void onResponse(Call<List<PopularComic>> call, Response<List<PopularComic>> response) {
-                listener.onListFinished(response.body());
+                listener.onListSuccess(response.body());
             }
 
             @Override

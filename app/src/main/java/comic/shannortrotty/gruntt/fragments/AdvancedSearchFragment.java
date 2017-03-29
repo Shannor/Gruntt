@@ -9,29 +9,33 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import comic.shannortrotty.gruntt.R;
-import comic.shannortrotty.gruntt.classes.SearchComic;
-import comic.shannortrotty.gruntt.view.GenericView;
+import comic.shannortrotty.gruntt.SearchResultsActivity;
 
 
-public class AdvancedSearchFragment extends Fragment implements GenericView<SearchComic> {
+public class AdvancedSearchFragment extends Fragment{
 
     //True == Include, False == Exclude
     private Map<String,Boolean> queryParams;
     private Drawable includeIcon;
     private Drawable excludeIcon;
     private EditText editTextSearch;
+    private Button submitSearchBtn;
+    private Button resetSearchBtn;
+    private RadioGroup radioGroup;
 
     public AdvancedSearchFragment() {
         // Required empty public constructor
@@ -39,8 +43,7 @@ public class AdvancedSearchFragment extends Fragment implements GenericView<Sear
 
 
     public static AdvancedSearchFragment newInstance() {
-        AdvancedSearchFragment fragment = new AdvancedSearchFragment();
-        return fragment;
+        return new AdvancedSearchFragment();
     }
 
     @Override
@@ -57,6 +60,9 @@ public class AdvancedSearchFragment extends Fragment implements GenericView<Sear
         editTextSearch = ((EditText) view.findViewById(R.id.editText_advanced_search_fragment_keyword));
         includeIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_white_button_include);
         excludeIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_white_button_exclude);
+        Button submitSearchBtn = ((Button) view.findViewById(R.id.button_advanced_search_fragment_submit));
+        Button resetSearchBtn = ((Button) view.findViewById(R.id.button_advanced_search_fragment_reset));
+        radioGroup = ((RadioGroup) view.findViewById(R.id.radioGroup_advanced_search));
 
         //All button different Genres.
         final Button marvelBtn = ((Button) view.findViewById(R.id.button_advanced_search_fragment_marvel));
@@ -99,13 +105,32 @@ public class AdvancedSearchFragment extends Fragment implements GenericView<Sear
                 if(event.getAction() == KeyEvent.ACTION_DOWN){
                     if(keyCode == KeyEvent.KEYCODE_ENTER) {
                         //Put Search function
-                        Toast.makeText(getContext(), "Enter", Toast.LENGTH_SHORT).show();
+                        startSearch();
                         return true;
                     }
                 }
                 return false;
             }
         });
+
+        submitSearchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSearch();
+            }
+        });
+
+        resetSearchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearFields(marvelBtn, adventureBtn, dramaBtn, horrorBtn, militaryBtn, robotsBtn, supernaturalBtn,
+                        dcBtn, comedyBtn, fantasyBtn, magicBtn, mCLBtn, romanceBtn, suspenseBtn, vertigoBtn,
+                        crimeBtn, goreBtn, martialArtsBtn, mysteryBtn, scienceFictionBtn, tragedyBtn, darkHorseBtn,
+                        cyborgsBtn, graphicsNovelsBtn, matureBtn, mythologyBtn, sportsBtn, actionBtn, demonsBtn,
+                        historicalBtn, mechaBtn, psychologicalBtn, spyBtn);
+            }
+        });
+
         setListeners(marvelBtn, adventureBtn, dramaBtn, horrorBtn, militaryBtn, robotsBtn, supernaturalBtn,
                 dcBtn, comedyBtn, fantasyBtn, magicBtn, mCLBtn, romanceBtn, suspenseBtn, vertigoBtn,
                 crimeBtn, goreBtn, martialArtsBtn, mysteryBtn, scienceFictionBtn, tragedyBtn, darkHorseBtn,
@@ -133,13 +158,46 @@ public class AdvancedSearchFragment extends Fragment implements GenericView<Sear
         }
     }
 
-    private void clearfields(Button... buttons){
+    private void clearFields(Button... buttons){
         queryParams.clear();
         editTextSearch.setText("");
-        for(int i = 0; i < buttons.length; i++){
-            buttons[i].setBackground(ContextCompat.getDrawable(getContext(), R.drawable.button_neutral_background));
-            buttons[i].setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        radioGroup.check(R.id.radioButton_advanced_search_fragment_all);
+        for(Button button : buttons){
+            button.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.button_neutral_background));
+            button.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         }
+    }
+
+    private void startSearch(){
+        String keyword = editTextSearch.getText().toString();
+        if(!keyword.equals("")){
+            RadioButton radioButton = (RadioButton)radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
+            String status = radioButton.getText().toString();
+            String include = null;
+            String exclude = null;
+            for(Map.Entry<String, Boolean> entry : queryParams.entrySet()){
+                if(entry.getValue()){
+                    //In include
+                    if(include == null){
+                        include = entry.getKey();
+                    }else{
+                        include += "," + entry.getKey();
+                    }
+                }else{
+                    //Exclude
+                    if(exclude == null){
+                        exclude = entry.getKey();
+                    }else{
+                        exclude += "," + entry.getKey();
+                    }
+                }
+            }
+            SearchResultsActivity.startActivity(getContext(), keyword, include, exclude, status);
+        }else{
+            //Return notification
+            Toast.makeText(getContext(), "Must provide keyword!", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void setListeners(final Button... buttons){
@@ -160,34 +218,10 @@ public class AdvancedSearchFragment extends Fragment implements GenericView<Sear
         super.onAttach(context);
     }
 
+
     @Override
     public void onDetach() {
         super.onDetach();
     }
 
-    //*****************Generic View Implementation
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void setErrorMessage() {
-
-    }
-
-    @Override
-    public void setItems(List<SearchComic> items) {
-
-    }
-
-    @Override
-    public void setItem(SearchComic item) {
-
-    }
 }

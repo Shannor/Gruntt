@@ -15,12 +15,12 @@ import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.EndlessRecyclerViewScrollListener;
-import comic.shannortrotty.gruntt.adapters.MyComicRecyclerViewAdapter;
+import comic.shannortrotty.gruntt.adapters.PopularComicRecyclerViewAdapter;
 import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.classes.RequestType;
-import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.presenter.PopularComicsPresenter;
 import comic.shannortrotty.gruntt.presenter.GenericPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
@@ -34,7 +34,7 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
 
     private OnComicListener mListener;
     public static final String TAG = "PopularComicFragment";
-    private MyComicRecyclerViewAdapter myComicRecyclerViewAdapter;
+    private PopularComicRecyclerViewAdapter popularComicRecyclerViewAdapter;
     private RecyclerView mComicRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private GenericPresenter genericPresenter;
@@ -66,8 +66,8 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
         mComicRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_fragment_popular_comics);
         loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_popular_comics));
         mComicRecyclerView.setLayoutManager(mLayoutManager);
-        myComicRecyclerViewAdapter = new MyComicRecyclerViewAdapter(getContext().getApplicationContext() ,mListener);
-        mComicRecyclerView.setAdapter(myComicRecyclerViewAdapter);
+        popularComicRecyclerViewAdapter = new PopularComicRecyclerViewAdapter(getContext().getApplicationContext() ,mListener);
+        mComicRecyclerView.setAdapter(popularComicRecyclerViewAdapter);
         scrollListener =  new EndlessRecyclerViewScrollListener(mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -93,7 +93,7 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
     }
 
     private void clearItems(){
-        myComicRecyclerViewAdapter.clearItems();
+        popularComicRecyclerViewAdapter.clearItems();
         scrollListener.resetState();
     }
     @Override
@@ -125,7 +125,7 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
     //********************OnGenericView Listener***************************
     @Override
     public void setItems(List<PopularComic> items) {
-        myComicRecyclerViewAdapter.addItems(items);
+        popularComicRecyclerViewAdapter.addItems(items);
     }
 
     @Override

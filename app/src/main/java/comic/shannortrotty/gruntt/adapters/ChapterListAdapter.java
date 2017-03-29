@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,9 @@ public class ChapterListAdapter extends ArrayAdapter<Chapter> {
             //TODO:Change to strings color
             chapterName.setTextColor(Color.GRAY);
             chapterReleaseDate.setTextColor(Color.GRAY);
+        }else{
+            chapterName.setTextColor(ContextCompat.getColor(mContext, R.color.primary_text));
+            chapterReleaseDate.setTextColor(ContextCompat.getColor(mContext, R.color.primary_text));
         }
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +83,9 @@ public class ChapterListAdapter extends ArrayAdapter<Chapter> {
 
     public void addChapters(List<Chapter> chapters){
         this.mChapters.clear();
-        Collections.reverse(chapters);
+        if (Integer.parseInt(chapters.get(0).getChapterNumber()) <= 1){
+            Collections.reverse(chapters);
+        }
         this.mChapters.addAll(chapters);
         notifyDataSetChanged();
     }

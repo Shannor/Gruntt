@@ -92,16 +92,18 @@ public class PopularComic implements Comic{
     }
     public String getFormattedGenres(){
         List<Genre> genres = getGenres();
-        String lastGenre = genres.get((genres.size() -1)).getGenre();
         String formatted = "";
+        if(!genres.isEmpty()) {
+            String lastGenre = genres.get((genres.size() - 1)).getGenre();
 
-        for(Genre genre : genres){
-            //Last Genre
-            if (genre.getGenre().equals(lastGenre)){
-                formatted += genre.getGenre();
-            }else{
-                formatted += genre.getGenre() + ", ";
+            for (Genre genre : genres) {
+                //Last Genre
+                if (genre.getGenre().equals(lastGenre)) {
+                    formatted += genre.getGenre();
+                } else {
+                    formatted += genre.getGenre() + ", ";
 
+                }
             }
         }
         return formatted;

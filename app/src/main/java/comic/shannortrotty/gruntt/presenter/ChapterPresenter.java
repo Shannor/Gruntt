@@ -25,6 +25,7 @@ import retrofit2.Call;
 
 public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnResponseListListener<Chapter>,
         NetworkModel.OnResponseItemListener<Chapter>{
+
     private GenericView<Chapter> genericView;
     private NetworkModel networkModel;
     private Context mContext;
@@ -52,8 +53,8 @@ public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnRespo
                 //Remove last read chapter from the front
                 Chapter lastRead = chapters.get(0);
                 chapters.remove(0);
-                onItemFinished(lastRead);
-                onListFinished(chapters);
+                onItemSuccess(lastRead);
+                onListSuccess(chapters);
             }
         }else {
 //            Throw Error
@@ -93,7 +94,7 @@ public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnRespo
     }
 
     @Override
-    public void onListFinished(List<Chapter> items) {
+    public void onListSuccess(List<Chapter> items) {
         if(!canceled) {
             genericView.setItems(items);
             genericView.hideLoading();
@@ -101,7 +102,7 @@ public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnRespo
     }
 
     @Override
-    public void onItemFinished(Chapter item) {
+    public void onItemSuccess(Chapter item) {
         if(!canceled){
             genericView.setItem(item);
         }

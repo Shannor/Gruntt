@@ -6,10 +6,24 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
+
+    <!--Image View Dimens-->
+    <dimen name="imageView_height_small_max">168dp</dimen>
+    <dimen name="imageView_width_small_max">119dp</dimen>
+    <dimen name="imageView_width_large_use">200dp</dimen>
+    <dimen name="imageView_height_large_use">250dp</dimen>
+    <dimen name="imageView_height_large_max">461dp</dimen>
+    <dimen name="imageView_width_large_max">300dp</dimen>
+
+    <!--Made up margins-->
+    <!--TODO: replace with correct margin types-->
     <dimen name="textView_margin_top">12dp</dimen>
     <dimen name="favorite_comics_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="card_start_text_padding">16dp</dimen>
+    <dimen name="card_bottom_text_padding">16dp</dimen>
+    <dimen name="card_top_text_padding">16dp</dimen>
 
 
     <!--Button Dimens-->

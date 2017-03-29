@@ -24,7 +24,7 @@ import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.presenter.ComicDetailPresenter;
-import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.presenter.GenericPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
 

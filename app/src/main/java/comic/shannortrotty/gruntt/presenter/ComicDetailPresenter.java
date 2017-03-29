@@ -3,9 +3,7 @@ package comic.shannortrotty.gruntt.presenter;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
-import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
@@ -43,7 +41,7 @@ public class ComicDetailPresenter implements GenericPresenter, NetworkModel.OnRe
     }
 
     @Override
-    public void onItemFinished(ComicDetails item) {
+    public void onItemSuccess(ComicDetails item) {
         finished = true;
         if(!canceled) {
             genericView.setItem(item);
@@ -72,7 +70,7 @@ public class ComicDetailPresenter implements GenericPresenter, NetworkModel.OnRe
                     requestType.getExtras().get(Constants.COMIC_LINK),
                     this);
             }else{
-                onItemFinished(comicDetails);
+                onItemSuccess(comicDetails);
             }
 
         }else{

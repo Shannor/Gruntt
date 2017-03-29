@@ -20,8 +20,7 @@ import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.presenter.BareComicsPresenter;
 import comic.shannortrotty.gruntt.presenter.GenericPresenter;
-import comic.shannortrotty.gruntt.presenter.PopularComicsPresenter;
-import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.view.GenericView;
 
 

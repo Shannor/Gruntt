@@ -71,7 +71,7 @@ public class BareComicsPresenter implements  GenericPresenter, NetworkModel.OnRe
     }
 
     @Override
-    public void onListFinished(List<BareComicsCategory> items) {
+    public void onListSuccess(List<BareComicsCategory> items) {
         if(!canceled){
             genericView.setItems(items);
             genericView.hideLoading();

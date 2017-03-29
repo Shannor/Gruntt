@@ -71,7 +71,7 @@ public class PagesPresenter implements GenericPresenter, NetworkModel.OnResponse
     }
 
     @Override
-    public void onListFinished(List<String> items) {
+    public void onListSuccess(List<String> items) {
         if(!canceled){
             genericView.setItems(items);
             genericView.hideLoading();

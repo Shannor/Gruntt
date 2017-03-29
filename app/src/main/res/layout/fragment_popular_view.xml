@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:orientation="vertical"
-        android:layout_toEndOf="@+id/networkImgView_popular_frag_comic_img">
+        android:layout_toEndOf="@+id/ImageView_popular_frag_comic_img">
 
         <TextView
             android:text="@string/comic_title"
@@ -29,13 +29,15 @@
             />
     </LinearLayout>
 
-    <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/networkImgView_popular_frag_comic_img"
-        android:layout_width="120dp"
-        android:layout_height="132dp"
+    <ImageView
+        android:contentDescription="Comic Thumbnail"
+        android:id="@+id/ImageView_popular_frag_comic_img"
+        android:layout_width="@dimen/imageView_width_small_max"
+        android:layout_height="@dimen/imageView_height_small_max"
+        android:adjustViewBounds="true"
+        android:padding="8dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
         />
 
 </RelativeLayout>

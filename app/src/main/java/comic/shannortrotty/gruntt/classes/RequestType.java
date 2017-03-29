@@ -16,9 +16,10 @@ public class RequestType {
      *
      */
     public enum Type{
-        CHAPTERS, ALLCOMICS, POPULARCOMICS , COMICSDESCRIPTION, PAGES
+        CHAPTERS, ALLCOMICS, POPULARCOMICS , COMICSDESCRIPTION, PAGES, SEARCH
     }
 
+//    TODO:Add ENUM Attributes
     private Type type;
     private Map<String,String> extras;
 

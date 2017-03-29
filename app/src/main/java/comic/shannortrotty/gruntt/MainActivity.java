@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -107,7 +109,6 @@ public class MainActivity extends AppCompatActivity
             mFragment = FavoriteComicsFragment.newInstance(2);
         } else if (id == R.id.nav_popular_comics) {
             mFragment = PopularComicFragment.newInstance();
-
         }else if(id == R.id.nav_advanced_search) {
             mFragment = AdvancedSearchFragment.newInstance();
         }else if (id == R.id.nav_share) {

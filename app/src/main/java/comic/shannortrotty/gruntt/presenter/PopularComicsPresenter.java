@@ -22,7 +22,7 @@ public class PopularComicsPresenter implements GenericPresenter, NetworkModel.On
     private Context mContext;
     private boolean canceled;
     private Call call;
-    private boolean finished = false;
+    private boolean finished;
 
     public PopularComicsPresenter(Context context, GenericView<PopularComic> genericView, NetworkModel networkModel) {
         this.genericView = genericView;
@@ -70,7 +70,7 @@ public class PopularComicsPresenter implements GenericPresenter, NetworkModel.On
     }
 
     @Override
-    public void onListFinished(List<PopularComic> items) {
+    public void onListSuccess(List<PopularComic> items) {
         if(!canceled){
             genericView.setItems(items);
             genericView.hideLoading();

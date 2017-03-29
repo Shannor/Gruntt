@@ -63,4 +63,12 @@ public class SearchComic implements Comic {
     public void setGenres(String genres) {
         this.genres = genres;
     }
+
+    @Override
+    public String toString() {
+        return "SearchComic{" +
+                "title='" + title + '\'' +
+                ", link='" + link + '\'' +
+                '}';
+    }
 }

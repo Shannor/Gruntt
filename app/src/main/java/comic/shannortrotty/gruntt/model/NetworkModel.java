@@ -16,12 +16,12 @@ import retrofit2.Call;
 public interface NetworkModel {
 
     interface OnResponseListListener<T>{
-        void onListFinished(List<T> items);
+        void onListSuccess(List<T> items);
         void setRequestListCall(Call<List<T>> call);
         void onListFailed(Throwable throwable);
     }
     interface OnResponseItemListener<T>{
-        void onItemFinished(T item);
+        void onItemSuccess(T item);
         void setRequestCall(Call<T> call);
     }
 
