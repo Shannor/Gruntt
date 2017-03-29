@@ -37,11 +37,14 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/TextInputLayout_advanced_search_fragment_keyword"
         android:layout_width="match_parent"
+        android:paddingBottom="@dimen/editText_padding"
+        android:paddingTop="@dimen/editText_padding"
         android:layout_height="wrap_content">
 
         <EditText
             android:layout_width="match_parent"
             android:inputType="text"
+
             android:id="@+id/editText_advanced_search_fragment_keyword"
             android:layout_height="wrap_content"
             android:hint="@string/category_keyword"/>
@@ -54,11 +57,13 @@
     <TextView
         android:id="@+id/textView_advanced_search_fragment_status"
         android:text="@string/category_status"
+        android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <RadioGroup
         android:orientation="horizontal"
+        android:padding="8dp"
         android:id="@+id/radioGroup_advanced_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -92,6 +97,7 @@
         android:id="@+id/textView_advanced_search_fragment_genre_titles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:text="@string/category_genres" />
 
 
@@ -100,6 +106,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="8dp"
         app:flexWrap="wrap"
         app:alignItems="stretch"
         app:alignContent="stretch" >

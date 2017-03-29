@@ -29,7 +29,7 @@ public final class DatabaseContract {
         public static final String COLUMN_NAME_DESCRIPTION = "comic_description";
         public static final String COLUMN_NAME_COMIC_IMAGE = "comic_image";
         public static final String COLUMN_NAME_IS_FAVORITE =  "comic_is_favorite";
-
+        public static final String COLUMN_NAME_COMIC_LINK = "comic_formatted_link";
 
         //Comic Chapter List Columns
         public static final String COLUMN_NAME_LAST_READ_CHAPTER = "last_chapter_read";

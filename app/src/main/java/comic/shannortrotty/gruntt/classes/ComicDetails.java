@@ -17,6 +17,8 @@ public class ComicDetails implements Comic {
     private String largeImgURL;
     @SerializedName("name")
     private String title;
+    @SerializedName("link")
+    private String link;
     @SerializedName("alternate Name")
     private String altTitle;
     @SerializedName("status")
@@ -39,6 +41,7 @@ public class ComicDetails implements Comic {
         this.author = " -";
         this.genre = " -";
         this.releaseDate = " -";
+        this.link = "";
         this.isFavorite = false;
 
     }
@@ -72,10 +75,18 @@ public class ComicDetails implements Comic {
         return "Description: " + this.description;
     }
 
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
     //Return empty string since Loading Data from memory
     @Override
     public String getFormattedURL() {
-        return " ";
+        return link;
     }
 
     public int getFormattedFavorite(){
@@ -167,12 +178,14 @@ public class ComicDetails implements Comic {
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
+
     @Override
     public String toString() {
         return "ComicDetails{" +
                 "description='" + description + '\'' +
                 ", largeImgURL='" + largeImgURL + '\'' +
                 ", title='" + title + '\'' +
+                ", link='" + link + '\'' +
                 ", altTitle='" + altTitle + '\'' +
                 ", status='" + status + '\'' +
                 ", author='" + author + '\'' +

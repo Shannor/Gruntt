@@ -153,6 +153,7 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
         values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_RELEASE_DATE, comicDetails.getReleaseDate());
         values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_IMAGE, comicImageByteArray);
         values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_IS_FAVORITE, comicDetails.getFormattedFavorite());
+        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_LINK, comicDetails.getFormattedURL());
 
         db.insert(DatabaseContract.ComicInfoEntry.TABLE_NAME_FAVORITE, null, values);
 
@@ -171,7 +172,8 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
     public void removeFromFavorites(ComicDetails comicDetails) {
         SQLiteDatabase db = mDatabase.getWritableDatabase();
         // Define 'where' part of query.
-        String selection = DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE + " LIKE ?";
+        //Should delete was 'LIKE' before
+        String selection = DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE + " =?";
         // Specify arguments in placeholder order.
         String[] selectionArgs = { comicDetails.getTitle() };
         // Drop this comic from favorites list

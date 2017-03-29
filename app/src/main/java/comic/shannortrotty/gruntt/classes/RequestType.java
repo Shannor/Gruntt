@@ -16,7 +16,10 @@ public class RequestType {
      *
      */
     public enum Type{
-        CHAPTERS, ALLCOMICS, POPULARCOMICS , COMICSDESCRIPTION, PAGES, SEARCH
+        CHAPTERS, ALLCOMICS, POPULARCOMICS , COMICSDESCRIPTION, PAGES, SEARCH,
+//        New Types may keep only these
+//        If Network check network first. Database try database first, Either check locally first
+        NETWORK, DATABASE, EITHER
     }
 
 //    TODO:Add ENUM Attributes

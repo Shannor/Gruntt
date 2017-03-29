@@ -41,7 +41,9 @@ public class MainActivity extends AppCompatActivity
 
         //Set Default Fragment
         //TODO:Should be Dynamic
-        mFragment = PopularComicFragment.newInstance();
+        if(mFragment == null){
+            mFragment = PopularComicFragment.newInstance();
+        }
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mFragment).commit();
         //Code for Navigation Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

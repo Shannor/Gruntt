@@ -65,7 +65,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         call.enqueue(new Callback<List<Chapter>>() {
             @Override
             public void onResponse(Call<List<Chapter>> call, Response<List<Chapter>> response) {
-                if(!response.body().isEmpty()){
+               if(response.body() != null) {
                     itemListener.onItemSuccess(response.body().get(0));
                     listener.onListSuccess(response.body());
                 }

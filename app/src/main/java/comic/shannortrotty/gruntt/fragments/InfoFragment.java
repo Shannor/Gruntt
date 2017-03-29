@@ -214,6 +214,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     @Override
     public void setItem(ComicDetails comicDetails) {
         currentSpecifics = comicDetails;
+        comicImg = comicDetails.getLocalBitmap();
         comicTitleView.setText(comicDetails.getFormattedName());
         comicAltTitleView.setText(comicDetails.getFormattedAltName());
         comicAuthorView.setText(comicDetails.getFormattedAuthor());

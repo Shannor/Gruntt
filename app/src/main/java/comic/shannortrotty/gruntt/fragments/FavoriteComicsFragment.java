@@ -125,19 +125,28 @@ public class FavoriteComicsFragment extends Fragment {
                 comicDetails.setTitle(cursor.getString(
                         cursor.getColumnIndexOrThrow(
                                 DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE)));
-                comicDetails.setStatus(
-                        cursor.getString(
+
+                comicDetails.setStatus(cursor.getString(
                                 cursor.getColumnIndexOrThrow(
                                         DatabaseContract.ComicInfoEntry.COLUMN_NAME_STATUS)));
-                comicDetails.setAuthor(
-                        cursor.getString(
+
+                comicDetails.setAuthor(cursor.getString(
                                 cursor.getColumnIndexOrThrow(DatabaseContract.ComicInfoEntry.COLUMN_NAME_AUTHOR)));
-                comicDetails.setLocalBitmap(
-                        DatabaseHelper.getImage(
-                                cursor.getBlob(
-                                        cursor.getColumnIndexOrThrow(
-                                                DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_IMAGE))));
-                // comicDetails.setLargeImgURL();
+
+                comicDetails.setLocalBitmap(DatabaseHelper.getImage(
+                                cursor.getBlob(cursor.getColumnIndexOrThrow(
+                                        DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_IMAGE))));
+
+                comicDetails.setFavoriteFromDatabase(cursor.getInt(cursor.getColumnIndexOrThrow(
+                        DatabaseContract.ComicInfoEntry.COLUMN_NAME_IS_FAVORITE)));
+
+                comicDetails.setAltTitle(cursor.getString(
+                        cursor.getColumnIndexOrThrow(DatabaseContract.ComicInfoEntry.COLUMN_NAME_ALT_TITLE)));
+
+                comicDetails.setLink(cursor.getString(
+                        cursor.getColumnIndexOrThrow(
+                                DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_LINK)));
+
                 comicDetailsList.add(comicDetails);
             } while (cursor.moveToNext());
         }

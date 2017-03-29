@@ -25,7 +25,7 @@ import comic.shannortrotty.gruntt.classes.Chapter;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 8;
 
     // Database Name
     private static final String DATABASE_NAME = "gruntt.db";
@@ -41,7 +41,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     DatabaseContract.ComicInfoEntry.COLUMN_NAME_STATUS + " TEXT, " +
                     DatabaseContract.ComicInfoEntry.COLUMN_NAME_RELEASE_DATE + " TEXT, " +
                     DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_IMAGE + " BLOB, " +
-                    DatabaseContract.ComicInfoEntry.COLUMN_NAME_IS_FAVORITE + " INTEGER " +
+                    DatabaseContract.ComicInfoEntry.COLUMN_NAME_IS_FAVORITE + " INTEGER, " +
+                    DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_LINK + " TEXT " +
                     ")";
 
     private static final String SQL_CREATE_COMIC_LIST_TABLE = "CREATE TABLE " +

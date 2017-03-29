@@ -104,7 +104,8 @@ public class ComicDetailPresenter implements GenericPresenter, NetworkModel.OnRe
                 DatabaseContract.ComicInfoEntry.COLUMN_NAME_STATUS,
                 DatabaseContract.ComicInfoEntry.COLUMN_NAME_RELEASE_DATE,
                 DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_IMAGE,
-                DatabaseContract.ComicInfoEntry.COLUMN_NAME_IS_FAVORITE
+                DatabaseContract.ComicInfoEntry.COLUMN_NAME_IS_FAVORITE,
+                DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_LINK
         };
 
         // Filter results WHERE "title" = 'Title of Comic correctly'
@@ -154,9 +155,14 @@ public class ComicDetailPresenter implements GenericPresenter, NetworkModel.OnRe
             comicDetails.setReleaseDate(cursor.getString(
                     cursor.getColumnIndexOrThrow(
                             DatabaseContract.ComicInfoEntry.COLUMN_NAME_RELEASE_DATE)));
+
             comicDetails.setTitle(cursor.getString(
                     cursor.getColumnIndexOrThrow(
                             DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE)));
+
+            comicDetails.setLink(cursor.getString(
+                    cursor.getColumnIndexOrThrow(
+                            DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_LINK)));
             cursor.close();
             return comicDetails;
         }

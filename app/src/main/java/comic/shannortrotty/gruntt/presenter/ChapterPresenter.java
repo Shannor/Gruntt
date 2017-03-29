@@ -43,8 +43,10 @@ public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnRespo
     @Override
     public void startRequest(RequestType requestType) {
         genericView.showLoading();
-        if (requestType.getType() == RequestType.Type.CHAPTERS) {
+        //Check Database for information first
+        if (requestType.getType() == RequestType.Type.DATABASE || requestType.getType() == RequestType.Type.EITHER) {
             List<Chapter> chapters = checkDatabaseForChapterList(requestType.getExtras().get(Constants.COMIC_NAME));
+            //If not in data base perform Network call
             if (chapters.isEmpty()) {
                 networkModel.getChapters(
                         requestType.getExtras().get(Constants.COMIC_LINK),
@@ -56,8 +58,13 @@ public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnRespo
                 onItemSuccess(lastRead);
                 onListSuccess(chapters);
             }
-        }else {
-//            Throw Error
+        //Start with Network call first
+        }else if (requestType.getType() == RequestType.Type.NETWORK) {
+            networkModel.getChapters(
+                    requestType.getExtras().get(Constants.COMIC_LINK),
+                    this, this);
+        }else{
+            //Throw error
         }
     }
 
@@ -160,20 +167,21 @@ public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnRespo
                 null,                                     // don't filter by row groups
                 null                                 // The sort order
         );
-        //Only one item in the database
-        if ( cursor.getCount() > 0) {
-            //inside of Favorites
-            if(cursor.moveToFirst()){
-                chapters = DatabaseHelper.getChapterList(cursor.getString(cursor.getColumnIndexOrThrow(
-                        DatabaseContract.ComicInfoEntry.COLUMN_NAME_CHAPTER_LIST)));
-                lastReadChapter = DatabaseHelper.getChapter(cursor.getString(
-                        cursor.getColumnIndexOrThrow(
-                                DatabaseContract.ComicInfoEntry.COLUMN_NAME_LAST_READ_CHAPTER)));
-                //Add lastChapter to the front
+        //inside of Favorites
+        if(cursor.moveToFirst()){
+            chapters = DatabaseHelper.getChapterList(cursor.getString(cursor.getColumnIndexOrThrow(
+                    DatabaseContract.ComicInfoEntry.COLUMN_NAME_CHAPTER_LIST)));
+            lastReadChapter = DatabaseHelper.getChapter(cursor.getString(
+                    cursor.getColumnIndexOrThrow(
+                            DatabaseContract.ComicInfoEntry.COLUMN_NAME_LAST_READ_CHAPTER)));
+            //Add lastChapter to the from
+            if(lastReadChapter != null){
                 chapters.add(0, lastReadChapter);
-                db.close();
-                return chapters;
             }
+
+            cursor.close();
+            db.close();
+            return chapters;
         }
         cursor.close();
         db.close();

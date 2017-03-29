@@ -3,6 +3,7 @@ package comic.shannortrotty.gruntt.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,8 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     private Chapter lastReadComic;
     private AVLoadingIndicatorView loadingIndicatorView;
     private ListView listView;
-    //TODO: Add a Database Presenter? For updates?
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     public ChapterListFragment() {
         // Required empty public constructor
     }
@@ -77,10 +79,20 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
         View view = inflater.inflate(R.layout.fragment_chapter_list, container, false);
         //Makes the call on create to fetch the list of Issues
         genericPresenter = new ChapterPresenter(getContext(), this, new ComicTvNetworkImplementation());
+        //TODO: Add Refresh to menu as never seen
+        swipeRefreshLayout = ((SwipeRefreshLayout) view.findViewById(R.id.swiperefresh_chapter_list_fragment));
         listView = ((ListView) view.findViewById(R.id.listView_fragment_chapter_list));
         loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_chapter_list));
         mChapterListAdapter = new ChapterListAdapter(getContext(), this);
         listView.setAdapter(mChapterListAdapter);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                RequestType request = new RequestType(RequestType.Type.NETWORK);
+                loadChapters(request);
+            }
+        });
         return view;
     }
 
@@ -88,10 +100,14 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     public void onResume() {
         super.onResume();
         //Perform Request for Comic Chapters
-        RequestType requestType = new RequestType(RequestType.Type.CHAPTERS);
-        requestType.addExtras(Constants.COMIC_LINK, mLink);
-        requestType.addExtras(Constants.COMIC_NAME,mTitle);
-        genericPresenter.startRequest(requestType);
+        RequestType request = new RequestType(RequestType.Type.DATABASE);
+        loadChapters(request);
+    }
+
+    private void loadChapters(RequestType request){
+        request.addExtras(Constants.COMIC_LINK, mLink);
+        request.addExtras(Constants.COMIC_NAME,mTitle);
+        genericPresenter.startRequest(request);
     }
 
     @Override
@@ -119,6 +135,7 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     @Override
     public void setItems(List<Chapter> items) {
         mChapterListAdapter.addChapters(items);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

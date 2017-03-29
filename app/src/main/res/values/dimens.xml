@@ -21,10 +21,14 @@
     <dimen name="textView_margin_top">12dp</dimen>
     <dimen name="favorite_comics_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
+    <!--Favorite Card Dimens-->
     <dimen name="card_start_text_padding">16dp</dimen>
     <dimen name="card_bottom_text_padding">16dp</dimen>
     <dimen name="card_top_text_padding">16dp</dimen>
 
+    <!--Search EditText Margins-->
+    <dimen name="editText_padding">16dp</dimen>
 
     <!--Button Dimens-->
     <dimen name="button_height">48dp</dimen>
@@ -33,6 +37,7 @@
     <dimen name="button_min_width">44dp</dimen>
     <dimen name="button_horizontal_margin">8dp</dimen>
     <dimen name="button_horizontal_padding">8dp</dimen>
+
     <!--Text Dimens-->
     <dimen name="tile_height">48dp</dimen>
     <dimen name="text_top_btm_padding">16dp</dimen>
