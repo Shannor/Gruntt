@@ -8,4 +8,4 @@
     android:layout_height="match_parent"
     app:layoutManager="GridLayoutManager"
     tools:context="comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment"
-    tools:listitem="@layout/fragment_favorite_comics" />
+    tools:listitem="@layout/fragment_favorite_comics_view" />

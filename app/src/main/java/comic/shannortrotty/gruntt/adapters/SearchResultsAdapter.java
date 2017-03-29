@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -17,10 +16,7 @@ import java.util.List;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.SearchResultsActivity;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
-import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.SearchComic;
-import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
-import comic.shannortrotty.gruntt.services.VolleyWrapper;
 
 /**
  * Created by shannortrotty on 3/23/17.

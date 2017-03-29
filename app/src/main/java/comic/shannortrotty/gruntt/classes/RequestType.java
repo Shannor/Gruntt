@@ -16,8 +16,9 @@ public class RequestType {
      *
      */
     public enum Type{
-        CHAPTERS, ALLCOMICS, POPULARCOMICS , COMICSDESCRIPTION, PAGES, SEARCH,
 //        New Types may keep only these
+//       TODO: maybe better types
+        UPDATE, LOAD, SAVE,
 //        If Network check network first. Database try database first, Either check locally first
         NETWORK, DATABASE, EITHER
     }

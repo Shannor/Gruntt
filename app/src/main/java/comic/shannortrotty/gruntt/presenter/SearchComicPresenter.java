@@ -46,7 +46,7 @@ public class SearchComicPresenter implements GenericPresenter, NetworkModel.OnRe
     public void startRequest(RequestType requestType) {
        isFinished = false;
         genericView.showLoading();
-        if(requestType.getType() == RequestType.Type.SEARCH){
+        if(requestType.getType() == RequestType.Type.LOAD){
             networkModel.searchComics(
                     requestType.getExtras().get(Constants.SEARCH_COMIC_KEYWORD),
                     requestType.getExtras().get(Constants.SEARCH_COMIC_INCLUDE),

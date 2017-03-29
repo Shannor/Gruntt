@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -78,8 +81,8 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chapter_list, container, false);
         //Makes the call on create to fetch the list of Issues
+        setHasOptionsMenu(true);
         genericPresenter = new ChapterPresenter(getContext(), this, new ComicTvNetworkImplementation());
-        //TODO: Add Refresh to menu as never seen
         swipeRefreshLayout = ((SwipeRefreshLayout) view.findViewById(R.id.swiperefresh_chapter_list_fragment));
         listView = ((ListView) view.findViewById(R.id.listView_fragment_chapter_list));
         loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_chapter_list));
@@ -120,6 +123,26 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
                 position
         );
         ReadComicActivity.start(getContext(),chapter.getFormattedURL(),chapter.getChapterNumber());
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.chapter_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.chapter_menu_refresh_chapters:
+                RequestType requestType = new RequestType(RequestType.Type.NETWORK);
+                loadChapters(requestType);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //***************** Methods the Activity Call to perform actions on Fragment

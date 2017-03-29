@@ -36,7 +36,7 @@ public class PopularComicsPresenter implements GenericPresenter, NetworkModel.On
     public void startRequest(RequestType requestType) {
         genericView.showLoading();
         finished = false;
-        if(requestType.getType() == RequestType.Type.POPULARCOMICS) {
+        if(requestType.getType() == RequestType.Type.LOAD) {
             networkModel.getPopularComics(
                     requestType.getExtras().get(Constants.PAGE_NUMBER),
                     this);

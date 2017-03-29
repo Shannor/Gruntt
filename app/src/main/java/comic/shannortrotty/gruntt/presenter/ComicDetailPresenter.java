@@ -62,7 +62,7 @@ public class ComicDetailPresenter implements GenericPresenter, NetworkModel.OnRe
     public void startRequest(RequestType requestType) {
         genericView.showLoading();
         finished = false;
-        if(requestType.getType() == RequestType.Type.COMICSDESCRIPTION){
+        if(requestType.getType() == RequestType.Type.LOAD){
             //Perform Database call, if found in database load it.
             ComicDetails comicDetails = checkDatabase(requestType.getExtras().get(Constants.COMIC_NAME));
             if(comicDetails == null){

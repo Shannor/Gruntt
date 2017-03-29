@@ -87,7 +87,7 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
      */
     private void loadRequest(int pageCount){
         //Only make this networking call on Create and show load when making the call.
-        RequestType type = new RequestType(RequestType.Type.POPULARCOMICS);
+        RequestType type = new RequestType(RequestType.Type.LOAD);
         type.addExtras(Constants.PAGE_NUMBER,String.valueOf(pageCount));
         genericPresenter.startRequest(type);
     }

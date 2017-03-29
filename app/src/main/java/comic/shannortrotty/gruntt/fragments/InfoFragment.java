@@ -155,7 +155,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     }
 
     public void loadComicRequest(){
-        RequestType requestType = new RequestType(RequestType.Type.COMICSDESCRIPTION);
+        RequestType requestType = new RequestType(RequestType.Type.LOAD);
         requestType.addExtras(Constants.COMIC_LINK,mLink);
         requestType.addExtras(Constants.COMIC_NAME, mTitle);
         genericPresenter.startRequest(requestType);

@@ -77,7 +77,7 @@ public class SearchResultsActivity extends AppCompatActivity implements GenericV
     }
 
     private void loadRequest(int page){
-        RequestType requestType = new RequestType(RequestType.Type.SEARCH);
+        RequestType requestType = new RequestType(RequestType.Type.LOAD);
         requestType.addExtras(Constants.SEARCH_COMIC_KEYWORD, keyword);
         requestType.addExtras(Constants.SEARCH_COMIC_INCLUDE, include);
         requestType.addExtras(Constants.SEARCH_COMIC_EXCLUDE, exclude);

@@ -70,7 +70,7 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
         mImagesPagesAdapter = new ImagesPagerAdapter(this);
         mViewPager.setAdapter(mImagesPagesAdapter);
 
-        RequestType requestType = new RequestType(RequestType.Type.PAGES);
+        RequestType requestType = new RequestType(RequestType.Type.LOAD);
         requestType.addExtras(Constants.COMIC_LINK, mComicLink);
         requestType.addExtras(Constants.CHAPTER_NUMBER, mComicChapterNumber);
         genericPresenter.startRequest(requestType);

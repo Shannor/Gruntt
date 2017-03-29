@@ -8,15 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.squareup.picasso.Picasso;
 
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
-import comic.shannortrotty.gruntt.services.VolleyWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

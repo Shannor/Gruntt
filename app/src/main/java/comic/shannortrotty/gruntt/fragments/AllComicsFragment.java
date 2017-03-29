@@ -60,8 +60,9 @@ public class AllComicsFragment extends Fragment implements GenericView<BareComic
 
         recyclerView.setLayoutManager(layoutManger);
 
+        //TODO:Change Layout from Nested to Scrollbar with Letters
         RequestType request = new RequestType();
-        request.setType(RequestType.Type.ALLCOMICS);
+        request.setType(RequestType.Type.LOAD);
         mPresenter.startRequest(request);
 
         return view;

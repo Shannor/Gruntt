@@ -38,7 +38,7 @@ public class BareComicsPresenter implements  GenericPresenter, NetworkModel.OnRe
         genericView.showLoading();
         finished = false;
         canceled = false;
-        if(requestType.getType() == RequestType.Type.ALLCOMICS){
+        if(requestType.getType() == RequestType.Type.LOAD){
             networkModel.getAllComics(this);
         }else{
             //Throw Error

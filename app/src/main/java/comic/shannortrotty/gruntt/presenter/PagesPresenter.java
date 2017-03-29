@@ -35,7 +35,7 @@ public class PagesPresenter implements GenericPresenter, NetworkModel.OnResponse
     public void startRequest(RequestType requestType) {
         genericView.showLoading();
         finished = false;
-        if (requestType.getType() == RequestType.Type.PAGES) {
+        if (requestType.getType() == RequestType.Type.LOAD) {
             networkModel.getChapterPages(
                     requestType.getExtras().get(Constants.COMIC_LINK),
                     requestType.getExtras().get(Constants.CHAPTER_NUMBER),

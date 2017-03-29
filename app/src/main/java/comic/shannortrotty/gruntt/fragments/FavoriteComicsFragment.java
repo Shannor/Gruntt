@@ -114,7 +114,7 @@ public class FavoriteComicsFragment extends Fragment {
     }
 
     public List<ComicDetails> getFavoriteComics(){
-
+        //TODO: Make a presenter and abstract this out
         SQLiteDatabase db = mDatabase.getReadableDatabase();
         List<ComicDetails> comicDetailsList = new ArrayList<>();
 

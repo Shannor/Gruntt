@@ -8,10 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import comic.shannortrotty.gruntt.R;
-import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
-import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment;
 
 import java.util.ArrayList;
@@ -41,7 +39,7 @@ public class MyFavoriteComicsRecyclerViewAdapter extends RecyclerView.Adapter<My
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_favorite_comics, parent, false);
+                .inflate(R.layout.fragment_favorite_comics_view, parent, false);
         return new ViewHolder(view);
     }
 
