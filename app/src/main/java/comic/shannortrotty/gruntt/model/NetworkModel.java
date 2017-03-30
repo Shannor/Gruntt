@@ -5,6 +5,7 @@ import java.util.List;
 import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.Chapter;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
+import comic.shannortrotty.gruntt.classes.Pages;
 import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.SearchComic;
 import retrofit2.Call;
@@ -23,13 +24,14 @@ public interface NetworkModel {
     interface OnResponseItemListener<T>{
         void onItemSuccess(T item);
         void setRequestCall(Call<T> call);
+        //TODO: Add fail call
     }
 
     void getPopularComics(String pageNumber, OnResponseListListener<PopularComic> listener);
     void getAllComics(OnResponseListListener<BareComicsCategory> listener);
     void getChapters(String comicLink, OnResponseListListener<Chapter> listener, OnResponseItemListener<Chapter> chapterListener);
     void getComicDescription(String comicLink, OnResponseItemListener<ComicDetails> listener);
-    void getChapterPages(String comicLink, String chapterNumber, OnResponseListListener<String> listener);
+    void getChapterPages(String comicLink, String chapterNumber, OnResponseItemListener<Pages> listener);
     void searchComics(String keyword, String include, String exclude,
                       String status,String pageNumber, OnResponseListListener<SearchComic> listener);
     void getSearchCategories(OnResponseListListener<String> listener);

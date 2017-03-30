@@ -7,6 +7,7 @@ import java.util.List;
 import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.Chapter;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
+import comic.shannortrotty.gruntt.classes.Pages;
 import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.SearchComic;
 import retrofit2.Call;
@@ -115,21 +116,27 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         });
     }
 
+    /**
+     *
+     * @param comicLink
+     * @param chapterNum
+     * @param listener
+     */
     @Override
-    public void getChapterPages(String comicLink, String chapterNum, final OnResponseListListener<String> listener) {
+    public void getChapterPages(String comicLink, String chapterNum, final OnResponseItemListener<Pages> listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit.
                 create(RetrofitComicTVService.class);
 
-        Call<List<String>> call = retrofitComicTVService.listPages(comicLink, chapterNum);
-        listener.setRequestListCall(call);
-        call.enqueue(new Callback<List<String>>() {
+        Call<Pages> call = retrofitComicTVService.listPages(comicLink, chapterNum);
+        listener.setRequestCall(call);
+        call.enqueue(new Callback<Pages>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                listener.onListSuccess(response.body());
+            public void onResponse(Call<Pages> call, Response<Pages> response) {
+                listener.onItemSuccess(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            public void onFailure(Call<Pages> call, Throwable t) {
                 if(call.isCanceled()){
                     Log.e(TAG, "User canceled the Call. ", t);
                 }else{

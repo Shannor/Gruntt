@@ -22,6 +22,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 import java.util.ArrayList;
 import java.util.List;
 import comic.shannortrotty.gruntt.classes.Constants;
+import comic.shannortrotty.gruntt.classes.Pages;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.presenter.PagesPresenter;
 import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
@@ -30,7 +31,7 @@ import comic.shannortrotty.gruntt.view.GenericView;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class ReadComicActivity extends AppCompatActivity implements GenericView<String> {
+public class ReadComicActivity extends AppCompatActivity implements GenericView<Pages> {
 
     public static final String COMIC_LINK = "comic.link.read";
     public static final String COMIC_CHAPTER_NUMBER = "comic.chapter.number.read";
@@ -99,14 +100,14 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
     }
 
     @Override
-    public void setItem(String item) {
-        //Wont Use
+    public void setItem(Pages item) {
+        mViewPager.setOffscreenPageLimit(6);
+        mImagesPagesAdapter.addPages(item);
     }
 
     @Override
-    public void setItems(List<String> items) {
-        mViewPager.setOffscreenPageLimit(6);
-        mImagesPagesAdapter.addList(items);
+    public void setItems(List<Pages> items) {
+        //Wont use
     }
 
     @Override
@@ -128,6 +129,7 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
     //*****************Images Pages Adapter only for this Activity
     private class  ImagesPagerAdapter extends PagerAdapter{
         private List<String> chapterPageString;
+        private Pages page;
         private Context context;
         private LayoutInflater layoutInflater;
 
@@ -136,14 +138,16 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
             this.layoutInflater = ((LayoutInflater) this.context.getSystemService(this.context.LAYOUT_INFLATER_SERVICE));
             this.chapterPageString = new ArrayList<>();
         }
-        ImagesPagerAdapter(Context context,List<String> chapterPageString){
+        ImagesPagerAdapter(Context context,Pages chapterPage){
             this.context = context;
-            this.chapterPageString = chapterPageString;
+            this.page = chapterPage;
+            this.chapterPageString = page.getPageUrls();
+
         }
 
-        void addList(List<String> chapterPagesBitmap){
+        void addPages(Pages chapterPages){
             this.chapterPageString.clear();
-            this.chapterPageString.addAll(chapterPagesBitmap);
+            this.chapterPageString.addAll(chapterPages.getPageUrls());
             notifyDataSetChanged();
         }
 

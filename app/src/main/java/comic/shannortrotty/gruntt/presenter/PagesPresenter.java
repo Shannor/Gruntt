@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.Constants;
+import comic.shannortrotty.gruntt.classes.Pages;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.model.NetworkModel;
 import comic.shannortrotty.gruntt.view.GenericView;
@@ -14,16 +15,16 @@ import retrofit2.Call;
  * Created by shannortrotty on 3/18/17.
  */
 
-public class PagesPresenter implements GenericPresenter, NetworkModel.OnResponseListListener<String> {
+public class PagesPresenter implements GenericPresenter, NetworkModel.OnResponseItemListener<Pages> {
 
-    private GenericView<String> genericView;
+    private GenericView<Pages> genericView;
     private NetworkModel networkModel;
     private Context mContext;
     private boolean canceled;
     private Call call;
     private boolean finished;
 
-    public PagesPresenter(Context context,GenericView<String> genericView, NetworkModel networkModel) {
+    public PagesPresenter(Context context,GenericView<Pages> genericView, NetworkModel networkModel) {
         this.genericView = genericView;
         this.networkModel = networkModel;
         this.mContext = context;
@@ -53,14 +54,10 @@ public class PagesPresenter implements GenericPresenter, NetworkModel.OnResponse
     }
 
     @Override
-    public void setRequestListCall(Call<List<String>> call) {
+    public void setRequestCall(Call<Pages> call) {
         this.call = call;
     }
 
-    @Override
-    public void onListFailed(Throwable throwable) {
-
-    }
 
     @Override
     public void cancelRequest() {
@@ -71,9 +68,9 @@ public class PagesPresenter implements GenericPresenter, NetworkModel.OnResponse
     }
 
     @Override
-    public void onListSuccess(List<String> items) {
+    public void onItemSuccess(Pages item) {
         if(!canceled){
-            genericView.setItems(items);
+            genericView.setItem(item);
             genericView.hideLoading();
             finished =true;
         }

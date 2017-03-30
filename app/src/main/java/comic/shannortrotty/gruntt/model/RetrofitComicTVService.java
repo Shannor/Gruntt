@@ -4,6 +4,7 @@ import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.Chapter;
+import comic.shannortrotty.gruntt.classes.Pages;
 import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.SearchComic;
@@ -31,7 +32,7 @@ public interface RetrofitComicTVService {
     Call<List<BareComicsCategory>> listAllComics();
 
     @GET("read-comic/{comicName}/{chapterNumber}")
-    Call<List<String>> listPages(@Path("comicName") String comicName, @Path("chapterNumber") String chapterNumber);
+    Call<Pages> listPages(@Path("comicName") String comicName, @Path("chapterNumber") String chapterNumber);
 
     @GET("{comicName}/description")
     Call<ComicDetails> getComicDescription(@Path("comicName") String comicName);
