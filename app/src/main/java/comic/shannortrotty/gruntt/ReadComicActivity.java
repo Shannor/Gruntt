@@ -98,7 +98,6 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public void setItem(Pages item) {
         mViewPager.setOffscreenPageLimit(6);
