@@ -19,7 +19,7 @@ import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.presenter.BareComicsPresenter;
-import comic.shannortrotty.gruntt.presenter.GenericPresenter;
+import comic.shannortrotty.gruntt.presenter.ComicDetialPresenter;
 import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.view.GenericView;
 
@@ -28,7 +28,7 @@ public class AllComicsFragment extends Fragment implements GenericView<BareComic
     public static final String TAG = "AllComicsFragment";
 
     private OnComicListener mListener;
-    private GenericPresenter mPresenter;
+    private ComicDetialPresenter mPresenter;
     private AVLoadingIndicatorView loadingIndicator;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManger;

@@ -16,7 +16,7 @@ import retrofit2.Call;
  * Handles General List Types.
  */
 
-public class PopularComicsPresenter implements GenericPresenter, NetworkModel.OnResponseListListener<PopularComic> {
+public class PopularComicsPresenter implements ComicDetialPresenter, NetworkModel.OnResponseListListener<PopularComic> {
     private GenericView<PopularComic> genericView;
     private NetworkModel networkModel;
     private Context mContext;

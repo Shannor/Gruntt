@@ -26,7 +26,7 @@ import comic.shannortrotty.gruntt.classes.Pages;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.presenter.PagesPresenter;
 import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
-import comic.shannortrotty.gruntt.presenter.GenericPresenter;
+import comic.shannortrotty.gruntt.presenter.ComicDetialPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -40,7 +40,7 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
     private ImagesPagerAdapter mImagesPagesAdapter;
     private String mComicLink;
     private String mComicChapterNumber;
-    private GenericPresenter genericPresenter;
+    private ComicDetialPresenter genericPresenter;
     private AVLoadingIndicatorView loadingIndictorView;
 
     public static void start(Context context, String comicLink, String comicChapterNumber) {

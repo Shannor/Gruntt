@@ -1,5 +1,6 @@
 package comic.shannortrotty.gruntt.presenter;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,7 +18,7 @@ import retrofit2.Call;
  * Created by shannortrotty on 2/28/17.
  */
 
-public class ComicDetailPresenter implements GenericPresenter, NetworkModel.OnResponseItemListener<ComicDetails> {
+public class ComicDetailPresenter implements ComicDetialPresenter, NetworkModel.OnResponseItemListener<ComicDetails> {
 
     private GenericView<ComicDetails> genericView;
     private NetworkModel networkModel;
@@ -82,6 +83,53 @@ public class ComicDetailPresenter implements GenericPresenter, NetworkModel.OnRe
     public void setRequestCall(Call<ComicDetails> call) {
         this.call = call;
     }
+
+
+    public void addToFavorites(ComicDetails comicDetails) {
+        //Get data base reference
+        SQLiteDatabase db = new DatabaseHelper(mContext).getWritableDatabase();
+        byte[] comicImageByteArray = DatabaseHelper.getBytes(comicDetails.getLocalBitmap());
+
+
+        ContentValues values = new ContentValues();
+        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE, comicDetails.getTitle());
+        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_ALT_TITLE, comicDetails.getAltTitle());
+        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_AUTHOR, comicDetails.getAuthor());
+        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_DESCRIPTION, comicDetails.getDescription());
+        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_GENRE, comicDetails.getGenre());
+        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_STATUS, comicDetails.getStatus());
+        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_RELEASE_DATE, comicDetails.getReleaseDate());
+        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_IMAGE, comicImageByteArray);
+        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_IS_FAVORITE, comicDetails.getFormattedFavorite());
+        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_LINK, comicDetails.getFormattedURL());
+
+        db.insert(DatabaseContract.ComicInfoEntry.TABLE_NAME_FAVORITE, null, values);
+
+//        values = new ContentValues();
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE, comicDetails.getTitle());
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_CHAPTER_LIST,
+//                DatabaseHelper.getJSONChapterList(chapterList));
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_LAST_READ_CHAPTER,
+//                DatabaseHelper.getJSONChapterString(lastReadChapter));
+//
+//        db.insert(DatabaseContract.ComicInfoEntry.TABLE_NAME_CHAPTERS, null, values);
+        db.close();
+    }
+
+    public void removeFromFavorites(ComicDetails comicDetails) {
+        SQLiteDatabase db = new DatabaseHelper(mContext).getWritableDatabase();
+        // Define 'where' part of query.
+        //Should delete was 'LIKE' before
+        String selection = DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE + " =?";
+        // Specify arguments in placeholder order.
+        String[] selectionArgs = { comicDetails.getTitle() };
+        // Drop this comic from favorites list
+        db.delete(DatabaseContract.ComicInfoEntry.TABLE_NAME_FAVORITE, selection, selectionArgs);
+        //TODO: Remove this and replace with a timely update.
+        db.delete(DatabaseContract.ComicInfoEntry.TABLE_NAME_CHAPTERS, selection, selectionArgs);
+        db.close();
+    }
+
 
     /**
      *

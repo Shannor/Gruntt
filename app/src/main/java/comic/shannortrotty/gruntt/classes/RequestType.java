@@ -27,6 +27,7 @@ public class RequestType {
     private Type type;
     private Map<String,String> extras;
 
+
     public RequestType(){
         extras = new HashMap<>();
     }

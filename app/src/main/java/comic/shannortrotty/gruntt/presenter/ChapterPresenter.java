@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.Chapter;
+import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.model.NetworkModel;
@@ -23,7 +24,7 @@ import retrofit2.Call;
  * Created by shannortrotty on 3/16/17.
  */
 
-public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnResponseListListener<Chapter>,
+public class ChapterPresenter implements ComicDetialPresenter, NetworkModel.OnResponseListListener<Chapter>,
         NetworkModel.OnResponseItemListener<Chapter>{
 
     private GenericView<Chapter> genericView;
@@ -113,6 +114,22 @@ public class ChapterPresenter implements  GenericPresenter, NetworkModel.OnRespo
         if(!canceled){
             genericView.setItem(item);
         }
+    }
+    public void saveToDatabase(String comicTitle, List<Chapter> chapterList, Chapter lastReadChapter){
+        SQLiteDatabase db = new DatabaseHelper(mContext).getWritableDatabase();
+        List<Chapter> chapters = checkDatabaseForChapterList(comicTitle);
+        if(chapters.isEmpty()) {
+            ContentValues values = new ContentValues();
+            values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE, comicTitle);
+            values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_CHAPTER_LIST,
+                    DatabaseHelper.getJSONChapterList(chapterList));
+            values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_LAST_READ_CHAPTER,
+                    DatabaseHelper.getJSONChapterString(lastReadChapter));
+
+            db.insert(DatabaseContract.ComicInfoEntry.TABLE_NAME_CHAPTERS, null, values);
+        }
+        db.close();
+
     }
 
     public void saveComicProgress(String comicName, List<Chapter>chapterList, Chapter last_read_chapter, int chapterIndex){

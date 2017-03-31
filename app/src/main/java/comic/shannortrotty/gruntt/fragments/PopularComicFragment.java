@@ -22,7 +22,7 @@ import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.presenter.PopularComicsPresenter;
-import comic.shannortrotty.gruntt.presenter.GenericPresenter;
+import comic.shannortrotty.gruntt.presenter.ComicDetialPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
 
 /**
@@ -37,7 +37,7 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
     private PopularComicRecyclerViewAdapter popularComicRecyclerViewAdapter;
     private RecyclerView mComicRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private GenericPresenter genericPresenter;
+    private ComicDetialPresenter genericPresenter;
     private AVLoadingIndicatorView loadingIndicatorView;
     private EndlessRecyclerViewScrollListener scrollListener;
     /**

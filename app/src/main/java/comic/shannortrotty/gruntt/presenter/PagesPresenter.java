@@ -2,8 +2,6 @@ package comic.shannortrotty.gruntt.presenter;
 
 import android.content.Context;
 
-import java.util.List;
-
 import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.Pages;
 import comic.shannortrotty.gruntt.classes.RequestType;
@@ -15,7 +13,7 @@ import retrofit2.Call;
  * Created by shannortrotty on 3/18/17.
  */
 
-public class PagesPresenter implements GenericPresenter, NetworkModel.OnResponseItemListener<Pages> {
+public class PagesPresenter implements ComicDetialPresenter, NetworkModel.OnResponseItemListener<Pages> {
 
     private GenericView<Pages> genericView;
     private NetworkModel networkModel;

@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.wang.avi.AVLoadingIndicatorView;
@@ -21,7 +20,7 @@ import comic.shannortrotty.gruntt.classes.OnComicListener;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.classes.SearchComic;
 import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
-import comic.shannortrotty.gruntt.presenter.GenericPresenter;
+import comic.shannortrotty.gruntt.presenter.ComicDetialPresenter;
 import comic.shannortrotty.gruntt.presenter.SearchComicPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
 
@@ -33,7 +32,7 @@ import static comic.shannortrotty.gruntt.MainActivity.PICKED_COMIC_TITLE;
 public class SearchResultsActivity extends AppCompatActivity implements GenericView<SearchComic>, OnComicListener {
 
     private RecyclerView recyclerView;
-    private GenericPresenter presenter;
+    private ComicDetialPresenter presenter;
     private SearchResultsAdapter adapter;
     private AVLoadingIndicatorView loadingIndicatorView;
     public static final String TAG = "SearchResultsActivity";

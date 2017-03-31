@@ -25,7 +25,6 @@ import comic.shannortrotty.gruntt.classes.Constants;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.presenter.ComicDetailPresenter;
 import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
-import comic.shannortrotty.gruntt.presenter.GenericPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
 
 /**
@@ -50,14 +49,12 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     private TextView comicAuthorView;
     private TextView comicGenreView;
     private TextView comicDescriptionView;
-    private GenericPresenter genericPresenter;
+    private ComicDetailPresenter comicDetailPresenter;
     private AVLoadingIndicatorView loadingIndicatorView;
     private Button addToFavoritesBtn;
     private Button resumeReading;
     private OnInfoFragmentListener mListener;
     private ComicDetails currentSpecifics;
-    private Boolean isFavorite;
-    private Bitmap comicImg;
 
     public InfoFragment() {
         // Required empty public constructor
@@ -67,8 +64,6 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
      * Interface for this Fragment
      */
     public interface OnInfoFragmentListener {
-        void addToFavorites(ComicDetails comicDetails, Bitmap comicImage);
-        void removeFromFavorites(ComicDetails comicDetails);
         void resumeReading();
     }
 
@@ -104,7 +99,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         View view = inflater.inflate(R.layout.fragment_info_fragment, container, false);
         //TODO:Replace with Factory call
         //TODO: Add Description title
-        genericPresenter = new ComicDetailPresenter(getContext(),this, new ComicTvNetworkImplementation());
+        comicDetailPresenter = new ComicDetailPresenter(getContext(),this, new ComicTvNetworkImplementation());
 
         largeComicImg = ((ImageView) view.findViewById(R.id.imageView_info_fragment_large_img));
         loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_info));
@@ -122,19 +117,18 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         addToFavoritesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isFavorite){
-                    //TODO: Can be cleaned up I'm sure
+                if(currentSpecifics.getFavorite()){
                     //Remove from Database and change text to "add"
                     currentSpecifics.setFavorite(false);
-                    mListener.removeFromFavorites(currentSpecifics);
-                    isFavorite = !isFavorite;
-                    setFavoriteLabel(isFavorite);
+//                    mListener.removeFromFavorites(currentSpecifics);
+                    comicDetailPresenter.removeFromFavorites(currentSpecifics);
+                    setFavoriteLabel(false);
                 }else{
                     //Add to Database and Change text to "Remove"
                     currentSpecifics.setFavorite(true);
-                    mListener.addToFavorites(currentSpecifics, comicImg);
-                    isFavorite = !isFavorite;
-                    setFavoriteLabel(isFavorite);
+//                    mListener.addToFavorites(currentSpecifics, comicImg);
+                    comicDetailPresenter.addToFavorites(currentSpecifics);
+                    setFavoriteLabel(true);
                 }
             }
         });
@@ -158,7 +152,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         RequestType requestType = new RequestType(RequestType.Type.LOAD);
         requestType.addExtras(Constants.COMIC_LINK,mLink);
         requestType.addExtras(Constants.COMIC_NAME, mTitle);
-        genericPresenter.startRequest(requestType);
+        comicDetailPresenter.startRequest(requestType);
     }
 
 
@@ -214,7 +208,6 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     @Override
     public void setItem(ComicDetails comicDetails) {
         currentSpecifics = comicDetails;
-        comicImg = comicDetails.getLocalBitmap();
         comicTitleView.setText(comicDetails.getFormattedName());
         comicAltTitleView.setText(comicDetails.getFormattedAltName());
         comicAuthorView.setText(comicDetails.getFormattedAuthor());
@@ -222,7 +215,6 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         comicReleaseDateView.setText(comicDetails.getFormattedReleaseDate());
         comicDescriptionView.setText(comicDetails.getFormattedDescription());
         comicStatusView.setText(comicDetails.getFormattedStatus());
-        isFavorite = comicDetails.getFavorite();
         setFavoriteLabel(comicDetails.getFavorite());
         //Check if Loaded from Database or Need to grab from url
         //TODO:Set Error Image, and Load Image
@@ -242,8 +234,9 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     private Target target = new Target() {
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            comicImg = bitmap;
             largeComicImg.setImageBitmap(bitmap);
+            //Set current detail bitmap,
+            currentSpecifics.setLocalBitmap(bitmap);
         }
 
         @Override
@@ -260,7 +253,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        genericPresenter.onDestroy();
+        comicDetailPresenter.onDestroy();
         Picasso.with(getContext()).cancelRequest(target);
     }
 
@@ -278,7 +271,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     @Override
     public void onDetach() {
         super.onDetach();
-        genericPresenter.cancelRequest();
+        comicDetailPresenter.cancelRequest();
         mListener = null;
     }
 

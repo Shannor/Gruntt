@@ -25,7 +25,7 @@ import comic.shannortrotty.gruntt.classes.OnChapterListener;
 import comic.shannortrotty.gruntt.classes.RequestType;
 import comic.shannortrotty.gruntt.presenter.ChapterPresenter;
 import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
-import comic.shannortrotty.gruntt.presenter.GenericPresenter;
+import comic.shannortrotty.gruntt.presenter.ComicDetialPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
 
 /**
@@ -41,7 +41,7 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     private String mLink;
     private String mTitle;
     private ChapterListAdapter mChapterListAdapter;
-    private GenericPresenter genericPresenter;
+    private ChapterPresenter genericPresenter;
     private Chapter lastReadComic;
     private AVLoadingIndicatorView loadingIndicatorView;
     private ListView listView;
@@ -116,7 +116,7 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     @Override
     public void onClickedChapter(Chapter chapter, int position) {
         lastReadComic = chapter;
-        ((ChapterPresenter) genericPresenter).saveComicProgress(
+        genericPresenter.saveComicProgress(
                 mTitle,
                 mChapterListAdapter.getChapters(),
                 chapter,
@@ -146,10 +146,6 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     }
 
     //***************** Methods the Activity Call to perform actions on Fragment
-    public List<Chapter> getChapters(){
-        return mChapterListAdapter.getChapters();
-    }
-    public Chapter getLastReadChapter(){ return lastReadComic; }
     public void resumeReading(){
         onClickedChapter(lastReadComic, mChapterListAdapter.getIndex(lastReadComic));
     }
@@ -158,6 +154,7 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     @Override
     public void setItems(List<Chapter> items) {
         mChapterListAdapter.addChapters(items);
+        genericPresenter.saveToDatabase(mTitle, items, lastReadComic);
         swipeRefreshLayout.setRefreshing(false);
     }
 

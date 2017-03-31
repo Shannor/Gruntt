@@ -1,7 +1,5 @@
 package comic.shannortrotty.gruntt.presenter;
 
-import android.content.Context;
-
 import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.Constants;
@@ -15,7 +13,7 @@ import retrofit2.Call;
  * Created by shannortrotty on 3/24/17.
  */
 
-public class SearchComicPresenter implements GenericPresenter, NetworkModel.OnResponseListListener<SearchComic> {
+public class SearchComicPresenter implements ComicDetialPresenter, NetworkModel.OnResponseListListener<SearchComic> {
 
     private Call<List<SearchComic>> call;
     private GenericView<SearchComic> genericView;

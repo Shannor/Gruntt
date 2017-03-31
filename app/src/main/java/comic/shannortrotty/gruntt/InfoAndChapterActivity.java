@@ -127,61 +127,61 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
         fragment.resumeReading();
     }
 
-    /**
-     *
-     * @param comicDetails
-     * @param comicImage
-     */
-    @Override
-    public void addToFavorites(ComicDetails comicDetails, Bitmap comicImage) {
-        //Get data base reference
-        SQLiteDatabase db = mDatabase.getWritableDatabase();
-        byte[] comicImageByteArray = DatabaseHelper.getBytes(comicImage);
+//    /**
+//     *
+//     * @param comicDetails
+//     * @param comicImage
+//     */
+//    @Override
+//    public void addToFavorites(ComicDetails comicDetails, Bitmap comicImage) {
+//        //Get data base reference
+//        SQLiteDatabase db = mDatabase.getWritableDatabase();
+//        byte[] comicImageByteArray = DatabaseHelper.getBytes(comicImage);
+//
+//        String fragmentTag = makeFragmentName(R.id.viewPager_activity_info_chapter,1);
+//        ChapterListFragment fragment = (ChapterListFragment) getSupportFragmentManager().findFragmentByTag(fragmentTag);
+//        List<Chapter> chapterList = fragment.getChapters();
+//        Chapter lastReadChapter = fragment.getLastReadChapter();
+//
+//        ContentValues values = new ContentValues();
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE, comicDetails.getTitle());
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_ALT_TITLE, comicDetails.getAltTitle());
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_AUTHOR, comicDetails.getAuthor());
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_DESCRIPTION, comicDetails.getDescription());
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_GENRE, comicDetails.getGenre());
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_STATUS, comicDetails.getStatus());
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_RELEASE_DATE, comicDetails.getReleaseDate());
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_IMAGE, comicImageByteArray);
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_IS_FAVORITE, comicDetails.getFormattedFavorite());
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_LINK, comicDetails.getFormattedURL());
+//
+//        db.insert(DatabaseContract.ComicInfoEntry.TABLE_NAME_FAVORITE, null, values);
+//
+//        values = new ContentValues();
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE, comicDetails.getTitle());
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_CHAPTER_LIST,
+//                DatabaseHelper.getJSONChapterList(chapterList));
+//        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_LAST_READ_CHAPTER,
+//                DatabaseHelper.getJSONChapterString(lastReadChapter));
+//
+//        db.insert(DatabaseContract.ComicInfoEntry.TABLE_NAME_CHAPTERS, null, values);
+//        db.close();
+//    }
 
-        String fragmentTag = makeFragmentName(R.id.viewPager_activity_info_chapter,1);
-        ChapterListFragment fragment = (ChapterListFragment) getSupportFragmentManager().findFragmentByTag(fragmentTag);
-        List<Chapter> chapterList = fragment.getChapters();
-        Chapter lastReadChapter = fragment.getLastReadChapter();
-
-        ContentValues values = new ContentValues();
-        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE, comicDetails.getTitle());
-        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_ALT_TITLE, comicDetails.getAltTitle());
-        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_AUTHOR, comicDetails.getAuthor());
-        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_DESCRIPTION, comicDetails.getDescription());
-        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_GENRE, comicDetails.getGenre());
-        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_STATUS, comicDetails.getStatus());
-        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_RELEASE_DATE, comicDetails.getReleaseDate());
-        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_IMAGE, comicImageByteArray);
-        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_IS_FAVORITE, comicDetails.getFormattedFavorite());
-        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_LINK, comicDetails.getFormattedURL());
-
-        db.insert(DatabaseContract.ComicInfoEntry.TABLE_NAME_FAVORITE, null, values);
-
-        values = new ContentValues();
-        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE, comicDetails.getTitle());
-        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_CHAPTER_LIST,
-                DatabaseHelper.getJSONChapterList(chapterList));
-        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_LAST_READ_CHAPTER,
-                DatabaseHelper.getJSONChapterString(lastReadChapter));
-
-        db.insert(DatabaseContract.ComicInfoEntry.TABLE_NAME_CHAPTERS, null, values);
-        db.close();
-    }
-
-    @Override
-    public void removeFromFavorites(ComicDetails comicDetails) {
-        SQLiteDatabase db = mDatabase.getWritableDatabase();
-        // Define 'where' part of query.
-        //Should delete was 'LIKE' before
-        String selection = DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE + " =?";
-        // Specify arguments in placeholder order.
-        String[] selectionArgs = { comicDetails.getTitle() };
-        // Drop this comic from favorites list
-        db.delete(DatabaseContract.ComicInfoEntry.TABLE_NAME_FAVORITE, selection, selectionArgs);
-        //TODO: Remove this and replace with a timely update.
-        db.delete(DatabaseContract.ComicInfoEntry.TABLE_NAME_CHAPTERS, selection, selectionArgs);
-        db.close();
-    }
+//    @Override
+//    public void removeFromFavorites(ComicDetails comicDetails) {
+//        SQLiteDatabase db = mDatabase.getWritableDatabase();
+//        // Define 'where' part of query.
+//        //Should delete was 'LIKE' before
+//        String selection = DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE + " =?";
+//        // Specify arguments in placeholder order.
+//        String[] selectionArgs = { comicDetails.getTitle() };
+//        // Drop this comic from favorites list
+//        db.delete(DatabaseContract.ComicInfoEntry.TABLE_NAME_FAVORITE, selection, selectionArgs);
+//        //TODO: Remove this and replace with a timely update.
+//        db.delete(DatabaseContract.ComicInfoEntry.TABLE_NAME_CHAPTERS, selection, selectionArgs);
+//        db.close();
+//    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
