@@ -2,9 +2,9 @@ package comic.shannortrotty.gruntt.presenter;
 
 import android.content.Context;
 
-import comic.shannortrotty.gruntt.classes.Constants;
+import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.classes.Pages;
-import comic.shannortrotty.gruntt.classes.RequestType;
+import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.model.NetworkModel;
 import comic.shannortrotty.gruntt.view.GenericView;
 import retrofit2.Call;
@@ -13,7 +13,7 @@ import retrofit2.Call;
  * Created by shannortrotty on 3/18/17.
  */
 
-public class PagesPresenter implements ComicDetialPresenter, NetworkModel.OnResponseItemListener<Pages> {
+public class PagesPresenter implements ComicPresenter, NetworkModel.OnResponseItemListener<Pages> {
 
     private GenericView<Pages> genericView;
     private NetworkModel networkModel;

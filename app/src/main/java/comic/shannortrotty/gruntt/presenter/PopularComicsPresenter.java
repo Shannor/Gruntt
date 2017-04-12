@@ -4,9 +4,9 @@ import android.content.Context;
 
 import java.util.List;
 
-import comic.shannortrotty.gruntt.classes.Constants;
+import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.classes.PopularComic;
-import comic.shannortrotty.gruntt.classes.RequestType;
+import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.model.NetworkModel;
 import comic.shannortrotty.gruntt.view.GenericView;
 import retrofit2.Call;
@@ -16,7 +16,7 @@ import retrofit2.Call;
  * Handles General List Types.
  */
 
-public class PopularComicsPresenter implements ComicDetialPresenter, NetworkModel.OnResponseListListener<PopularComic> {
+public class PopularComicsPresenter implements ComicPresenter, NetworkModel.OnResponseListListener<PopularComic> {
     private GenericView<PopularComic> genericView;
     private NetworkModel networkModel;
     private Context mContext;

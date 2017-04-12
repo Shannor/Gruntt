@@ -1,4 +1,4 @@
-package comic.shannortrotty.gruntt.classes;
+package comic.shannortrotty.gruntt.utils;
 
 /**
  * Created by shannortrotty on 3/1/17.

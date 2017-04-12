@@ -1,4 +1,4 @@
-package comic.shannortrotty.gruntt;
+package comic.shannortrotty.gruntt.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,14 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.classes.Comic;
-import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.fragments.AdvancedSearchFragment;
 import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
 import comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
-import comic.shannortrotty.gruntt.classes.PopularComic;
-import comic.shannortrotty.gruntt.classes.OnComicListener;
+import comic.shannortrotty.gruntt.utils.OnComicListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,

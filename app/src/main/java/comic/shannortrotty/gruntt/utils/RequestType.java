@@ -1,4 +1,4 @@
-package comic.shannortrotty.gruntt.classes;
+package comic.shannortrotty.gruntt.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

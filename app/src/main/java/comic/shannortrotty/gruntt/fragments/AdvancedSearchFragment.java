@@ -1,16 +1,12 @@
 package comic.shannortrotty.gruntt.fragments;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import comic.shannortrotty.gruntt.R;
-import comic.shannortrotty.gruntt.SearchResultsActivity;
+import comic.shannortrotty.gruntt.activities.SearchResultsActivity;
 
 
 public class AdvancedSearchFragment extends Fragment{

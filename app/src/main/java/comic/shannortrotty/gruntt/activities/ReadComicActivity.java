@@ -1,4 +1,4 @@
-package comic.shannortrotty.gruntt;
+package comic.shannortrotty.gruntt.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,12 +21,14 @@ import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
-import comic.shannortrotty.gruntt.classes.Constants;
+
+import comic.shannortrotty.gruntt.R;
+import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.classes.Pages;
-import comic.shannortrotty.gruntt.classes.RequestType;
+import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.presenter.PagesPresenter;
-import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
-import comic.shannortrotty.gruntt.presenter.ComicDetialPresenter;
+import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.presenter.ComicPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -40,7 +42,7 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
     private ImagesPagerAdapter mImagesPagesAdapter;
     private String mComicLink;
     private String mComicChapterNumber;
-    private ComicDetialPresenter genericPresenter;
+    private ComicPresenter genericPresenter;
     private AVLoadingIndicatorView loadingIndictorView;
 
     public static void start(Context context, String comicLink, String comicChapterNumber) {

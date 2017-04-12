@@ -2,8 +2,8 @@ package comic.shannortrotty.gruntt.presenter;
 
 import java.util.List;
 
-import comic.shannortrotty.gruntt.classes.Constants;
-import comic.shannortrotty.gruntt.classes.RequestType;
+import comic.shannortrotty.gruntt.utils.Constants;
+import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.classes.SearchComic;
 import comic.shannortrotty.gruntt.model.NetworkModel;
 import comic.shannortrotty.gruntt.view.GenericView;
@@ -13,7 +13,7 @@ import retrofit2.Call;
  * Created by shannortrotty on 3/24/17.
  */
 
-public class SearchComicPresenter implements ComicDetialPresenter, NetworkModel.OnResponseListListener<SearchComic> {
+public class SearchComicPresenter implements ComicPresenter, NetworkModel.OnResponseListListener<SearchComic> {
 
     private Call<List<SearchComic>> call;
     private GenericView<SearchComic> genericView;

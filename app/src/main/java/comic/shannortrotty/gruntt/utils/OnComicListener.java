@@ -1,4 +1,6 @@
-package comic.shannortrotty.gruntt.classes;
+package comic.shannortrotty.gruntt.utils;
+
+import comic.shannortrotty.gruntt.classes.Comic;
 
 /**
  * Created by shannortrotty on 2/14/17.

@@ -1,4 +1,4 @@
-package comic.shannortrotty.gruntt.services;
+package comic.shannortrotty.gruntt.databases;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,7 +22,7 @@ import comic.shannortrotty.gruntt.classes.Chapter;
  * Sqlite Database implementation
  */
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class SQLiteHelper extends SQLiteOpenHelper {
 
     // Database Version
     private static final int DATABASE_VERSION = 8;
@@ -95,7 +95,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return gson.fromJson(jsonString, Chapter.class);
     }
 
-    public DatabaseHelper(Context context){
+    public SQLiteHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

@@ -1,7 +1,6 @@
-package comic.shannortrotty.gruntt.services;
+package comic.shannortrotty.gruntt.databases;
 
 import android.provider.BaseColumns;
-import android.util.StringBuilderPrinter;
 
 /**
  * Created by shannortrotty on 3/11/17.

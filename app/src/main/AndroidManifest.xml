@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
@@ -23,25 +23,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".InfoAndChapterActivity"
+            android:name=".activities.InfoAndChapterActivity"
             android:label="@string/title_activity_info_and_issue"
             android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="comic.shannortrotty.gruntt.MainActivity" />
+                android:value="comic.shannortrotty.gruntt.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".ReadComicActivity"
+            android:name=".activities.ReadComicActivity"
             android:label="@string/title_activity_read_comic"
-            android:parentActivityName=".InfoAndChapterActivity"
+            android:parentActivityName=".activities.InfoAndChapterActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="comic.shannortrotty.gruntt.InfoAndChapterActivity" />
+                android:value="comic.shannortrotty.gruntt.activities.InfoAndChapterActivity" />
         </activity>
-        <activity android:name=".SearchResultsActivity"></activity>
+        <activity android:name=".activities.SearchResultsActivity"></activity>
     </application>
 
 </manifest>

@@ -10,13 +10,14 @@ import android.widget.TextView;
 import com.bignerdranch.expandablerecyclerview.ChildViewHolder;
 import com.bignerdranch.expandablerecyclerview.ExpandableRecyclerAdapter;
 import com.bignerdranch.expandablerecyclerview.ParentViewHolder;
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.BareComics;
-import comic.shannortrotty.gruntt.classes.OnComicListener;
+import comic.shannortrotty.gruntt.utils.OnComicListener;
 import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
 
 /**
@@ -24,15 +25,17 @@ import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
  */
 
 public class AllComicRecyclerViewAdapter extends ExpandableRecyclerAdapter<BareComicsCategory, BareComics,
-        AllComicRecyclerViewAdapter.CategoryViewHolder, AllComicRecyclerViewAdapter.ComicViewHolder> {
+        AllComicRecyclerViewAdapter.CategoryViewHolder, AllComicRecyclerViewAdapter.ComicViewHolder> implements FastScrollRecyclerView.SectionedAdapter{
 
     private LayoutInflater mInflater;
     private OnComicListener mListener;
+    private List<BareComicsCategory> headers;
 
     public AllComicRecyclerViewAdapter(Context context, @NonNull List<BareComicsCategory> comicsResponseList, OnComicListener listener) {
         super(comicsResponseList);
         mInflater = LayoutInflater.from(context);
         this.mListener = listener;
+        this.headers = comicsResponseList;
     }
         // onCreate ...
         @Override
@@ -57,6 +60,12 @@ public class AllComicRecyclerViewAdapter extends ExpandableRecyclerAdapter<BareC
         public void onBindChildViewHolder(@NonNull ComicViewHolder comicViewHolder, int parentPosition, int childPosition, @NonNull BareComics comics) {
             comicViewHolder.bind(comics);
         }
+
+    @NonNull
+    @Override
+    public String getSectionName(int position) {
+        return String.valueOf(headers.get(position).getCategory().charAt(0));
+    }
 
     public class CategoryViewHolder extends ParentViewHolder {
 

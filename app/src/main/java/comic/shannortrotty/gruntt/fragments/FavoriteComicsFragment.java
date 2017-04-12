@@ -20,9 +20,9 @@ import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.GridSpacingItemDecoration;
 import comic.shannortrotty.gruntt.adapters.MyFavoriteComicsRecyclerViewAdapter;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
-import comic.shannortrotty.gruntt.classes.OnComicListener;
-import comic.shannortrotty.gruntt.services.DatabaseContract;
-import comic.shannortrotty.gruntt.services.DatabaseHelper;
+import comic.shannortrotty.gruntt.databases.SQLiteHelper;
+import comic.shannortrotty.gruntt.utils.OnComicListener;
+import comic.shannortrotty.gruntt.databases.DatabaseContract;
 
 /**
  * A fragment representing a list of Items.
@@ -38,7 +38,7 @@ public class FavoriteComicsFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 2;
     private OnComicListener mListener;
-    private DatabaseHelper mDatabase;
+    private SQLiteHelper mDatabase;
     private MyFavoriteComicsRecyclerViewAdapter adapter;
     public static final String TAG = "FavoriteComicsFragment";
 
@@ -72,7 +72,7 @@ public class FavoriteComicsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorite_comics_list, container, false);
 
-        mDatabase = new DatabaseHelper(getContext());
+        mDatabase = new SQLiteHelper(getContext());
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -133,7 +133,7 @@ public class FavoriteComicsFragment extends Fragment {
                 comicDetails.setAuthor(cursor.getString(
                                 cursor.getColumnIndexOrThrow(DatabaseContract.ComicInfoEntry.COLUMN_NAME_AUTHOR)));
 
-                comicDetails.setLocalBitmap(DatabaseHelper.getImage(
+                comicDetails.setLocalBitmap(SQLiteHelper.getImage(
                                 cursor.getBlob(cursor.getColumnIndexOrThrow(
                                         DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_IMAGE))));
 

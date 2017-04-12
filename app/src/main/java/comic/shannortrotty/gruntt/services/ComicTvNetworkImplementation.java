@@ -1,4 +1,4 @@
-package comic.shannortrotty.gruntt.model;
+package comic.shannortrotty.gruntt.services;
 
 import android.util.Log;
 
@@ -10,6 +10,8 @@ import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.Pages;
 import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.SearchComic;
+import comic.shannortrotty.gruntt.model.NetworkModel;
+import comic.shannortrotty.gruntt.model.RetrofitComicTVService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

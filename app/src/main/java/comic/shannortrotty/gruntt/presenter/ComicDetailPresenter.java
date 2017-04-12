@@ -6,11 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import comic.shannortrotty.gruntt.classes.ComicDetails;
-import comic.shannortrotty.gruntt.classes.Constants;
-import comic.shannortrotty.gruntt.classes.RequestType;
+import comic.shannortrotty.gruntt.utils.Constants;
+import comic.shannortrotty.gruntt.utils.RequestType;
+import comic.shannortrotty.gruntt.databases.SQLiteHelper;
 import comic.shannortrotty.gruntt.model.NetworkModel;
-import comic.shannortrotty.gruntt.services.DatabaseContract;
-import comic.shannortrotty.gruntt.services.DatabaseHelper;
+import comic.shannortrotty.gruntt.databases.DatabaseContract;
 import comic.shannortrotty.gruntt.view.GenericView;
 import retrofit2.Call;
 
@@ -18,7 +18,7 @@ import retrofit2.Call;
  * Created by shannortrotty on 2/28/17.
  */
 
-public class ComicDetailPresenter implements ComicDetialPresenter, NetworkModel.OnResponseItemListener<ComicDetails> {
+public class ComicDetailPresenter implements ComicPresenter, NetworkModel.OnResponseItemListener<ComicDetails> {
 
     private GenericView<ComicDetails> genericView;
     private NetworkModel networkModel;
@@ -87,8 +87,8 @@ public class ComicDetailPresenter implements ComicDetialPresenter, NetworkModel.
 
     public void addToFavorites(ComicDetails comicDetails) {
         //Get data base reference
-        SQLiteDatabase db = new DatabaseHelper(mContext).getWritableDatabase();
-        byte[] comicImageByteArray = DatabaseHelper.getBytes(comicDetails.getLocalBitmap());
+        SQLiteDatabase db = new SQLiteHelper(mContext).getWritableDatabase();
+        byte[] comicImageByteArray = SQLiteHelper.getBytes(comicDetails.getLocalBitmap());
 
 
         ContentValues values = new ContentValues();
@@ -108,16 +108,16 @@ public class ComicDetailPresenter implements ComicDetialPresenter, NetworkModel.
 //        values = new ContentValues();
 //        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE, comicDetails.getTitle());
 //        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_CHAPTER_LIST,
-//                DatabaseHelper.getJSONChapterList(chapterList));
+//                SQLiteHelper.getJSONChapterList(chapterList));
 //        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_LAST_READ_CHAPTER,
-//                DatabaseHelper.getJSONChapterString(lastReadChapter));
+//                SQLiteHelper.getJSONChapterString(lastReadChapter));
 //
 //        db.insert(DatabaseContract.ComicInfoEntry.TABLE_NAME_CHAPTERS, null, values);
         db.close();
     }
 
     public void removeFromFavorites(ComicDetails comicDetails) {
-        SQLiteDatabase db = new DatabaseHelper(mContext).getWritableDatabase();
+        SQLiteDatabase db = new SQLiteHelper(mContext).getWritableDatabase();
         // Define 'where' part of query.
         //Should delete was 'LIKE' before
         String selection = DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE + " =?";
@@ -137,7 +137,7 @@ public class ComicDetailPresenter implements ComicDetialPresenter, NetworkModel.
      * @return comicDetails Information about the comic
      */
     private ComicDetails checkDatabase(String comicName){
-        DatabaseHelper mDatabase = new DatabaseHelper(mContext);
+        SQLiteHelper mDatabase = new SQLiteHelper(mContext);
         SQLiteDatabase db = mDatabase.getReadableDatabase();
 
         // Define a projection that specifies which columns from the database
@@ -185,7 +185,7 @@ public class ComicDetailPresenter implements ComicDetialPresenter, NetworkModel.
                     cursor.getColumnIndexOrThrow(
                             DatabaseContract.ComicInfoEntry.COLUMN_NAME_STATUS)));
 
-            comicDetails.setLocalBitmap(DatabaseHelper.getImage(
+            comicDetails.setLocalBitmap(SQLiteHelper.getImage(
                     cursor.getBlob(
                             cursor.getColumnIndexOrThrow(
                                     DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_IMAGE))));

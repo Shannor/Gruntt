@@ -11,12 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.Chapter;
-import comic.shannortrotty.gruntt.classes.Comic;
-import comic.shannortrotty.gruntt.classes.Constants;
-import comic.shannortrotty.gruntt.classes.RequestType;
+import comic.shannortrotty.gruntt.utils.Constants;
+import comic.shannortrotty.gruntt.utils.RequestType;
+import comic.shannortrotty.gruntt.databases.SQLiteHelper;
 import comic.shannortrotty.gruntt.model.NetworkModel;
-import comic.shannortrotty.gruntt.services.DatabaseContract;
-import comic.shannortrotty.gruntt.services.DatabaseHelper;
+import comic.shannortrotty.gruntt.databases.DatabaseContract;
 import comic.shannortrotty.gruntt.view.GenericView;
 import retrofit2.Call;
 
@@ -24,7 +23,7 @@ import retrofit2.Call;
  * Created by shannortrotty on 3/16/17.
  */
 
-public class ChapterPresenter implements ComicDetialPresenter, NetworkModel.OnResponseListListener<Chapter>,
+public class ChapterPresenter implements ComicPresenter, NetworkModel.OnResponseListListener<Chapter>,
         NetworkModel.OnResponseItemListener<Chapter>{
 
     private GenericView<Chapter> genericView;
@@ -116,15 +115,15 @@ public class ChapterPresenter implements ComicDetialPresenter, NetworkModel.OnRe
         }
     }
     public void saveToDatabase(String comicTitle, List<Chapter> chapterList, Chapter lastReadChapter){
-        SQLiteDatabase db = new DatabaseHelper(mContext).getWritableDatabase();
+        SQLiteDatabase db = new SQLiteHelper(mContext).getWritableDatabase();
         List<Chapter> chapters = checkDatabaseForChapterList(comicTitle);
         if(chapters.isEmpty()) {
             ContentValues values = new ContentValues();
             values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE, comicTitle);
             values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_CHAPTER_LIST,
-                    DatabaseHelper.getJSONChapterList(chapterList));
+                    SQLiteHelper.getJSONChapterList(chapterList));
             values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_LAST_READ_CHAPTER,
-                    DatabaseHelper.getJSONChapterString(lastReadChapter));
+                    SQLiteHelper.getJSONChapterString(lastReadChapter));
 
             db.insert(DatabaseContract.ComicInfoEntry.TABLE_NAME_CHAPTERS, null, values);
         }
@@ -133,14 +132,14 @@ public class ChapterPresenter implements ComicDetialPresenter, NetworkModel.OnRe
     }
 
     public void saveComicProgress(String comicName, List<Chapter>chapterList, Chapter last_read_chapter, int chapterIndex){
-        SQLiteDatabase db = new DatabaseHelper(mContext).getWritableDatabase();
+        SQLiteDatabase db = new SQLiteHelper(mContext).getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         last_read_chapter.setHaveRead(true);
         chapterList.get(chapterIndex).setHaveRead(true);
         contentValues.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_LAST_READ_CHAPTER,
-                DatabaseHelper.getJSONChapterString(last_read_chapter));
+                SQLiteHelper.getJSONChapterString(last_read_chapter));
         contentValues.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_CHAPTER_LIST,
-                DatabaseHelper.getJSONChapterList(chapterList));
+                SQLiteHelper.getJSONChapterList(chapterList));
 
         //Only will save the Comics that are favorites, since fails when not a favorite. 
         String selection = DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE + " LIKE ?";
@@ -158,7 +157,7 @@ public class ChapterPresenter implements ComicDetialPresenter, NetworkModel.OnRe
 
     @NonNull
     private List<Chapter> checkDatabaseForChapterList(String comicName){
-        DatabaseHelper mDatabase = new DatabaseHelper(mContext);
+        SQLiteHelper mDatabase = new SQLiteHelper(mContext);
         SQLiteDatabase db = mDatabase.getReadableDatabase();
         List<Chapter> chapters = new ArrayList<>();
         Chapter lastReadChapter;
@@ -186,9 +185,9 @@ public class ChapterPresenter implements ComicDetialPresenter, NetworkModel.OnRe
         );
         //inside of Favorites
         if(cursor.moveToFirst()){
-            chapters = DatabaseHelper.getChapterList(cursor.getString(cursor.getColumnIndexOrThrow(
+            chapters = SQLiteHelper.getChapterList(cursor.getString(cursor.getColumnIndexOrThrow(
                     DatabaseContract.ComicInfoEntry.COLUMN_NAME_CHAPTER_LIST)));
-            lastReadChapter = DatabaseHelper.getChapter(cursor.getString(
+            lastReadChapter = SQLiteHelper.getChapter(cursor.getString(
                     cursor.getColumnIndexOrThrow(
                             DatabaseContract.ComicInfoEntry.COLUMN_NAME_LAST_READ_CHAPTER)));
             //Add lastChapter to the from

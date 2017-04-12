@@ -1,8 +1,5 @@
-package comic.shannortrotty.gruntt;
+package comic.shannortrotty.gruntt.activities;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -14,17 +11,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.List;
-
-import comic.shannortrotty.gruntt.classes.Chapter;
-import comic.shannortrotty.gruntt.classes.ComicDetails;
-import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
+import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment;
 import comic.shannortrotty.gruntt.fragments.InfoFragment;
 import comic.shannortrotty.gruntt.fragments.ChapterListFragment;
-import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
-import comic.shannortrotty.gruntt.services.DatabaseContract;
-import comic.shannortrotty.gruntt.services.DatabaseHelper;
+import comic.shannortrotty.gruntt.databases.SQLiteHelper;
 
 public class InfoAndChapterActivity extends AppCompatActivity implements InfoFragment.OnInfoFragmentListener {
 
@@ -46,7 +37,7 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
     private String comicTitle;
     private String startingOrigin;
     private static final String TAG = "InfoAndChapterActivity";
-    private DatabaseHelper mDatabase;
+    private SQLiteHelper mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +60,7 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mDatabase = new DatabaseHelper(getBaseContext());
+        mDatabase = new SQLiteHelper(getBaseContext());
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.viewPager_activity_info_chapter);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -136,7 +127,7 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
 //    public void addToFavorites(ComicDetails comicDetails, Bitmap comicImage) {
 //        //Get data base reference
 //        SQLiteDatabase db = mDatabase.getWritableDatabase();
-//        byte[] comicImageByteArray = DatabaseHelper.getBytes(comicImage);
+//        byte[] comicImageByteArray = SQLiteHelper.getBytes(comicImage);
 //
 //        String fragmentTag = makeFragmentName(R.id.viewPager_activity_info_chapter,1);
 //        ChapterListFragment fragment = (ChapterListFragment) getSupportFragmentManager().findFragmentByTag(fragmentTag);
@@ -160,9 +151,9 @@ public class InfoAndChapterActivity extends AppCompatActivity implements InfoFra
 //        values = new ContentValues();
 //        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE, comicDetails.getTitle());
 //        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_CHAPTER_LIST,
-//                DatabaseHelper.getJSONChapterList(chapterList));
+//                SQLiteHelper.getJSONChapterList(chapterList));
 //        values.put(DatabaseContract.ComicInfoEntry.COLUMN_NAME_LAST_READ_CHAPTER,
-//                DatabaseHelper.getJSONChapterString(lastReadChapter));
+//                SQLiteHelper.getJSONChapterString(lastReadChapter));
 //
 //        db.insert(DatabaseContract.ComicInfoEntry.TABLE_NAME_CHAPTERS, null, values);
 //        db.close();

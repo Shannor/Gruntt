@@ -16,10 +16,8 @@ import java.util.Collections;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
-import comic.shannortrotty.gruntt.ReadComicActivity;
 import comic.shannortrotty.gruntt.classes.Chapter;
-import comic.shannortrotty.gruntt.classes.OnChapterListener;
-import comic.shannortrotty.gruntt.fragments.ChapterListFragment;
+import comic.shannortrotty.gruntt.utils.OnChapterListener;
 
 /**
  * Created by shannortrotty on 2/15/17.

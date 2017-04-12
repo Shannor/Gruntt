@@ -17,15 +17,14 @@ import com.wang.avi.AVLoadingIndicatorView;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
-import comic.shannortrotty.gruntt.ReadComicActivity;
+import comic.shannortrotty.gruntt.activities.ReadComicActivity;
 import comic.shannortrotty.gruntt.adapters.ChapterListAdapter;
 import comic.shannortrotty.gruntt.classes.Chapter;
-import comic.shannortrotty.gruntt.classes.Constants;
-import comic.shannortrotty.gruntt.classes.OnChapterListener;
-import comic.shannortrotty.gruntt.classes.RequestType;
+import comic.shannortrotty.gruntt.utils.Constants;
+import comic.shannortrotty.gruntt.utils.OnChapterListener;
+import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.presenter.ChapterPresenter;
-import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
-import comic.shannortrotty.gruntt.presenter.ComicDetialPresenter;
+import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.view.GenericView;
 
 /**

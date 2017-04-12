@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
-import comic.shannortrotty.gruntt.SearchResultsActivity;
-import comic.shannortrotty.gruntt.classes.OnComicListener;
+import comic.shannortrotty.gruntt.activities.SearchResultsActivity;
+import comic.shannortrotty.gruntt.utils.OnComicListener;
 import comic.shannortrotty.gruntt.classes.SearchComic;
 
 /**

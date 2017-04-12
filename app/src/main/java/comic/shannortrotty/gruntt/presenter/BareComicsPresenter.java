@@ -5,7 +5,7 @@ import android.content.Context;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.BareComicsCategory;
-import comic.shannortrotty.gruntt.classes.RequestType;
+import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.model.NetworkModel;
 import comic.shannortrotty.gruntt.view.GenericView;
 import retrofit2.Call;
@@ -14,7 +14,7 @@ import retrofit2.Call;
  * Created by shannortrotty on 3/18/17.
  */
 
-public class BareComicsPresenter implements ComicDetialPresenter, NetworkModel.OnResponseListListener<BareComicsCategory> {
+public class BareComicsPresenter implements ComicPresenter, NetworkModel.OnResponseListListener<BareComicsCategory> {
 
     private GenericView<BareComicsCategory> genericView;
     private NetworkModel networkModel;

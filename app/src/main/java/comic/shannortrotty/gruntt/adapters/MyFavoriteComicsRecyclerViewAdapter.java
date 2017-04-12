@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
-import comic.shannortrotty.gruntt.classes.OnComicListener;
+import comic.shannortrotty.gruntt.utils.OnComicListener;
 import comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment;
 
 import java.util.ArrayList;

@@ -17,12 +17,12 @@ import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.EndlessRecyclerViewScrollListener;
 import comic.shannortrotty.gruntt.adapters.PopularComicRecyclerViewAdapter;
 import comic.shannortrotty.gruntt.classes.PopularComic;
-import comic.shannortrotty.gruntt.classes.Constants;
-import comic.shannortrotty.gruntt.classes.OnComicListener;
-import comic.shannortrotty.gruntt.classes.RequestType;
-import comic.shannortrotty.gruntt.model.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.utils.Constants;
+import comic.shannortrotty.gruntt.utils.OnComicListener;
+import comic.shannortrotty.gruntt.utils.RequestType;
+import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
 import comic.shannortrotty.gruntt.presenter.PopularComicsPresenter;
-import comic.shannortrotty.gruntt.presenter.ComicDetialPresenter;
+import comic.shannortrotty.gruntt.presenter.ComicPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
 
 /**
@@ -37,7 +37,7 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
     private PopularComicRecyclerViewAdapter popularComicRecyclerViewAdapter;
     private RecyclerView mComicRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private ComicDetialPresenter genericPresenter;
+    private ComicPresenter genericPresenter;
     private AVLoadingIndicatorView loadingIndicatorView;
     private EndlessRecyclerViewScrollListener scrollListener;
     /**
