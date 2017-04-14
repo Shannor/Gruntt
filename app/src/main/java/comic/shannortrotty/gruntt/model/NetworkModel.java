@@ -8,6 +8,7 @@ import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.Pages;
 import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.SearchComic;
+import comic.shannortrotty.gruntt.services.APIError;
 import retrofit2.Call;
 
 /**
@@ -19,12 +20,13 @@ public interface NetworkModel {
     interface OnResponseListListener<T>{
         void onListSuccess(List<T> items);
         void setRequestListCall(Call<List<T>> call);
-        void onListFailed(Throwable throwable);
+        void onAPIFailure(Throwable throwable);
+        void onListFailure(APIError error);
     }
     interface OnResponseItemListener<T>{
         void onItemSuccess(T item);
         void setRequestCall(Call<T> call);
-        //TODO: Add fail call
+        void onItemFailure(APIError error);
     }
 
     void getPopularComics(String pageNumber, OnResponseListListener<PopularComic> listener);

@@ -25,7 +25,7 @@ public interface RetrofitComicTVService {
     @GET("popular-comics/{pageNumber}")
     Call<List<PopularComic>> listPopularComics(@Path("pageNumber") String pageNumber);
 
-    @GET("list-chapters/{comicName}")
+    @GET("chapter-list/{comicName}")
     Call<List<Chapter>> listComicChapters(@Path("comicName") String comicName);
 
     @GET("comic-list-AZ/")
@@ -34,8 +34,8 @@ public interface RetrofitComicTVService {
     @GET("read-comic/{comicName}/{chapterNumber}")
     Call<Pages> listPages(@Path("comicName") String comicName, @Path("chapterNumber") String chapterNumber);
 
-    @GET("{comicName}/description")
-    Call<ComicDetails> getComicDescription(@Path("comicName") String comicName);
+    @GET("description")
+    Call<ComicDetails> getComicDescription(@Query("name") String comicName);
 
     @GET("advanced-search")
     Call<List<SearchComic>> searchComics(@Query("key") String keyword,

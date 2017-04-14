@@ -12,6 +12,7 @@ import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.SearchComic;
 import comic.shannortrotty.gruntt.model.NetworkModel;
 import comic.shannortrotty.gruntt.model.RetrofitComicTVService;
+import comic.shannortrotty.gruntt.utils.ErrorUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,7 +40,12 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         call.enqueue(new Callback<List<BareComicsCategory>>() {
             @Override
             public void onResponse(Call<List<BareComicsCategory>> call, Response<List<BareComicsCategory>> response) {
-                listener.onListSuccess(response.body());
+                if(response.isSuccessful()){
+                    listener.onListSuccess(response.body());
+                }else{
+                    APIError error = ErrorUtils.parseError(response);
+                    listener.onListFailure(error);
+                }
             }
 
             @Override
@@ -68,10 +74,13 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         call.enqueue(new Callback<List<Chapter>>() {
             @Override
             public void onResponse(Call<List<Chapter>> call, Response<List<Chapter>> response) {
-               if(response.body() != null) {
+               if(response.isSuccessful()) {
                     itemListener.onItemSuccess(response.body().get(0));
                     listener.onListSuccess(response.body());
-                }
+                }else{
+                   APIError error = ErrorUtils.parseError(response);
+                   listener.onListFailure(error);
+               }
 
             }
 
@@ -81,7 +90,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                     Log.e(TAG, "User canceled the Call. ", t);
                 }else {
                     //TODO: Need error catching of some type
-                    listener.onListFailed(t);
+                    listener.onAPIFailure(t);
                     Log.e(TAG, "Error on Retrofit call for Chapters. ", t);
                 }
             }
@@ -103,8 +112,12 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         call.enqueue(new Callback<ComicDetails>() {
             @Override
             public void onResponse(Call<ComicDetails> call, Response<ComicDetails> response) {
-                listener.onItemSuccess(response.body());
-
+                if(response.isSuccessful()) {
+                    listener.onItemSuccess(response.body());
+                }else{
+                    APIError error = ErrorUtils.parseError(response);
+                    listener.onItemFailure(error);
+                }
             }
 
             @Override
@@ -134,7 +147,12 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         call.enqueue(new Callback<Pages>() {
             @Override
             public void onResponse(Call<Pages> call, Response<Pages> response) {
-                listener.onItemSuccess(response.body());
+                if(response.isSuccessful()) {
+                    listener.onItemSuccess(response.body());
+                }else{
+                    APIError error = ErrorUtils.parseError(response);
+                    listener.onItemFailure(error);
+                }
             }
 
             @Override
@@ -168,7 +186,12 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         call.enqueue(new Callback<List<SearchComic>>() {
             @Override
             public void onResponse(Call<List<SearchComic>> call, Response<List<SearchComic>> response) {
-                listener.onListSuccess(response.body());
+                if(response.isSuccessful()) {
+                    listener.onListSuccess(response.body());
+                }else{
+                    APIError error = ErrorUtils.parseError(response);
+                    listener.onListFailure(error);
+                }
             }
 
             @Override
@@ -177,7 +200,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                     Log.e(TAG, "User canceled the Call. ", t);
                 }else{
                     Log.e(TAG, "Error on Retrofit call for Search Comics.", t);
-                    listener.onListFailed(t);
+                    listener.onAPIFailure(t);
                 }
             }
         });
@@ -198,7 +221,12 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         call.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                listener.onListSuccess(response.body());
+                if(response.isSuccessful()) {
+                    listener.onListSuccess(response.body());
+                }else{
+                    APIError error = ErrorUtils.parseError(response);
+                    listener.onListFailure(error);
+                }
             }
 
             @Override
@@ -207,7 +235,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                     Log.e(TAG, "User canceled the Call. ", t);
                 }else{
                     Log.e(TAG, "Error on Retrofit call for Search Categories.", t);
-                    listener.onListFailed(t);
+                    listener.onAPIFailure(t);
                 }
             }
         });
@@ -228,7 +256,12 @@ public class ComicTvNetworkImplementation implements NetworkModel {
         call.enqueue(new Callback<List<PopularComic>>() {
             @Override
             public void onResponse(Call<List<PopularComic>> call, Response<List<PopularComic>> response) {
-                listener.onListSuccess(response.body());
+                if(response.isSuccessful()) {
+                    listener.onListSuccess(response.body());
+                }else{
+                    APIError error = ErrorUtils.parseError(response);
+                    listener.onListFailure(error);
+                }
             }
 
             @Override
