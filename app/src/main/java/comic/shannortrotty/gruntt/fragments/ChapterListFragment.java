@@ -20,6 +20,7 @@ import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.activities.ReadComicActivity;
 import comic.shannortrotty.gruntt.adapters.ChapterListAdapter;
 import comic.shannortrotty.gruntt.classes.Chapter;
+import comic.shannortrotty.gruntt.services.APIError;
 import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.utils.OnChapterListener;
 import comic.shannortrotty.gruntt.utils.RequestType;
@@ -158,8 +159,8 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     }
 
     @Override
-    public void setErrorMessage() {
-        //TODO:Set some error message
+    public void setErrorMessage(APIError errorMessage) {
+
     }
 
     @Override

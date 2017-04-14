@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
+import comic.shannortrotty.gruntt.services.APIError;
 import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.classes.Pages;
 import comic.shannortrotty.gruntt.utils.RequestType;
@@ -122,10 +123,9 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
     }
 
     @Override
-    public void setErrorMessage() {
+    public void setErrorMessage(APIError errorMessage) {
 
     }
-
 
     //*****************Images Pages Adapter only for this Activity
     private class  ImagesPagerAdapter extends PagerAdapter{

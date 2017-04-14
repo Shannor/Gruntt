@@ -6,6 +6,7 @@ import java.lang.annotation.Annotation;
 import comic.shannortrotty.gruntt.model.RetrofitComicTVService;
 import comic.shannortrotty.gruntt.services.APIError;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.Converter;
 import retrofit2.Response;
 

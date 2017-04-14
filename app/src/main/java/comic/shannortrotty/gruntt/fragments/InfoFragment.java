@@ -21,6 +21,7 @@ import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
+import comic.shannortrotty.gruntt.services.APIError;
 import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.presenter.ComicDetailPresenter;
@@ -190,11 +191,6 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     }
 
     @Override
-    public void setErrorMessage() {
-
-    }
-
-    @Override
     public void showLoading() {
         setVisibility(View.INVISIBLE);
         loadingIndicatorView.show();
@@ -203,6 +199,11 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
     @Override
     public void setItems(List<ComicDetails> items) {
         //Do nothing here, don't get back a list
+    }
+
+    @Override
+    public void setErrorMessage(APIError errorMessage) {
+
     }
 
     @Override

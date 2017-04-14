@@ -17,6 +17,7 @@ import java.util.List;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.AllComicRecyclerViewAdapter;
 import comic.shannortrotty.gruntt.classes.BareComicsCategory;
+import comic.shannortrotty.gruntt.services.APIError;
 import comic.shannortrotty.gruntt.utils.OnComicListener;
 import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.presenter.BareComicsPresenter;
@@ -114,7 +115,7 @@ public class AllComicsFragment extends Fragment implements GenericView<BareComic
     }
 
     @Override
-    public void setErrorMessage() {
+    public void setErrorMessage(APIError errorMessage) {
 
     }
 

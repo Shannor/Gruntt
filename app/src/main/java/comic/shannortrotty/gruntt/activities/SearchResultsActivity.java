@@ -16,6 +16,7 @@ import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.EndlessRecyclerViewScrollListener;
 import comic.shannortrotty.gruntt.adapters.SearchResultsAdapter;
 import comic.shannortrotty.gruntt.classes.Comic;
+import comic.shannortrotty.gruntt.services.APIError;
 import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.utils.OnComicListener;
 import comic.shannortrotty.gruntt.utils.RequestType;
@@ -117,7 +118,7 @@ public class SearchResultsActivity extends AppCompatActivity implements GenericV
     }
 
     @Override
-    public void setErrorMessage() {
+    public void setErrorMessage(APIError errorMessage) {
 
     }
 

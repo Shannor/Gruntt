@@ -259,6 +259,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                 if(response.isSuccessful()) {
                     listener.onListSuccess(response.body());
                 }else{
+                    Log.d(TAG, "onResponse: " + response.toString());
                     APIError error = ErrorUtils.parseError(response);
                     listener.onListFailure(error);
                 }
