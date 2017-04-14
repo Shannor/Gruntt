@@ -17,6 +17,7 @@ import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.EndlessRecyclerViewScrollListener;
 import comic.shannortrotty.gruntt.adapters.PopularComicRecyclerViewAdapter;
 import comic.shannortrotty.gruntt.classes.PopularComic;
+import comic.shannortrotty.gruntt.services.APIError;
 import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.utils.OnComicListener;
 import comic.shannortrotty.gruntt.utils.RequestType;
@@ -134,7 +135,7 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
     }
 
     @Override
-    public void setErrorMessage() {
+    public void setErrorMessage(APIError errorMessage) {
 
     }
 

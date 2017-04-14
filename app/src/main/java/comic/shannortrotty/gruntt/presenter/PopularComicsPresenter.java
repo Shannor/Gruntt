@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.List;
 
+import comic.shannortrotty.gruntt.services.APIError;
 import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.utils.RequestType;
@@ -54,10 +55,15 @@ public class PopularComicsPresenter implements ComicPresenter, NetworkModel.OnRe
         this.call = call;
     }
 
+    @Override
+    public void onAPIFailure(Throwable throwable) {
+
+    }
 
     @Override
-    public void onListFailed(Throwable throwable) {
-
+    public void onListFailure(APIError error) {
+        genericView.setErrorMessage(error);
+        genericView.hideLoading();
     }
 
     @Override

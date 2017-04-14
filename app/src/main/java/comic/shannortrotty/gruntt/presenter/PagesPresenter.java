@@ -2,6 +2,7 @@ package comic.shannortrotty.gruntt.presenter;
 
 import android.content.Context;
 
+import comic.shannortrotty.gruntt.services.APIError;
 import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.classes.Pages;
 import comic.shannortrotty.gruntt.utils.RequestType;
@@ -72,6 +73,12 @@ public class PagesPresenter implements ComicPresenter, NetworkModel.OnResponseIt
             genericView.hideLoading();
             finished =true;
         }
-
     }
+
+    @Override
+    public void onItemFailure(APIError error) {
+        genericView.setErrorMessage(error);
+        genericView.hideLoading();
+    }
+
 }

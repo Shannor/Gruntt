@@ -10,11 +10,12 @@ import comic.shannortrotty.gruntt.classes.ComicDetails;
  */
 
 public interface DatabaseInteractions {
-    void addToFavroites(ComicDetails comicDetails);
-    void removeFromFavorites(ComicDetails comicDetails);
+    void saveComicDetails(ComicDetails comicDetails);
+    void deleteComicDetails(ComicDetails comicDetails);
     void saveComicList(String comicTitle, List<Chapter> chapterList, Chapter lastReadChapter);
+    void deleteComicList(String comicName);
     void updateComicProgression(String comicName, List<Chapter>chapterList,
                                 Chapter last_read_chapter, int chapterIndex);
-    boolean checkIfComicListSaved(String comicName);
-    boolean isFavorite(String comicName);
+    List<Chapter> getSavedComicList(String comicName);
+    ComicDetails getComicDetails(String comicName);
 }

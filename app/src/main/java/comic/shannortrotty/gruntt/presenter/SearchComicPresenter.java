@@ -2,6 +2,7 @@ package comic.shannortrotty.gruntt.presenter;
 
 import java.util.List;
 
+import comic.shannortrotty.gruntt.services.APIError;
 import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.classes.SearchComic;
@@ -64,10 +65,14 @@ public class SearchComicPresenter implements ComicPresenter, NetworkModel.OnResp
     }
 
     @Override
-    public void onListFailed(Throwable throwable) {
-        isFinished = true;
+    public void onAPIFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onListFailure(APIError error) {
+        genericView.setErrorMessage(error);
         genericView.hideLoading();
-        genericView.setErrorMessage();
     }
 
     @Override

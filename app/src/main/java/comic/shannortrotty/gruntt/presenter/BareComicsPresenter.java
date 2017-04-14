@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.BareComicsCategory;
+import comic.shannortrotty.gruntt.services.APIError;
 import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.model.NetworkModel;
 import comic.shannortrotty.gruntt.view.GenericView;
@@ -64,7 +65,12 @@ public class BareComicsPresenter implements ComicPresenter, NetworkModel.OnRespo
     }
 
     @Override
-    public void onListFailed(Throwable throwable) {
+    public void onAPIFailure(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onListFailure(APIError error) {
 
     }
 
