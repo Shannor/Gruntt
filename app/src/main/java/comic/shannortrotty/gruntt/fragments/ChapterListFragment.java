@@ -110,6 +110,7 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     private void loadChapters(RequestType request){
         request.addExtras(Constants.COMIC_LINK, mLink);
         request.addExtras(Constants.COMIC_NAME,mTitle);
+        request.addExtras(Constants.SOURCE_TAG, Constants.COMIC_EXTRA_TAG);
         genericPresenter.startRequest(request);
     }
 

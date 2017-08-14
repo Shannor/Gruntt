@@ -39,6 +39,7 @@ public class PagesPresenter implements ComicPresenter, NetworkModel.OnResponseIt
             networkModel.getChapterPages(
                     requestType.getExtras().get(Constants.COMIC_LINK),
                     requestType.getExtras().get(Constants.CHAPTER_NUMBER),
+                    requestType.getExtras().get(Constants.SOURCE_TAG),
                     this
             );
         }else{
@@ -50,6 +51,7 @@ public class PagesPresenter implements ComicPresenter, NetworkModel.OnResponseIt
     public void onDestroy() {
         genericView = null;
         networkModel = null;
+        mContext = null;
     }
 
     @Override

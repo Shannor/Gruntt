@@ -51,7 +51,8 @@ public class ChapterPresenter implements ComicPresenter, NetworkModel.OnResponse
             //If not in data base perform Network call
             if (chapters.isEmpty()) {
                 networkModel.getChapters(
-                        requestType.getExtras().get(Constants.COMIC_LINK),
+                        requestType.getExtras(Constants.COMIC_LINK),
+                        requestType.getExtras(Constants.SOURCE_TAG),
                         this,this);
             } else {
                 //Remove last read chapter from the front
@@ -63,7 +64,8 @@ public class ChapterPresenter implements ComicPresenter, NetworkModel.OnResponse
         //Start with Network call first
         }else if (requestType.getType() == RequestType.Type.NETWORK) {
             networkModel.getChapters(
-                    requestType.getExtras().get(Constants.COMIC_LINK),
+                    requestType.getExtras(Constants.COMIC_LINK),
+                    requestType.getExtras(Constants.SOURCE_TAG),
                     this, this);
         }else{
             //Throw error
@@ -75,6 +77,7 @@ public class ChapterPresenter implements ComicPresenter, NetworkModel.OnResponse
     public void onDestroy(){
         genericView = null;
         networkModel = null;
+        mContext = null;
     }
 
     @Override

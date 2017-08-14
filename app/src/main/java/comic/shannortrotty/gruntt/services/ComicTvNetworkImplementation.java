@@ -25,17 +25,51 @@ import retrofit2.Response;
 public class ComicTvNetworkImplementation implements NetworkModel {
 
     private static final String TAG = "ComicTvNetworkImplement";
+    /**
+     *
+     * @param pageNumber
+     * @param listener
+     */
+    @Override
+    public void getPopularComics(String pageNumber, String source, final OnResponseListListener<PopularComic> listener) {
+        RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit.
+                create(RetrofitComicTVService.class);
 
+        Call<List<PopularComic>> call = retrofitComicTVService.getPopularComics(pageNumber,source);
+        listener.setRequestListCall(call);
+        call.enqueue(new Callback<List<PopularComic>>() {
+            @Override
+            public void onResponse(Call<List<PopularComic>> call, Response<List<PopularComic>> response) {
+                if(response.isSuccessful()) {
+                    listener.onListSuccess(response.body());
+                }else{
+                    Log.d(TAG, "onResponse: " + response.toString());
+                    APIError error = ErrorUtils.parseError(response);
+                    listener.onListFailure(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PopularComic>> call, Throwable t) {
+                if(call.isCanceled()){
+                    Log.e(TAG, "User canceled the Call. ", t);
+                }else{
+                    Log.e(TAG, "Error on Retrofit call for Popular Comics.", t);
+                }
+            }
+        });
+
+    }
     /**
      *
      * @param listener
      */
     @Override
-    public void getAllComics(final OnResponseListListener<BareComicsCategory> listener) {
+    public void getAllComics(String source, final OnResponseListListener<BareComicsCategory> listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
                 .create(RetrofitComicTVService.class);
 
-        Call<List<BareComicsCategory>> call = retrofitComicTVService.listAllComics();
+        Call<List<BareComicsCategory>> call = retrofitComicTVService.getAllComics(source);
         listener.setRequestListCall(call);
         call.enqueue(new Callback<List<BareComicsCategory>>() {
             @Override
@@ -65,11 +99,11 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      * @param listener
      */
     @Override
-    public void getChapters(String comicLink, final OnResponseListListener<Chapter> listener, final OnResponseItemListener<Chapter> itemListener) {
+    public void getChapters(String comicLink, String source, final OnResponseListListener<Chapter> listener, final OnResponseItemListener<Chapter> itemListener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
                 .create(RetrofitComicTVService.class);
 
-        Call<List<Chapter>> call = retrofitComicTVService.listComicChapters(comicLink);
+        Call<List<Chapter>> call = retrofitComicTVService.getComicChapters(comicLink, source);
         listener.setRequestListCall(call);
         call.enqueue(new Callback<List<Chapter>>() {
             @Override
@@ -103,11 +137,11 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      * @param listener
      */
     @Override
-    public void getComicDescription(String comicLink , final OnResponseItemListener<ComicDetails> listener) {
+    public void getComicDescription(String comicLink , String source, final OnResponseItemListener<ComicDetails> listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
                 .create(RetrofitComicTVService.class);
 
-        Call<ComicDetails> call = retrofitComicTVService.getComicDescription(comicLink);
+        Call<ComicDetails> call = retrofitComicTVService.getComicDescription(comicLink, source);
         listener.setRequestCall(call);
         call.enqueue(new Callback<ComicDetails>() {
             @Override
@@ -138,11 +172,11 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      * @param listener
      */
     @Override
-    public void getChapterPages(String comicLink, String chapterNum, final OnResponseItemListener<Pages> listener) {
+    public void getChapterPages(String comicLink, String chapterNum, String source, final OnResponseItemListener<Pages> listener) {
         RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit.
                 create(RetrofitComicTVService.class);
 
-        Call<Pages> call = retrofitComicTVService.listPages(comicLink, chapterNum);
+        Call<Pages> call = retrofitComicTVService.getPages(comicLink, chapterNum, source);
         listener.setRequestCall(call);
         call.enqueue(new Callback<Pages>() {
             @Override
@@ -239,41 +273,5 @@ public class ComicTvNetworkImplementation implements NetworkModel {
                 }
             }
         });
-    }
-
-    /**
-     *
-     * @param pageNumber
-     * @param listener
-     */
-    @Override
-    public void getPopularComics(String pageNumber, final OnResponseListListener<PopularComic> listener) {
-        RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit.
-                create(RetrofitComicTVService.class);
-
-        Call<List<PopularComic>> call = retrofitComicTVService.listPopularComics(pageNumber);
-        listener.setRequestListCall(call);
-        call.enqueue(new Callback<List<PopularComic>>() {
-            @Override
-            public void onResponse(Call<List<PopularComic>> call, Response<List<PopularComic>> response) {
-                if(response.isSuccessful()) {
-                    listener.onListSuccess(response.body());
-                }else{
-                    Log.d(TAG, "onResponse: " + response.toString());
-                    APIError error = ErrorUtils.parseError(response);
-                    listener.onListFailure(error);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<PopularComic>> call, Throwable t) {
-                if(call.isCanceled()){
-                    Log.e(TAG, "User canceled the Call. ", t);
-                }else{
-                    Log.e(TAG, "Error on Retrofit call for Popular Comics.", t);
-                }
-            }
-        });
-
     }
 }

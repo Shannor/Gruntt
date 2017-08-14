@@ -21,27 +21,27 @@ public class PopularComic implements Comic{
     private String link;
     @SerializedName("img")
     private String thumbnailUrl;
-    @SerializedName("genre")
-    private List<Genre> genres;
+    @SerializedName("issueCount")
+    private int issueCount;
 
     public PopularComic(){
         this.title = null;
         this.link = null;
         this.thumbnailUrl = null;
-        genres = new ArrayList<>();
+        this.issueCount = 0;
     }
 
-    public PopularComic(String title, String link, String thumbnailUrl, List<Genre> genres){
+    public PopularComic(String title, String link, String thumbnailUrl, int issueCount){
         this.title = title;
         this.link = link;
         this.thumbnailUrl = thumbnailUrl;
-        this.genres = genres;
+        this.issueCount = issueCount;
     }
     public PopularComic(String title, String link, String thumbnailUrl){
         this.title = title;
         this.link = link;
         this.thumbnailUrl = thumbnailUrl;
-        this.genres = new ArrayList<>();
+        this.issueCount = 0;
     }
 
     //Getters and Setters
@@ -74,39 +74,17 @@ public class PopularComic implements Comic{
         this.thumbnailUrl = thumbnailUrl;
     }
 
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
-    }
-
-    public boolean addGenre(Genre genre){
-        return this.genres.add(genre);
-    }
-
     public String getURLFormattedLink(){
         String[] correctLink = getLink().split("/");
         return correctLink[(correctLink.length - 1)];
     }
-    public String getFormattedGenres(){
-        List<Genre> genres = getGenres();
-        String formatted = "";
-        if(!genres.isEmpty()) {
-            String lastGenre = genres.get((genres.size() - 1)).getGenre();
 
-            for (Genre genre : genres) {
-                //Last Genre
-                if (genre.getGenre().equals(lastGenre)) {
-                    formatted += genre.getGenre();
-                } else {
-                    formatted += genre.getGenre() + ", ";
+    public int getIssueCount() {
+        return issueCount;
+    }
 
-                }
-            }
-        }
-        return formatted;
+    public void setIssueCount(int issueCount) {
+        this.issueCount = issueCount;
     }
 
     @Override

@@ -18,6 +18,7 @@ import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.AllComicRecyclerViewAdapter;
 import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.services.APIError;
+import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.utils.OnComicListener;
 import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.presenter.BareComicsPresenter;
@@ -68,6 +69,7 @@ public class AllComicsFragment extends Fragment implements GenericView<BareComic
         //TODO:Change Layout from Nested to Scrollbar with Letters
         RequestType request = new RequestType();
         request.setType(RequestType.Type.LOAD);
+        request.addExtras(Constants.SOURCE_TAG, Constants.COMIC_EXTRA_TAG);
         mPresenter.startRequest(request);
 
         return view;

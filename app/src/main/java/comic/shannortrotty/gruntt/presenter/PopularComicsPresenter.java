@@ -40,6 +40,7 @@ public class PopularComicsPresenter implements ComicPresenter, NetworkModel.OnRe
         if(requestType.getType() == RequestType.Type.LOAD) {
             networkModel.getPopularComics(
                     requestType.getExtras().get(Constants.PAGE_NUMBER),
+                    requestType.getExtras().get(Constants.SOURCE_TAG),
                     this);
         }
     }
@@ -48,6 +49,7 @@ public class PopularComicsPresenter implements ComicPresenter, NetworkModel.OnRe
     public void onDestroy() {
         genericView = null;
         networkModel = null;
+        mContext = null;
     }
 
     @Override

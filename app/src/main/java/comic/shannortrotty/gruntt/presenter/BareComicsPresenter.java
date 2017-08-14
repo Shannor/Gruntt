@@ -6,6 +6,7 @@ import java.util.List;
 
 import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.services.APIError;
+import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.model.NetworkModel;
 import comic.shannortrotty.gruntt.view.GenericView;
@@ -38,7 +39,9 @@ public class BareComicsPresenter implements ComicPresenter, NetworkModel.OnRespo
         finished = false;
         canceled = false;
         if(requestType.getType() == RequestType.Type.LOAD){
-            networkModel.getAllComics(this);
+            networkModel.getAllComics(
+                    requestType.getExtras().get(Constants.SOURCE_TAG),
+                    this);
         }else{
             //Throw Error
         }
@@ -48,6 +51,7 @@ public class BareComicsPresenter implements ComicPresenter, NetworkModel.OnRespo
     public void onDestroy() {
         genericView = null;
         networkModel = null;
+        mContext = null;
     }
 
     @Override

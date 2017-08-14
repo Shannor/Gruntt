@@ -29,11 +29,11 @@ public interface NetworkModel {
         void onItemFailure(APIError error);
     }
 
-    void getPopularComics(String pageNumber, OnResponseListListener<PopularComic> listener);
-    void getAllComics(OnResponseListListener<BareComicsCategory> listener);
-    void getChapters(String comicLink, OnResponseListListener<Chapter> listener, OnResponseItemListener<Chapter> chapterListener);
-    void getComicDescription(String comicLink, OnResponseItemListener<ComicDetails> listener);
-    void getChapterPages(String comicLink, String chapterNumber, OnResponseItemListener<Pages> listener);
+    void getPopularComics(String pageNumber, String source,  OnResponseListListener<PopularComic> listener);
+    void getAllComics(String source, OnResponseListListener<BareComicsCategory> listener);
+    void getChapters(String comicLink, String source, OnResponseListListener<Chapter> listener, OnResponseItemListener<Chapter> chapterListener);
+    void getComicDescription(String comicLink, String source, OnResponseItemListener<ComicDetails> listener);
+    void getChapterPages(String comicLink, String chapterNumber, String source, OnResponseItemListener<Pages> listener);
     void searchComics(String keyword, String include, String exclude,
                       String status,String pageNumber, OnResponseListListener<SearchComic> listener);
     void getSearchCategories(OnResponseListListener<String> listener);

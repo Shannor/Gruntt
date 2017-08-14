@@ -54,6 +54,10 @@ public class RequestType {
         this.extras.put(key, value);
     }
 
+    public String getExtras(String key){
+        return this.extras.get(key);
+    }
+
     public Type getType() {
         return type;
     }

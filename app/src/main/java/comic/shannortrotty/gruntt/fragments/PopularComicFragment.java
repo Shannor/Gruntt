@@ -70,6 +70,7 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
         mComicRecyclerView.setLayoutManager(mLayoutManager);
         popularComicRecyclerViewAdapter = new PopularComicRecyclerViewAdapter(getContext().getApplicationContext() ,mListener);
         mComicRecyclerView.setAdapter(popularComicRecyclerViewAdapter);
+
         scrollListener =  new EndlessRecyclerViewScrollListener(mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -91,6 +92,7 @@ public class PopularComicFragment extends Fragment implements GenericView<Popula
         //Only make this networking call on Create and show load when making the call.
         RequestType type = new RequestType(RequestType.Type.LOAD);
         type.addExtras(Constants.PAGE_NUMBER,String.valueOf(pageCount));
+        type.addExtras(Constants.SOURCE_TAG, Constants.COMIC_EXTRA_TAG);
         genericPresenter.startRequest(type);
     }
 

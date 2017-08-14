@@ -41,6 +41,8 @@ public class ComicDetailPresenter implements ComicPresenter, NetworkModel.OnResp
     @Override
     public void onDestroy() {
         genericView = null;
+        mContext = null;
+        networkModel = null;
     }
 
     @Override
@@ -71,6 +73,7 @@ public class ComicDetailPresenter implements ComicPresenter, NetworkModel.OnResp
             if(comicDetails == null){
                 networkModel.getComicDescription(
                     requestType.getExtras().get(Constants.COMIC_LINK),
+                        requestType.getExtras().get(Constants.SOURCE_TAG),
                     this);
             }else{
                 onItemSuccess(comicDetails);

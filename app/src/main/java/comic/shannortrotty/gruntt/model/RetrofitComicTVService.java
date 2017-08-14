@@ -23,19 +23,19 @@ import retrofit2.http.Query;
 public interface RetrofitComicTVService {
 
     @GET("popular-comics/{pageNumber}")
-    Call<List<PopularComic>> listPopularComics(@Path("pageNumber") String pageNumber);
+    Call<List<PopularComic>> getPopularComics(@Path("pageNumber") String pageNumber , @Query("source") String source);
 
     @GET("chapter-list/{comicName}")
-    Call<List<Chapter>> listComicChapters(@Path("comicName") String comicName);
+    Call<List<Chapter>> getComicChapters(@Path("comicName") String comicName, @Query("source") String source);
 
-    @GET("comic-list-AZ/")
-    Call<List<BareComicsCategory>> listAllComics();
+    @GET("all-comics/")
+    Call<List<BareComicsCategory>> getAllComics(@Query("source") String source);
 
-    @GET("read-comic/{comicName}/{chapterNumber}")
-    Call<Pages> listPages(@Path("comicName") String comicName, @Path("chapterNumber") String chapterNumber);
+    @GET("chapter-pages/{comicName}/{chapterNumber}")
+    Call<Pages> getPages(@Path("comicName") String comicName, @Path("chapterNumber") String chapterNumber, @Query("source") String source);
 
-    @GET("description")
-    Call<ComicDetails> getComicDescription(@Query("name") String comicName);
+    @GET("description/{comicName}")
+    Call<ComicDetails> getComicDescription(@Path("comicName") String comicName, @Query("source") String source);
 
     @GET("advanced-search")
     Call<List<SearchComic>> searchComics(@Query("key") String keyword,
