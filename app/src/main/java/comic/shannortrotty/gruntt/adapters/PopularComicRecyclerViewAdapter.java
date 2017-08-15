@@ -73,7 +73,7 @@ public class PopularComicRecyclerViewAdapter extends RecyclerView.Adapter<Popula
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final PopularComic mPopularComic = mPopularComics.get(position);
         holder.getComicTitle().setText(mPopularComic.getTitle());
-        holder.getComicIssueCount().setText(String.valueOf(mPopularComic.getIssueCount()));
+        holder.getComicIssueCount().setText(String.valueOf("Issue Count: " + mPopularComic.getIssueCount()));
         Picasso.with(mContext)
                 .load(mPopularComic.getThumbnailUrl())
                 .fit()
@@ -115,15 +115,15 @@ public class PopularComicRecyclerViewAdapter extends RecyclerView.Adapter<Popula
 
         public View getView(){return mView;}
 
-        public TextView getComicTitle() {
+        private TextView getComicTitle() {
             return mComicTitle;
         }
 
-        public TextView getComicIssueCount() {
+        private TextView getComicIssueCount() {
             return mComicIssueCount;
         }
 
-        public ImageView getComicImg() {
+        private ImageView getComicImg() {
             return mComicImg;
         }
     }
