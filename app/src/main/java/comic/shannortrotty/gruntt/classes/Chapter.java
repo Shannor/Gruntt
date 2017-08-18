@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * Class created to hold Chapter information.
  */
 
-public class Chapter implements Comic{
+public class Chapter implements ComicInterface {
     @SerializedName("chapterName")
     private String chapterName;
     @SerializedName("link")

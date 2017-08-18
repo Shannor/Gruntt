@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="comic.shannortrotty.gruntt.fragments.AllComicsFragment">
+    tools:context="comic.shannortrotty.gruntt.fragments.ComicsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -11,23 +11,19 @@
 
         <com.wang.avi.AVLoadingIndicatorView
             android:layout_width="wrap_content"
-            android:id="@+id/loading_icon_fragment_all_comics"
+            android:id="@+id/loading_icon_fragment_comics"
             android:layout_height="wrap_content"
             app:indicatorName="BallPulseIndicator"
             app:indicatorColor="@color/color_accent"
             android:layout_centerInParent="true"
             />
         <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-            android:id="@+id/recyclerView_fastscroll_all_comics"
+            android:id="@+id/recyclerView_fastscroll_comics"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:fastScrollPopupBgColor="@color/color_accent"
             app:fastScrollPopupTextColor="@android:color/primary_text_dark"
             app:fastScrollThumbColor="@color/color_accent" />
-        <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/recyclerView_fragment_all_comics"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent" />-->
 
     </RelativeLayout>
 </FrameLayout>

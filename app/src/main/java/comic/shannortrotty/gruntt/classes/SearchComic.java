@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by shannortrotty on 3/19/17.
  */
 
-public class SearchComic implements Comic {
+public class SearchComic implements ComicInterface {
 
     @SerializedName("title")
     private String title;

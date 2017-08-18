@@ -176,7 +176,7 @@ public class ChapterPresenter implements ComicPresenter, NetworkModel.OnResponse
 //                DatabaseContract.ComicInfoEntry.COLUMN_NAME_CHAPTER_LIST
 //        };
 //
-//        // Filter results WHERE "title" = 'Title of Comic correctly'
+//        // Filter results WHERE "title" = 'Title of ComicInterface correctly'
 //        String selection = DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE + " = ?";
 //        String[] selectionArgs = { comicName };
 //

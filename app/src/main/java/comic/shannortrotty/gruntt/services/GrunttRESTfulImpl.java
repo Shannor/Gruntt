@@ -4,14 +4,14 @@ import android.util.Log;
 
 import java.util.List;
 
-import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.Chapter;
+import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.Pages;
 import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.SearchComic;
 import comic.shannortrotty.gruntt.model.NetworkModel;
-import comic.shannortrotty.gruntt.model.RetrofitComicTVService;
+import comic.shannortrotty.gruntt.model.RetrofitGrunttBackendService;
 import comic.shannortrotty.gruntt.utils.ErrorUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,7 +22,7 @@ import retrofit2.Response;
  * Implementation of NetworkModel to perform Request for readcomic.tv
  */
 
-public class ComicTvNetworkImplementation implements NetworkModel {
+public class GrunttRESTfulImpl implements NetworkModel {
 
     private static final String TAG = "ComicTvNetworkImplement";
     /**
@@ -32,10 +32,10 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      */
     @Override
     public void getPopularComics(String pageNumber, String source, final OnResponseListListener<PopularComic> listener) {
-        RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit.
-                create(RetrofitComicTVService.class);
+        RetrofitGrunttBackendService retrofitGrunttBackendService = RetrofitGrunttBackendService.retrofit.
+                create(RetrofitGrunttBackendService.class);
 
-        Call<List<PopularComic>> call = retrofitComicTVService.getPopularComics(pageNumber,source);
+        Call<List<PopularComic>> call = retrofitGrunttBackendService.getPopularComics(pageNumber,source);
         listener.setRequestListCall(call);
         call.enqueue(new Callback<List<PopularComic>>() {
             @Override
@@ -65,15 +65,15 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      * @param listener
      */
     @Override
-    public void getAllComics(String source, final OnResponseListListener<BareComicsCategory> listener) {
-        RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
-                .create(RetrofitComicTVService.class);
+    public void getAllComics(String source, final OnResponseListListener<Comic> listener) {
+        RetrofitGrunttBackendService retrofitGrunttBackendService = RetrofitGrunttBackendService.retrofit
+                .create(RetrofitGrunttBackendService.class);
 
-        Call<List<BareComicsCategory>> call = retrofitComicTVService.getAllComics(source);
+        Call<List<Comic>> call = retrofitGrunttBackendService.getAllComics(source);
         listener.setRequestListCall(call);
-        call.enqueue(new Callback<List<BareComicsCategory>>() {
+        call.enqueue(new Callback<List<Comic>>() {
             @Override
-            public void onResponse(Call<List<BareComicsCategory>> call, Response<List<BareComicsCategory>> response) {
+            public void onResponse(Call<List<Comic>> call, Response<List<Comic>> response) {
                 if(response.isSuccessful()){
                     listener.onListSuccess(response.body());
                 }else{
@@ -83,7 +83,7 @@ public class ComicTvNetworkImplementation implements NetworkModel {
             }
 
             @Override
-            public void onFailure(Call<List<BareComicsCategory>> call, Throwable t) {
+            public void onFailure(Call<List<Comic>> call, Throwable t) {
                 if(call.isCanceled()){
                     Log.e(TAG, "User canceled the Call. ", t);
                 }else{
@@ -100,10 +100,10 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      */
     @Override
     public void getChapters(String comicLink, String source, final OnResponseListListener<Chapter> listener, final OnResponseItemListener<Chapter> itemListener) {
-        RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
-                .create(RetrofitComicTVService.class);
+        RetrofitGrunttBackendService retrofitGrunttBackendService = RetrofitGrunttBackendService.retrofit
+                .create(RetrofitGrunttBackendService.class);
 
-        Call<List<Chapter>> call = retrofitComicTVService.getComicChapters(comicLink, source);
+        Call<List<Chapter>> call = retrofitGrunttBackendService.getComicChapters(comicLink, source);
         listener.setRequestListCall(call);
         call.enqueue(new Callback<List<Chapter>>() {
             @Override
@@ -138,10 +138,10 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      */
     @Override
     public void getComicDescription(String comicLink , String source, final OnResponseItemListener<ComicDetails> listener) {
-        RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
-                .create(RetrofitComicTVService.class);
+        RetrofitGrunttBackendService retrofitGrunttBackendService = RetrofitGrunttBackendService.retrofit
+                .create(RetrofitGrunttBackendService.class);
 
-        Call<ComicDetails> call = retrofitComicTVService.getComicDescription(comicLink, source);
+        Call<ComicDetails> call = retrofitGrunttBackendService.getComicDescription(comicLink, source);
         listener.setRequestCall(call);
         call.enqueue(new Callback<ComicDetails>() {
             @Override
@@ -173,10 +173,10 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      */
     @Override
     public void getChapterPages(String comicLink, String chapterNum, String source, final OnResponseItemListener<Pages> listener) {
-        RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit.
-                create(RetrofitComicTVService.class);
+        RetrofitGrunttBackendService retrofitGrunttBackendService = RetrofitGrunttBackendService.retrofit.
+                create(RetrofitGrunttBackendService.class);
 
-        Call<Pages> call = retrofitComicTVService.getPages(comicLink, chapterNum, source);
+        Call<Pages> call = retrofitGrunttBackendService.getPages(comicLink, chapterNum, source);
         listener.setRequestCall(call);
         call.enqueue(new Callback<Pages>() {
             @Override
@@ -212,9 +212,9 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      */
     @Override
     public void searchComics(String keyword, String include, String exclude, String status, String pageNumber,final OnResponseListListener<SearchComic> listener) {
-        RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
-                .create(RetrofitComicTVService.class);
-        Call<List<SearchComic>> call = retrofitComicTVService.searchComics(keyword,include,exclude,status,pageNumber);
+        RetrofitGrunttBackendService retrofitGrunttBackendService = RetrofitGrunttBackendService.retrofit
+                .create(RetrofitGrunttBackendService.class);
+        Call<List<SearchComic>> call = retrofitGrunttBackendService.searchComics(keyword,include,exclude,status,pageNumber);
         listener.setRequestListCall(call);
 
         call.enqueue(new Callback<List<SearchComic>>() {
@@ -247,9 +247,9 @@ public class ComicTvNetworkImplementation implements NetworkModel {
      */
     @Override
     public void getSearchCategories(final OnResponseListListener<String> listener) {
-        RetrofitComicTVService retrofitComicTVService = RetrofitComicTVService.retrofit
-                .create(RetrofitComicTVService.class);
-        Call<List<String>> call = retrofitComicTVService.getSearchCategories();
+        RetrofitGrunttBackendService retrofitGrunttBackendService = RetrofitGrunttBackendService.retrofit
+                .create(RetrofitGrunttBackendService.class);
+        Call<List<String>> call = retrofitGrunttBackendService.getSearchCategories();
         listener.setRequestListCall(call);
 
         call.enqueue(new Callback<List<String>>() {

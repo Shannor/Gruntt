@@ -2,8 +2,8 @@ package comic.shannortrotty.gruntt.model;
 
 import java.util.List;
 
-import comic.shannortrotty.gruntt.classes.BareComicsCategory;
 import comic.shannortrotty.gruntt.classes.Chapter;
+import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.Pages;
 import comic.shannortrotty.gruntt.classes.PopularComic;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
@@ -20,7 +20,7 @@ import retrofit2.http.Query;
  * Interface of RetroFit ComicTV Service
  */
 
-public interface RetrofitComicTVService {
+public interface RetrofitGrunttBackendService {
 
     @GET("popular-comics/{pageNumber}")
     Call<List<PopularComic>> getPopularComics(@Path("pageNumber") String pageNumber , @Query("source") String source);
@@ -29,7 +29,7 @@ public interface RetrofitComicTVService {
     Call<List<Chapter>> getComicChapters(@Path("comicName") String comicName, @Query("source") String source);
 
     @GET("all-comics/")
-    Call<List<BareComicsCategory>> getAllComics(@Query("source") String source);
+    Call<List<Comic>> getAllComics(@Query("source") String source);
 
     @GET("chapter-pages/{comicName}/{chapterNumber}")
     Call<Pages> getPages(@Path("comicName") String comicName, @Path("chapterNumber") String chapterNumber, @Query("source") String source);

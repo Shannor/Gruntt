@@ -144,7 +144,7 @@ public class ComicDetailPresenter implements ComicPresenter, NetworkModel.OnResp
 
     /**
      *
-     * @param comicName Name of Desired Comic
+     * @param comicName Name of Desired ComicInterface
      * @return comicDetails Information about the comic
      */
     private ComicDetails checkDatabase(String comicName) {
@@ -169,7 +169,7 @@ public class ComicDetailPresenter implements ComicPresenter, NetworkModel.OnResp
 //                DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_LINK
 //        };
 //
-//        // Filter results WHERE "title" = 'Title of Comic correctly'
+//        // Filter results WHERE "title" = 'Title of ComicInterface correctly'
 //        String selection = DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE + " = ?";
 //        String[] selectionArgs = { comicName };
 //

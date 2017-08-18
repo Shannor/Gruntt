@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,36 +14,34 @@ import com.wang.avi.AVLoadingIndicatorView;
 import java.util.List;
 
 import comic.shannortrotty.gruntt.R;
-import comic.shannortrotty.gruntt.adapters.AllComicRecyclerViewAdapter;
-import comic.shannortrotty.gruntt.classes.BareComicsCategory;
+import comic.shannortrotty.gruntt.adapters.ComicRecyclerViewAdapter;
+import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.services.APIError;
 import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.utils.OnComicListener;
 import comic.shannortrotty.gruntt.utils.RequestType;
-import comic.shannortrotty.gruntt.presenter.BareComicsPresenter;
+import comic.shannortrotty.gruntt.presenter.AllComicsPresenter;
 import comic.shannortrotty.gruntt.presenter.ComicPresenter;
-import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.services.GrunttRESTfulImpl;
 import comic.shannortrotty.gruntt.view.GenericView;
 
 
-public class AllComicsFragment extends Fragment implements GenericView<BareComicsCategory> {
-    public static final String TAG = "AllComicsFragment";
+public class ComicsFragment extends Fragment implements GenericView<Comic> {
+    public static final String TAG = "ComicsFragment";
 
     private OnComicListener mListener;
     private ComicPresenter mPresenter;
     private AVLoadingIndicatorView loadingIndicator;
-    private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManger;
-    private AllComicRecyclerViewAdapter allComicsAdapter;
+    private ComicRecyclerViewAdapter comicAdapter;
     private FastScrollRecyclerView scrollRecyclerView;
 
-    public AllComicsFragment() {
+    public ComicsFragment() {
         // Required empty public constructor
     }
 
 
-    public static AllComicsFragment newInstance() {
-        return new AllComicsFragment();
+    public static ComicsFragment newInstance() {
+        return new ComicsFragment();
     }
 
     @Override
@@ -56,17 +53,13 @@ public class AllComicsFragment extends Fragment implements GenericView<BareComic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_all_comics_fragement, container, false);
-//        recyclerView = ((RecyclerView) view.findViewById(R.id.recyclerView_fragment_all_comics));
-        scrollRecyclerView = ((FastScrollRecyclerView) view.findViewById(R.id.recyclerView_fastscroll_all_comics));
-        loadingIndicator = (AVLoadingIndicatorView)view.findViewById(R.id.loading_icon_fragment_all_comics);
-        layoutManger = new LinearLayoutManager(getContext());
-        mPresenter = new BareComicsPresenter(getContext(),this, new ComicTvNetworkImplementation());
+        View view = inflater.inflate(R.layout.fragment_comic_fragement, container, false);
+        scrollRecyclerView = ((FastScrollRecyclerView) view.findViewById(R.id.recyclerView_fastscroll_comics));
+        loadingIndicator = (AVLoadingIndicatorView)view.findViewById(R.id.loading_icon_fragment_comics);
+        mPresenter = new AllComicsPresenter(getContext(),this, new GrunttRESTfulImpl());
 
-        scrollRecyclerView.setLayoutManager(layoutManger);
-//        recyclerView.setLayoutManager(layoutManger);
+        scrollRecyclerView.setLayoutManager( new LinearLayoutManager(getContext()));
 
-        //TODO:Change Layout from Nested to Scrollbar with Letters
         RequestType request = new RequestType();
         request.setType(RequestType.Type.LOAD);
         request.addExtras(Constants.SOURCE_TAG, Constants.COMIC_EXTRA_TAG);
@@ -99,20 +92,18 @@ public class AllComicsFragment extends Fragment implements GenericView<BareComic
     @Override
     public void hideLoading() {
         loadingIndicator.hide();
-//        recyclerView.setVisibility(View.VISIBLE);
         scrollRecyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showLoading() {
         loadingIndicator.show();
-//        recyclerView.setVisibility(View.INVISIBLE);
         scrollRecyclerView.setVisibility(View.INVISIBLE);
 
     }
 
     @Override
-    public void setItem(BareComicsCategory item) {
+    public void setItem(Comic item) {
         //Wont get Called for this fragment
     }
 
@@ -122,9 +113,8 @@ public class AllComicsFragment extends Fragment implements GenericView<BareComic
     }
 
     @Override
-    public void setItems(List<BareComicsCategory> items) {
-        allComicsAdapter = new AllComicRecyclerViewAdapter(getContext(),items, mListener);
-//        recyclerView.setAdapter(allComicsAdapter);
-        scrollRecyclerView.setAdapter(allComicsAdapter);
+    public void setItems(List<Comic> items) {
+        comicAdapter = new ComicRecyclerViewAdapter(getContext(),items, mListener);
+        scrollRecyclerView.setAdapter(comicAdapter);
     }
 }

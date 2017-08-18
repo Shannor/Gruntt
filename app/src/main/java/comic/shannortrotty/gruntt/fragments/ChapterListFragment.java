@@ -25,7 +25,7 @@ import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.utils.OnChapterListener;
 import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.presenter.ChapterPresenter;
-import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.services.GrunttRESTfulImpl;
 import comic.shannortrotty.gruntt.view.GenericView;
 
 /**
@@ -53,8 +53,8 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
 
     /**
      *
-     * @param comicTitle The Title of the Comic, String
-     * @param comicLink The Formatted Link for the Comic, String
+     * @param comicTitle The Title of the ComicInterface, String
+     * @param comicLink The Formatted Link for the ComicInterface, String
      * @return A new instance of fragment ChapterListFragment.
      */
     public static ChapterListFragment newInstance(String comicTitle, String comicLink) {
@@ -82,7 +82,7 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
         View view = inflater.inflate(R.layout.fragment_chapter_list, container, false);
         //Makes the call on create to fetch the list of Issues
         setHasOptionsMenu(true);
-        genericPresenter = new ChapterPresenter(getContext(), this, new ComicTvNetworkImplementation());
+        genericPresenter = new ChapterPresenter(getContext(), this, new GrunttRESTfulImpl());
         swipeRefreshLayout = ((SwipeRefreshLayout) view.findViewById(R.id.swiperefresh_chapter_list_fragment));
         listView = ((ListView) view.findViewById(R.id.listView_fragment_chapter_list));
         loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_chapter_list));
@@ -102,7 +102,7 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
     @Override
     public void onResume() {
         super.onResume();
-        //Perform Request for Comic Chapters
+        //Perform Request for ComicInterface Chapters
         RequestType request = new RequestType(RequestType.Type.DATABASE);
         loadChapters(request);
     }

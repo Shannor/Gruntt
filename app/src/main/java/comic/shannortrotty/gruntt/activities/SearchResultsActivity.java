@@ -15,13 +15,13 @@ import java.util.List;
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.adapters.EndlessRecyclerViewScrollListener;
 import comic.shannortrotty.gruntt.adapters.SearchResultsAdapter;
-import comic.shannortrotty.gruntt.classes.Comic;
+import comic.shannortrotty.gruntt.classes.ComicInterface;
 import comic.shannortrotty.gruntt.services.APIError;
 import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.utils.OnComicListener;
 import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.classes.SearchComic;
-import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.services.GrunttRESTfulImpl;
 import comic.shannortrotty.gruntt.presenter.ComicPresenter;
 import comic.shannortrotty.gruntt.presenter.SearchComicPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
@@ -61,7 +61,7 @@ public class SearchResultsActivity extends AppCompatActivity implements GenericV
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new SearchResultsAdapter(this,this);
         recyclerView.setAdapter(adapter);
-        presenter = new SearchComicPresenter(this, new ComicTvNetworkImplementation());
+        presenter = new SearchComicPresenter(this, new GrunttRESTfulImpl());
         EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -96,11 +96,11 @@ public class SearchResultsActivity extends AppCompatActivity implements GenericV
 
     //*************   OnComicListener Implementation  **********************
     @Override
-    public void onListComicSelection(Comic comic, String originOfClick) {
+    public void onListComicSelection(ComicInterface comicInterface, String originOfClick) {
         Intent intent = new Intent(this,InfoAndChapterActivity.class);
-        intent.putExtra(MainActivity.PICKED_COMIC_LINK, comic.getFormattedURL());
+        intent.putExtra(MainActivity.PICKED_COMIC_LINK, comicInterface.getFormattedURL());
         intent.putExtra(MainActivity.PICKED_COMIC_ORIGIN_LOCATION, originOfClick);
-        intent.putExtra(MainActivity.PICKED_COMIC_TITLE, comic.getTitle());
+        intent.putExtra(MainActivity.PICKED_COMIC_TITLE, comicInterface.getTitle());
         startActivity(intent);
     }
 

@@ -32,7 +32,7 @@ public class SQLiteHelper extends SQLiteOpenHelper implements DatabaseInteractio
 
     // Database Name
     private static final String DATABASE_NAME = "gruntt.db";
-    //String to create Comic Favorite Table and Columns
+    //String to create ComicInterface Favorite Table and Columns
     private static final String SQL_CREATE_COMIC_FAVORITE_TABLE =
             "CREATE TABLE " + DatabaseContract.ComicInfoEntry.TABLE_NAME_FAVORITE + " (" +
                     DatabaseContract.ComicInfoEntry._ID + " INTEGER PRIMARY KEY, " +
@@ -216,7 +216,7 @@ public class SQLiteHelper extends SQLiteOpenHelper implements DatabaseInteractio
                 DatabaseContract.ComicInfoEntry.COLUMN_NAME_CHAPTER_LIST
         };
 
-        // Filter results WHERE "title" = 'Title of Comic correctly'
+        // Filter results WHERE "title" = 'Title of ComicInterface correctly'
         String selection = DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE + " = ?";
         String[] selectionArgs = { comicName };
 
@@ -270,7 +270,7 @@ public class SQLiteHelper extends SQLiteOpenHelper implements DatabaseInteractio
                 DatabaseContract.ComicInfoEntry.COLUMN_NAME_COMIC_LINK
         };
 
-        // Filter results WHERE "title" = 'Title of Comic correctly'
+        // Filter results WHERE "title" = 'Title of ComicInterface correctly'
         String selection = DatabaseContract.ComicInfoEntry.COLUMN_NAME_TITLE + " = ?";
         String[] selectionArgs = { comicName };
 

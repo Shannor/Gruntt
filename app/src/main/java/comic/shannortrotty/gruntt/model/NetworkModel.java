@@ -2,7 +2,7 @@ package comic.shannortrotty.gruntt.model;
 
 import java.util.List;
 
-import comic.shannortrotty.gruntt.classes.BareComicsCategory;
+import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.classes.Chapter;
 import comic.shannortrotty.gruntt.classes.ComicDetails;
 import comic.shannortrotty.gruntt.classes.Pages;
@@ -30,7 +30,7 @@ public interface NetworkModel {
     }
 
     void getPopularComics(String pageNumber, String source,  OnResponseListListener<PopularComic> listener);
-    void getAllComics(String source, OnResponseListListener<BareComicsCategory> listener);
+    void getAllComics(String source, OnResponseListListener<Comic> listener);
     void getChapters(String comicLink, String source, OnResponseListListener<Chapter> listener, OnResponseItemListener<Chapter> chapterListener);
     void getComicDescription(String comicLink, String source, OnResponseItemListener<ComicDetails> listener);
     void getChapterPages(String comicLink, String chapterNumber, String source, OnResponseItemListener<Pages> listener);

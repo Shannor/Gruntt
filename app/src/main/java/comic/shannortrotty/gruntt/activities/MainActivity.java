@@ -14,9 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import comic.shannortrotty.gruntt.R;
-import comic.shannortrotty.gruntt.classes.Comic;
+import comic.shannortrotty.gruntt.classes.ComicInterface;
 import comic.shannortrotty.gruntt.fragments.AdvancedSearchFragment;
-import comic.shannortrotty.gruntt.fragments.AllComicsFragment;
+import comic.shannortrotty.gruntt.fragments.ComicsFragment;
 import comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
 import comic.shannortrotty.gruntt.utils.OnComicListener;
@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         OnComicListener{
 
-    public static final String PICKED_COMIC_LINK ="Comic.picked.link";
-    public static final String PICKED_COMIC_TITLE = "Comic.picked.title";
-    public static final String PICKED_COMIC_ORIGIN_LOCATION ="Comic.picked.origin.location";
+    public static final String PICKED_COMIC_LINK ="ComicInterface.picked.link";
+    public static final String PICKED_COMIC_TITLE = "ComicInterface.picked.title";
+    public static final String PICKED_COMIC_ORIGIN_LOCATION ="ComicInterface.picked.origin.location";
     private static final String TAG = "MainActivity";
     private Fragment mFragment;
 
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_all_comics) {
-            mFragment = AllComicsFragment.newInstance();
+            mFragment = ComicsFragment.newInstance();
         } else if (id == R.id.nav_stared_comics) {
             mFragment = FavoriteComicsFragment.newInstance(2);
         } else if (id == R.id.nav_popular_comics) {
@@ -134,11 +134,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListComicSelection(Comic comic, String originOfClick) {
+    public void onListComicSelection(ComicInterface comicInterface, String originOfClick) {
         Intent intent = new Intent(this,InfoAndChapterActivity.class);
-        intent.putExtra(PICKED_COMIC_LINK, comic.getFormattedURL());
+        intent.putExtra(PICKED_COMIC_LINK, comicInterface.getFormattedURL());
         intent.putExtra(PICKED_COMIC_ORIGIN_LOCATION, originOfClick);
-        intent.putExtra(PICKED_COMIC_TITLE, comic.getTitle());
+        intent.putExtra(PICKED_COMIC_TITLE, comicInterface.getTitle());
         startActivity(intent);
     }
 

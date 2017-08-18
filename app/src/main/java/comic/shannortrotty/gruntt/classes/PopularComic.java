@@ -2,18 +2,16 @@ package comic.shannortrotty.gruntt.classes;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
  * Created by shannortrotty on 2/3/17.
  * Calls to hold the return call for Popular Comics Format.
- * Differs slightly from other Comic calls
+ * Differs slightly from other ComicInterface calls
  * Used in the retrofit calls
  */
 
-public class PopularComic implements Comic{
+public class PopularComic implements ComicInterface {
 
     @SerializedName("title")
     private String title;
@@ -110,7 +108,7 @@ public class PopularComic implements Comic{
 
     @Override
     public String toString() {
-        return "Comic{" +
+        return "ComicInterface{" +
                 "title='" + title + '\'' +
                 "link=" + link +
                 '}';

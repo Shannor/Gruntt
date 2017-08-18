@@ -18,7 +18,7 @@ public final class DatabaseContract {
         public static final String TABLE_NAME_FAVORITE = "favorite_comics";
         public static final String TABLE_NAME_CHAPTERS = "comic_chapters";
 
-        //Comic Details Columns
+        //ComicInterface Details Columns
         public static final String COLUMN_NAME_TITLE = "comic_title";
         public static final String COLUMN_NAME_STATUS = "comic_status";
         public static final String COLUMN_NAME_AUTHOR = "comic_author";
@@ -30,7 +30,7 @@ public final class DatabaseContract {
         public static final String COLUMN_NAME_IS_FAVORITE =  "comic_is_favorite";
         public static final String COLUMN_NAME_COMIC_LINK = "comic_formatted_link";
 
-        //Comic Chapter List Columns
+        //ComicInterface Chapter List Columns
         public static final String COLUMN_NAME_LAST_READ_CHAPTER = "last_chapter_read";
         public static final String COLUMN_NAME_CHAPTER_LIST = "comic_chapter_list";
 

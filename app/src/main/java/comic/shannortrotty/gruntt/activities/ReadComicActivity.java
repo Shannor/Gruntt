@@ -28,7 +28,7 @@ import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.classes.Pages;
 import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.presenter.PagesPresenter;
-import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.services.GrunttRESTfulImpl;
 import comic.shannortrotty.gruntt.presenter.ComicPresenter;
 import comic.shannortrotty.gruntt.view.GenericView;
 import uk.co.senab.photoview.PhotoView;
@@ -68,7 +68,7 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
             mComicChapterNumber = getIntent().getStringExtra(COMIC_CHAPTER_NUMBER);
             mComicLink = getIntent().getStringExtra(COMIC_LINK);
         }
-        genericPresenter = new PagesPresenter(this,this, new ComicTvNetworkImplementation());
+        genericPresenter = new PagesPresenter(this,this, new GrunttRESTfulImpl());
         loadingIndictorView = ((AVLoadingIndicatorView) findViewById(R.id.loading_icon_read_comic_activity));
         mViewPager = ((ViewPager) findViewById(R.id.viewPager_activity_read_comic));
         mImagesPagesAdapter = new ImagesPagerAdapter(this);

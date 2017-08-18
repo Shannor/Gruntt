@@ -4,7 +4,7 @@ import android.content.Context;
 
 import java.util.List;
 
-import comic.shannortrotty.gruntt.classes.BareComicsCategory;
+import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.services.APIError;
 import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.utils.RequestType;
@@ -16,16 +16,16 @@ import retrofit2.Call;
  * Created by shannortrotty on 3/18/17.
  */
 
-public class BareComicsPresenter implements ComicPresenter, NetworkModel.OnResponseListListener<BareComicsCategory> {
+public class AllComicsPresenter implements ComicPresenter, NetworkModel.OnResponseListListener<Comic> {
 
-    private GenericView<BareComicsCategory> genericView;
+    private GenericView<Comic> genericView;
     private NetworkModel networkModel;
     private Context mContext;
     private boolean canceled;
     private Call call;
     private boolean finished;
 
-    public BareComicsPresenter(Context context, GenericView<BareComicsCategory> genericView, NetworkModel networkModel) {
+    public AllComicsPresenter(Context context, GenericView<Comic> genericView, NetworkModel networkModel) {
         this.mContext = context;
         this.genericView = genericView;
         this.networkModel = networkModel;
@@ -55,7 +55,7 @@ public class BareComicsPresenter implements ComicPresenter, NetworkModel.OnRespo
     }
 
     @Override
-    public void setRequestListCall(Call<List<BareComicsCategory>> call) {
+    public void setRequestListCall(Call<List<Comic>> call) {
         this.call = call;
     }
 
@@ -79,7 +79,7 @@ public class BareComicsPresenter implements ComicPresenter, NetworkModel.OnRespo
     }
 
     @Override
-    public void onListSuccess(List<BareComicsCategory> items) {
+    public void onListSuccess(List<Comic> items) {
         if(!canceled){
             genericView.setItems(items);
             genericView.hideLoading();

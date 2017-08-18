@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * Class to hold the details about a particular comic.
  */
 
-public class ComicDetails implements Comic {
+public class ComicDetails implements ComicInterface {
 
     @SerializedName("description")
     private String description;
@@ -17,7 +17,7 @@ public class ComicDetails implements Comic {
     private String largeImgURL;
     @SerializedName("name")
     private String title;
-    @SerializedName("link")
+    @SerializedName("formattedName")
     private String link;
     @SerializedName("alternate Name")
     private String altTitle;
@@ -27,7 +27,7 @@ public class ComicDetails implements Comic {
     private String author;
     @SerializedName("genre")
     private String genre;
-    @SerializedName("year of Release")
+    @SerializedName("releaseYear")
     private String releaseDate;
 
     private Bitmap localBitmap;

@@ -1,0 +1,107 @@
+package comic.shannortrotty.gruntt.adapters;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
+
+import java.util.List;
+import comic.shannortrotty.gruntt.R;
+import comic.shannortrotty.gruntt.classes.Comic;
+import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
+import comic.shannortrotty.gruntt.utils.OnComicListener;
+
+
+/**
+ * Created by shannortrotty on 3/15/17.
+ */
+
+public class ComicRecyclerViewAdapter
+        extends RecyclerView.Adapter<ComicRecyclerViewAdapter.ViewHolder>
+        implements FastScrollRecyclerView.SectionedAdapter{
+
+    private OnComicListener mListener;
+    private List<Comic> comics;
+    private final Context mContext;
+    private final static String TAG = "AllComicRecyclerView";
+
+    public ComicRecyclerViewAdapter(Context context, List<Comic> items, OnComicListener listener) {
+        comics = items;
+        mListener = listener;
+        mContext = context;
+    }
+
+    @Override
+    public ComicRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_view_comic, parent, false);
+        //Where margins, size, padding can be set for the view
+        return new ComicRecyclerViewAdapter.ViewHolder(view);
+    }
+
+    public void addItems(List<Comic> comics){
+        comics.clear();
+        comics.addAll(comics);
+        notifyDataSetChanged();
+    }
+
+    public void clearItems(){
+        comics.clear();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * Method where data should be set, replace contents
+     * @param holder viewHolder
+     * @param position location in the data set
+     */
+    @Override
+    public void onBindViewHolder(final ComicRecyclerViewAdapter.ViewHolder holder, int position) {
+        final Comic comic = comics.get(position);
+        holder.getComicTitle().setText(comic.getTitle());
+        holder.getView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onListComicSelection(comic, PopularComicFragment.TAG);
+            }
+        });
+    }
+
+    @NonNull
+    @Override
+    public String getSectionName(int position) {
+        return  comics.get(position).getTitle().substring(0,1);
+    }
+
+    @Override
+    public int getItemCount() {
+        return comics.size();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView mComicTitle;
+        private final View mView;
+
+        ViewHolder(View view) {
+            super(view);
+            mComicTitle = (TextView) view.findViewById(R.id.recyclerView_comic_name);
+            mView = view;
+        }
+
+        @Override
+        public String toString() {
+            return super.toString() + " '" + mComicTitle.getText().toString() + "'";
+        }
+
+        public View getView(){return mView;}
+        private TextView getComicTitle() {
+            return mComicTitle;
+        }
+    }
+}

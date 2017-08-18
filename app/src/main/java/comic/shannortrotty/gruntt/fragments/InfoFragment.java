@@ -25,7 +25,7 @@ import comic.shannortrotty.gruntt.services.APIError;
 import comic.shannortrotty.gruntt.utils.Constants;
 import comic.shannortrotty.gruntt.utils.RequestType;
 import comic.shannortrotty.gruntt.presenter.ComicDetailPresenter;
-import comic.shannortrotty.gruntt.services.ComicTvNetworkImplementation;
+import comic.shannortrotty.gruntt.services.GrunttRESTfulImpl;
 import comic.shannortrotty.gruntt.view.GenericView;
 
 /**
@@ -70,8 +70,8 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
 
     /**
      *
-     * @param comicTitle Title of the clicked Comic.
-     * @param comicLink Formatted link for the Comic.
+     * @param comicTitle Title of the clicked ComicInterface.
+     * @param comicLink Formatted link for the ComicInterface.
      * @return A new instance of fragment InfoFragment.
      */
     public static InfoFragment newInstance(String comicTitle, String comicLink) {
@@ -100,7 +100,7 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         View view = inflater.inflate(R.layout.fragment_info_fragment, container, false);
         //TODO:Replace with Factory call
         //TODO: Add Description title
-        comicDetailPresenter = new ComicDetailPresenter(getContext(),this, new ComicTvNetworkImplementation());
+        comicDetailPresenter = new ComicDetailPresenter(getContext(),this, new GrunttRESTfulImpl());
 
         largeComicImg = ((ImageView) view.findViewById(R.id.imageView_info_fragment_large_img));
         loadingIndicatorView = ((AVLoadingIndicatorView) view.findViewById(R.id.loading_icon_fragment_info));
