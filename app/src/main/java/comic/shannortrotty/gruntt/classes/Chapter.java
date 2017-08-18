@@ -1,6 +1,7 @@
 package comic.shannortrotty.gruntt.classes;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -10,6 +11,9 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Chapter implements ComicInterface {
+
+    private static String TAG = "Chapter";
+
     @SerializedName("chapterName")
     private String chapterName;
     @SerializedName("link")
@@ -42,9 +46,18 @@ public class Chapter implements ComicInterface {
         String[] correctLink = getLink().split("/");
         return correctLink[(correctLink.length - 2)];
     }
-    public String getChapterNumber(){
-        String[] names = this.chapterName.split("#");
-        return names[names.length-1];
+    public int getChapterNumber(){
+        try {
+            String[] names = this.chapterName.split("#");
+            String value = names[names.length-1];
+            if( value.equals("Full")){
+                return 1;
+            }
+            return Integer.parseInt(value);
+        }catch (NumberFormatException e){
+            Log.e(TAG, "getChapterNumber: value provided is not a string.", e);
+            return 0;
+        }
     }
 
     @Override
@@ -54,12 +67,12 @@ public class Chapter implements ComicInterface {
 
     //TODO: add a way to compare Chapters
 
-    public void setHaveRead(Boolean haveRead) {
-        this.haveRead = haveRead;
-    }
-
     public Boolean getHaveRead() {
         return haveRead;
+    }
+
+    public void setHaveRead(Boolean haveRead) {
+        this.haveRead = haveRead;
     }
 
     @NonNull

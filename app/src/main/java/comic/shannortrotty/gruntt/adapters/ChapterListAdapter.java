@@ -82,7 +82,7 @@ public class ChapterListAdapter extends ArrayAdapter<Chapter> {
     public void addChapters(List<Chapter> chapters){
         this.mChapters.clear();
         if (!chapters.isEmpty()) {
-            if (Integer.parseInt(chapters.get(0).getChapterNumber()) <= 1) {
+            if (chapters.get(0).getChapterNumber() == 1) {
                 Collections.reverse(chapters);
             }
             this.mChapters.addAll(chapters);

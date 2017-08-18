@@ -123,7 +123,7 @@ public class ChapterListFragment extends Fragment implements GenericView<Chapter
                 chapter,
                 position
         );
-        ReadComicActivity.start(getContext(),chapter.getFormattedURL(),chapter.getChapterNumber());
+        ReadComicActivity.start(getContext(),chapter.getFormattedURL(), String.valueOf(chapter.getChapterNumber()));
     }
 
     @Override

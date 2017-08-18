@@ -9,11 +9,11 @@ import com.google.gson.annotations.SerializedName;
 public class Comic implements ComicInterface {
 
     @SerializedName("title")
-    String title;
+    private String title;
     @SerializedName("link")
-    String link;
+    private String link;
     @SerializedName("category")
-    String category;
+    private String category;
 
     public Comic(String title, String link, String category) {
         this.title = title;
@@ -29,7 +29,8 @@ public class Comic implements ComicInterface {
 
     @Override
     public String getFormattedURL() {
-        return link;
+        String[] correctLink = link.split("/");
+        return correctLink[(correctLink.length - 1)];
     }
 
     @Override

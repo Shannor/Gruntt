@@ -27,12 +27,12 @@ public class ComicRecyclerViewAdapter
         implements FastScrollRecyclerView.SectionedAdapter{
 
     private OnComicListener mListener;
-    private List<Comic> comics;
+    private List<Comic> mComics;
     private final Context mContext;
     private final static String TAG = "AllComicRecyclerView";
 
     public ComicRecyclerViewAdapter(Context context, List<Comic> items, OnComicListener listener) {
-        comics = items;
+        mComics = items;
         mListener = listener;
         mContext = context;
     }
@@ -46,13 +46,13 @@ public class ComicRecyclerViewAdapter
     }
 
     public void addItems(List<Comic> comics){
-        comics.clear();
-        comics.addAll(comics);
+        mComics.clear();
+        mComics.addAll(comics);
         notifyDataSetChanged();
     }
 
     public void clearItems(){
-        comics.clear();
+        mComics.clear();
         notifyDataSetChanged();
     }
 
@@ -63,7 +63,7 @@ public class ComicRecyclerViewAdapter
      */
     @Override
     public void onBindViewHolder(final ComicRecyclerViewAdapter.ViewHolder holder, int position) {
-        final Comic comic = comics.get(position);
+        final Comic comic = mComics.get(position);
         holder.getComicTitle().setText(comic.getTitle());
         holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,12 +76,12 @@ public class ComicRecyclerViewAdapter
     @NonNull
     @Override
     public String getSectionName(int position) {
-        return  comics.get(position).getTitle().substring(0,1);
+        return  mComics.get(position).getTitle().substring(0,1);
     }
 
     @Override
     public int getItemCount() {
-        return comics.size();
+        return mComics.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
