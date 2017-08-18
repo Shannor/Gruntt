@@ -77,6 +77,7 @@ public class ReadComicActivity extends AppCompatActivity implements GenericView<
         RequestType requestType = new RequestType(RequestType.Type.LOAD);
         requestType.addExtras(Constants.COMIC_LINK, mComicLink);
         requestType.addExtras(Constants.CHAPTER_NUMBER, mComicChapterNumber);
+        requestType.addExtras(Constants.SOURCE_TAG, Constants.COMIC_EXTRA_TAG);
         genericPresenter.startRequest(requestType);
     }
 

@@ -9,9 +9,9 @@ import java.util.List;
  */
 
 public class Pages {
-    @SerializedName("numOfPages")
+    @SerializedName("total_pages")
     private int totalPageNumber;
-    @SerializedName("pageUrls")
+    @SerializedName("urls")
     private List<String> pageUrls;
 
     public Pages(int totalPageNumber, List<String> pageUrls) {
