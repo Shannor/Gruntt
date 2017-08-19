@@ -11,7 +11,12 @@ import android.widget.TextView;
 
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.classes.Comic;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
@@ -28,11 +33,13 @@ public class ComicRecyclerViewAdapter
 
     private OnComicListener mListener;
     private List<Comic> mComics;
+    private List<Comic> originalComics;
     private final Context mContext;
     private final static String TAG = "AllComicRecyclerView";
 
     public ComicRecyclerViewAdapter(Context context, List<Comic> items, OnComicListener listener) {
         mComics = items;
+        originalComics = new ArrayList<>(items);
         mListener = listener;
         mContext = context;
     }
@@ -45,6 +52,21 @@ public class ComicRecyclerViewAdapter
         return new ComicRecyclerViewAdapter.ViewHolder(view);
     }
 
+    public void filter(String text){
+        mComics.clear();
+        if(text.isEmpty()){
+            mComics.addAll(originalComics);
+        }else{
+            text = text.toLowerCase(Locale.getDefault());
+            for( Comic comic : originalComics){
+                String title = comic.getTitle().toLowerCase(Locale.getDefault());
+                if(title.contains(text)){
+                    mComics.add(comic);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
     public void addItems(List<Comic> comics){
         mComics.clear();
         mComics.addAll(comics);
@@ -56,6 +78,11 @@ public class ComicRecyclerViewAdapter
         notifyDataSetChanged();
     }
 
+    public void restoreAll(){
+        mComics.clear();
+        mComics.addAll(originalComics);
+        notifyDataSetChanged();
+    }
     /**
      * Method where data should be set, replace contents
      * @param holder viewHolder
