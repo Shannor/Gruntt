@@ -76,6 +76,8 @@ public class PopularComicRecyclerViewAdapter extends RecyclerView.Adapter<Popula
         holder.getComicIssueCount().setText(String.valueOf("Issue Count: " + mPopularComic.getIssueCount()));
         Picasso.with(mContext)
                 .load(mPopularComic.getThumbnailUrl())
+                .placeholder(R.drawable.load_icon_8)
+                .error(R.drawable.placeholder)
                 .fit()
                 .into(holder.getComicImg());
 

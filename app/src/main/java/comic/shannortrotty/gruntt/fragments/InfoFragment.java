@@ -225,9 +225,10 @@ public class InfoFragment extends Fragment implements GenericView<ComicDetails> 
         }else{
             Picasso.with(getContext())
                     .load(comicDetails.getLargeImgURL())
+                    .placeholder(R.drawable.load_icon_8)
+                    .error(R.drawable.placeholder)
                     .into(target);
         }
-
     }
 
     /**
