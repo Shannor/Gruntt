@@ -135,10 +135,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         switch (item.getItemId()){
-            case R.id.nav_share:
+            case R.id.drawer_nav_share:
                 break;
 
-            case R.id.nav_send:
+            case R.id.drawer_nav_send:
                 break;
         }
 

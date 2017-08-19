@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.wang.avi.AVLoadingIndicatorView;
