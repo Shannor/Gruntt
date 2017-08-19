@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_my_comics"
+        android:title="Favorites"
+        android:icon="@drawable/ic_favorite_black_24dp" />
+
+    <item android:id="@+id/nav_all_comics"
+        android:title="All Comics"
+        android:icon="@drawable/ic_book_black_24dp" />
+
+    <item android:id="@+id/nav_popular_comics"
+        android:title="Popular"
+        android:icon="@drawable/ic_stars_black_24dp" />
+
+    <item android:id="@+id/nav_search_comics"
+        android:title="Search"
+        android:icon="@drawable/ic_search_black_24dp" />
+</menu>
