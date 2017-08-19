@@ -3,6 +3,7 @@ package comic.shannortrotty.gruntt.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import comic.shannortrotty.gruntt.R;
 import comic.shannortrotty.gruntt.classes.ComicInterface;
@@ -20,6 +22,8 @@ import comic.shannortrotty.gruntt.fragments.ComicsFragment;
 import comic.shannortrotty.gruntt.fragments.FavoriteComicsFragment;
 import comic.shannortrotty.gruntt.fragments.PopularComicFragment;
 import comic.shannortrotty.gruntt.utils.OnComicListener;
+
+import static android.R.attr.id;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -36,13 +40,37 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.main_bottom_navigation);
+
         setSupportActionBar(toolbar);
 
         //Set Default Fragment
         //TODO:Should be Dynamic
         if(mFragment == null){
-            mFragment = PopularComicFragment.newInstance();
+            mFragment = FavoriteComicsFragment.newInstance(2);
         }
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.nav_all_comics:
+                        replaceFragment(ComicsFragment.newInstance());
+                        break;
+                    case R.id.nav_my_comics:
+                        replaceFragment(FavoriteComicsFragment.newInstance(2));
+                        break;
+                    case R.id.nav_popular_comics:
+                        replaceFragment(PopularComicFragment.newInstance());
+                        break;
+                    case R.id.nav_search_comics:
+                        replaceFragment( AdvancedSearchFragment.newInstance());
+                        break;
+                }
+                return true;
+            }
+        });
+
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mFragment).commit();
         //Code for Navigation Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -54,8 +82,6 @@ public class MainActivity extends AppCompatActivity
 
         //Code to handle onclick action in Navigation Drawer
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        //TODO: Should be Dynamic
-        navigationView.setCheckedItem(R.id.nav_popular_comics);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -67,6 +93,11 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void replaceFragment(Fragment mFragment){
+        getSupportFragmentManager().beginTransaction().replace(
+                R.id.frame_container, mFragment).commit();
     }
 
     @Override
@@ -88,7 +119,6 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        //TODO:Remove this and implement a menu for each Fragment instead
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -104,31 +134,18 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        if (id == R.id.nav_all_comics) {
-            mFragment = ComicsFragment.newInstance();
-        } else if (id == R.id.nav_stared_comics) {
-            mFragment = FavoriteComicsFragment.newInstance(2);
-        } else if (id == R.id.nav_popular_comics) {
-            mFragment = PopularComicFragment.newInstance();
-        }else if(id == R.id.nav_advanced_search) {
-            mFragment = AdvancedSearchFragment.newInstance();
-        }else if (id == R.id.nav_share) {
+        switch (item.getItemId()){
+            case R.id.nav_share:
+                break;
 
-        } else if (id == R.id.nav_send) {
-
+            case R.id.nav_send:
+                break;
         }
 
-        if( mFragment != null && mFragment != getSupportFragmentManager().findFragmentById(R.id.frame_container)){
-            getSupportFragmentManager().beginTransaction().replace(
-                    R.id.frame_container, mFragment).commit();
-        }else{
-//            Return an error
-        }
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setCheckedItem(id);
+        navigationView.setCheckedItem(item.getItemId());
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        // Highlight the selected item, update the title, and close the drawer    // Highlight the selected item, update the title, and close the drawer
+       // Highlight the selected item, update the title, and close the drawer
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
